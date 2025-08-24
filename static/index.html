@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <meta charset=UTF-8>
+    <meta name=viewport content="width=device-width, initial-scale=1.0">
+    <title>Black Cat's Herbs & Brews</title>
+    <style>
+        @keyframes pop {
+            0% {
+                opacity: 0;
+                transform: scale(0.5, 0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1, 1);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+            user-select: none;
+            -khtml-user-select: none;
+            -o-user-select: none;
+            -moz-user-select: -moz-none;
+            -webkit-user-select: none;
+            text-transform: uppercase;
+            font-family: monospace;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: row;
+            background: #2d181d;
+        }
+
+        #sa {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100vh;
+            border: 1px solid #000;
+        }
+
+        #wrk {
+            width: 500px;
+            height: 100vh;
+            border: 1px solid #000;
+        }
+
+        #dlg_c {
+            position: absolute;
+            top: 82vh;
+            /*100% - (500px + 16px*2)*/
+            width: calc(100% - 532px);
+            left: 16px;
+            background: #b0a28c;
+            color: #fff;
+            padding: 4px;
+            font-size: 2em;
+            overflow: hidden;
+            letter-spacing: .15em;
+            border-radius: 8px;
+
+            animation-name: pop;
+            animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
+            animation-duration: 0.3s;
+
+            display: none;
+
+            transition: all 0.3s ease;
+        }
+
+        #dlg {
+            border: 2px solid #655c55;
+            border-radius: 4px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #dlg_opt li {
+            padding: 4px 8px;
+            border-bottom: 1px solid #655c55;
+            cursor: pointer;
+        }
+
+        #dlg_opt li:hover {
+            background: #655c55;
+        }
+
+        #cstmr {
+            position: absolute;
+            bottom: 0;
+            left: -332px;
+            transition: left 700ms;
+        }
+
+        #shlf {
+            position: absolute;
+            top: 10vh;
+            left: 32px;
+            background: #3d1904;
+            /*100% - (500px + 32px*2)*/
+            width: calc(100% - 564px);
+            height: 400px;
+        }
+
+        #cntr {
+            position: absolute;
+            top: 80vh;
+            width: calc(100% - 500px);
+            height: 20vh;
+            background: #3d1904;
+        }
+
+        #w {
+            position: absolute;
+            bottom: calc(20vh - 20px);
+            left: calc((100% - 500px)/2 - 190px);
+        }
+
+        #c {
+            position: absolute;
+            bottom: calc(20vh - 10px);
+            right: 512px;
+        }
+
+        #cldrn {
+            position: absolute;
+            bottom: 20vh;
+            right: 562px;
+            /*100% - (500px + 32px*2)*/
+        }
+
+        #cldrn_fx {
+            position: absolute;
+            bottom: calc(19vh - 50px);
+            right: 572px;
+            /*100% - (500px + 32px*2)*/
+            width: 300px;
+            height: 320px;
+        }
+
+        #cldrn_fx canvas {
+            width: 300px;
+            height: 320px;
+        }
+
+        #clndr {
+            position: absolute;
+            bottom: calc(20vh + 150px);
+            right: 612px;
+            width: 175px;
+            height: 230px;
+            background: #fffcf0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #clndr_month {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+        }
+
+        #clndr_day {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        #clndr_days {
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1px;
+        }
+
+        #clndr_days .day,
+        #clndr_days .day-empty {
+            width: 24px;
+            height: 24px;
+        }
+
+        #clndr_days .day {
+            border: 1px solid #000;
+        }
+
+        #clndr_days .day.day-w0,
+        #clndr_days .day.day-w6 {
+            background: #ccc;
+        }
+
+        #clndr_days .day.ticked,
+        #clndr_days .day-1 {
+            background: linear-gradient(-45deg, #0000 0%, #0000 47%, #9c0000 48%, #9c0000 21%, #0000 53%, #0000 100%);
+        }
+
+        #clndr_days .day.day-w0.ticked,
+        #clndr_days .day.day-w6.ticked,
+        #clndr_days .day-1.day-w6,
+        #clndr_days .day-1.day-w0 {
+            background: linear-gradient(-45deg, #ccc 0%, #ccc 47%, #9c0000 48%, #9c0000 21%, #ccc 53%, #ccc 100%);
+        }
+
+        #clndr_days .day:last-child::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            padding-top: 5px;
+            content: 'Rent';
+            transform: rotate(-45deg);
+        }
+
+        .item-holder {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .item-holder .item-container {
+            width: 94px;
+            height: 94px;
+            background: #3f3f3f;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-holder .item-container .item {
+            width: 86px;
+            height: 86px;
+            background: #3f3f3f;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-holder .item-container.empty .item {
+            width: 92px;
+            height: 92px;
+            background: #3d3d3d;
+            border: 1px solid #3f3f3f;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inventory .item-holder {
+            gap: 4px;
+            padding: 6px;
+        }
+
+        .cauldron {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cauldron .item-holder {
+            gap: 4px;
+            padding: 16px 6px;
+            justify-content: space-evenly;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #00000080;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        #msg {
+            display: none;
+            position: absolute;
+            background: #b0a28c;
+            padding: 16px;
+            top: 50%;
+            border-radius: 4px;
+            color: #fffcf0;
+
+            animation-name: pop;
+            animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
+            animation-duration: 0.3s;
+
+            transition: all 0.3s ease;
+        }
+
+        #msg_txt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #msg_txt button {
+            width: 100%;
+            padding: 8px;
+            margin: 4px;
+            background: #b0a28c;
+            border: 2px solid #655c55;
+            color: #fffcf0;
+            cursor: pointer;
+        }
+
+        #msg_txt button:hover {
+            background: #655c55;
+        }
+    </style>
+</head>
+
+<body>
+    <div id=overlay>
+        <div id=msg>
+            <div id=msg_txt></div>
+        </div>
+    </div>
+    <div id=container>
+        <div id=sa>
+            <div id=shlf>
+                <p>s</p>
+            </div>
+            <div id=clndr>
+                <div id=clndr_month></div>
+                <div id=clndr_days></div>
+                <div id=clndr_day>
+                    1
+                </div>
+            </div>
+            <div id=cldrn_fx>
+            </div>
+            <canvas id=cldrn>
+            </canvas>
+            <div id=cntr>
+                <p>cntr</p>
+            </div>
+            <canvas id=w>
+            </canvas>
+            <canvas id=c>
+            </canvas>
+            <canvas id=cstmr>
+            </canvas>
+            <div id=dlg_c>
+                <div id=dlg>
+                    <p id=dlg_text></p>
+                </div>
+                <div id=dlg_opt>
+                </div>
+            </div>
+        </div>
+        <div id=wrk>
+        </div>
+    </div>
+    <script src=js/game.js></script>
+</body>
+
+</html>

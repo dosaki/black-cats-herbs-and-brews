@@ -1,0 +1,98 @@
+import { daysInMonth, getMonth, incrementDate } from '../utils/dates';
+import { onClick } from '../utils/interaction';
+
+export class Shop {
+    constructor() {
+        this.currentWindow = "inventory";
+        this.currentlyHolding = null;
+        this.currentlyHoldingOrigin = null;
+        this.drawables = [];
+        this.date = new Date(2025, 0, 1);
+        this.previousDate = null;
+        this.rentDue = 0;
+    }
+
+    resetCalendar() {
+        clndr_days.innerHTML = "";
+        clndr_month.innerHTML = `${getMonth(this.date)} ${this.date.getFullYear()}`;
+        const dayOfTheWeek = this.date.getDay() || 7;
+        for (let i = 0; i < dayOfTheWeek - 1; i++) {
+            const empty = document.createElement("div");
+            empty.classList.add("day-empty");
+            clndr_days.appendChild(empty);
+        }
+        for (let i = 0; i < daysInMonth(this.date); i++) {
+            const day = document.createElement("div");
+            day.classList.add("day", `day-${i + 1}`, `day-w${(dayOfTheWeek + i) % 7}`);
+            clndr_days.appendChild(day);
+        }
+    }
+
+    selectCauldron() {
+        this.currentWindow = "cauldron";
+    }
+
+    selectShelf() {
+        this.currentWindow = "inventory";
+    }
+
+    increaseTime() {
+        incrementDate(this.date);
+        clndr_day.innerHTML = this.date.getDate();
+        document.querySelector(`.day-${this.date.getDate()}`).classList.add("ticked");
+        if (this.date.getDate() === 1) {
+            this.dueRent();
+            this.resetCalendar();
+        }
+        this.dueDebt();
+    }
+
+    dueDebt() {
+        if (!window.player.debt) {
+            return;
+        }
+
+        window.player.payDebt();
+        this.drawMoneys();
+    }
+
+    dueRent() {
+        this.rentDue += 550;
+        window.pause();
+        const delayedCost = Math.round(this.rentDue * 1.1);
+
+        window.popUpOpt1Opt2(
+            "Rent is due",
+            `Pay (${this.rentDue}g)`,
+            `Delay to next month (${delayedCost}g)`,
+            () => {
+                window.player.gold -= this.rentDue;
+                this.rentDue = 0;
+                window.resume();
+                window.closePopUp();
+            },
+            () => {
+                this.rentDue = delayedCost;
+                window.resume();
+                window.closePopUp();
+            }
+        );
+    }
+
+    drawMoneys() {
+        const goldDisplay = document.querySelector(".gold-display");
+        if (goldDisplay) {
+            goldDisplay.innerHTML = `${window.player.gold}g`;
+        }
+    }
+
+    draw() {
+        if (this.currentWindow === "cauldron") {
+            window.cauldron.drawContents();
+        } else {
+            window.player.inventory.drawContents();
+        }
+
+        this.drawables.forEach(drawable => drawable?.draw());
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "black-cats-herbs-and-brews",
+  "version": "1.0.0",
+  "description": "Black Cat's Herbs & Brews - a witch potion shop game",
+  "scripts": {
+    "start": "webpack serve --open --mode development",
+    "test": "mocha tests/**/*.js"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "Tiago Correia",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1",
+    "roadroller": "^2.1.0",
+    "webpack": "^5.101.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {}
+}
