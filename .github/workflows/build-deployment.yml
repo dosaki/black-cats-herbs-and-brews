@@ -40,7 +40,9 @@ jobs:
         run: npm install
 
       - name: Build website
-        run: ./build.sh --dist
+        run: |
+          chmod 755 ./build.sh
+          ./build.sh --dist
 
       - name: Terraform Init
         run: |
