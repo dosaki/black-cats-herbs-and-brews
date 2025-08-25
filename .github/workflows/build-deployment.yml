@@ -48,7 +48,7 @@ jobs:
         run: |
           cd ./terraform
           terraform init
-          terraform workspace select ${DEPLOYMENT_ENV}
+          terraform workspace select -or-create ${DEPLOYMENT_ENV}
           terraform get
 
       - name: Terraform Validate
