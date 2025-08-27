@@ -48,12 +48,18 @@ const nextDialogue = () => {
 }
 
 const wait = () => {
+    dlg_c.style.display = 'none';
+    dlg_text.innerHTML = "";
+    dlg_opt.innerHTML = "";
     setTimeout(()=>{
         nextDialogue();
     }, int(1000, 5000));
 }
 
 const waitForSale = () => {
+    dlg_c.style.display = 'none';
+    dlg_text.innerHTML = "";
+    dlg_opt.innerHTML = "";
     window.customer.waitForSale();
 }
 
@@ -105,7 +111,7 @@ export class Customer extends Drawable {
             } : {
                 text: wantLine,
                 options: [
-                    { text: pick("Give me a moment", "I'll prepare that for you", `That will be ${this.goldNeeded}`), action: waitForSale },
+                    { text: pick("Give me a moment.", "I'll prepare that for you.", `That will be ${goldNeeded} gold.`), action: waitForSale },
                     { text: pick("I'm afraid I can't help you with that.", "Sorry, I don't have what you need."), action: leave }
                 ]
             },
@@ -166,16 +172,16 @@ export class Customer extends Drawable {
                     options: [
                         {text: pick("It'll be ready soon.", "Just a moment longer.", "I'm almost done."), action: ()=>{
                             clearTimeout(waiting);
-                            wait();
+                            waitForSale();
                         }},
                         {text: pick("Sorry, I can't help after all.", `I'm afraid I'm all out of ${formatWants(this.wants)}`), action: () => {
-                            const willWait = pick(true, false);
+                            const willWait = pick(true, false, false);
                             populateDialogue(willWait ? {
                                 text: pick("I can wait.", "Take your time"),
                                 options: [
                                     {text: "Thanks", action: () => {
                                         clearTimeout(waiting);
-                                        wait();
+                                        waitForSale();
                                     }}
                                 ]
                             } : {
@@ -188,6 +194,9 @@ export class Customer extends Drawable {
                         }}
                     ]
                 })
+            } else {
+                clearTimeout(waiting);
+                waitForSale();
             }
         }, 1000);
     }

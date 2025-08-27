@@ -57,3 +57,38 @@ export const makeImage = (ctx, matrix, mirrorAll, colours, crop) => {
     });
     ctx.putImageData(imageData, -crop?.x || 0, -crop?.y || 0);
 };
+
+
+export const asCanvas = (matrix, mirrorAll, colours, crop) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const { width, height } = getDimensions(matrix, mirrorAll);
+    canvas.width = width;
+    canvas.height = height;
+    makeImage(ctx, matrix, mirrorAll, colours, crop);
+    return canvas;
+};
+
+export const asDataUrl = (matrix, mirrorAll, colours, crop) => {
+    return asCanvas(matrix, mirrorAll, colours, crop).toDataURL();
+};
+
+export const resizeImage = (url, factor, callback) => {
+    const sourceImage = new Image();
+
+    sourceImage.onload = function () {
+        // Create a canvas with the desired dimensions
+        const canvas = document.createElement("canvas");
+        canvas.width = sourceImage.width * factor;
+        canvas.height = sourceImage.height * factor;
+        // Scale and draw the source image to the canvas
+        const ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
+
+        // Convert the canvas to a data URL in PNG format
+        callback(canvas.toDataURL());
+    };
+
+    sourceImage.src = url;
+};

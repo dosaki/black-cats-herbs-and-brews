@@ -1,15 +1,31 @@
 import { daysInMonth, getMonth, incrementDate } from '../utils/dates';
+import { resizeImage } from '../utils/draw';
 import { onClick } from '../utils/interaction';
 
 export class Shop {
     constructor() {
         this.currentWindow = "inventory";
-        this.currentlyHolding = null;
+        this._currentlyHolding = null;
         this.currentlyHoldingOrigin = null;
         this.drawables = [];
         this.date = new Date(2025, 0, 1);
         this.previousDate = null;
         this.rentDue = 0;
+    }
+
+    get currentlyHolding() {
+        return this._currentlyHolding;
+    }
+
+    set currentlyHolding(item) {
+        this._currentlyHolding = item;
+        if (item) {
+            resizeImage(item.icon, 6, (dataUrl) => {
+                document.body.style.cursor = `url(${dataUrl}) 32 32, pointer`;
+            });
+        } else {
+            document.body.style.cursor = "auto";
+        }
     }
 
     resetCalendar() {

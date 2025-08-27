@@ -1,5 +1,7 @@
 import { Recipe } from '../entities/Recipe.js';
 import { Item } from '../entities/Item.js';
+import { asDataUrl } from '../utils/draw.js';
+import { vial } from '../drawables/images.js';
 
 const allItems = {
         "Lunar Moss": new Item("Lunar Moss", "Glows faintly under moonlight.", "herb", 3),
@@ -12,10 +14,29 @@ const allItems = {
         "Ironwood Bark": new Item("Ironwood Bark", "Strong and resilient.", "herb", 43),
         "Sap": new Item("Sap", "Almost feels alive", "herb", 4),
 
-        "Vial": new Item("Vial", "A small glass vial.", "container", 5),
+        "Vial": new Item("Vial", "A small glass vial.", "container", 5, asDataUrl(vial, false, [
+            "#000000ff",
+            "#673b28ff",
+            "#6d757bff",
+            "#516269ff",
+            "#6d757bff",
+            "#6d757bff",
+            "#516269ff"], null, 128, 128)),
 
-        "Healing Potion": new Item("Healing Potion", "Restores health.", "potion", 17),
-        "Superior Healing Potion": new Item("Superior Healing Potion", "Restores more health.", "potion", 75),
+        "Healing Potion": new Item("Healing Potion", "Restores health.", "potion", 17, asDataUrl(vial, false, ["#000000ff",
+            "#673b28ff",
+            "#6d757bff",
+            "#516269ff",
+            "#772f2fff",
+            "#836c6cff",
+            "#692424ff"], null, 128, 128)),
+        "Superior Healing Potion": new Item("Superior Healing Potion", "Restores more health.", "potion", 75, asDataUrl(vial, false, ["#000000ff",
+            "#673b28ff",
+            "#7b6d75ff",
+            "#695169ff",
+            "#772f41ff",
+            "#836c76ff",
+            "#692435ff"], null, 128, 128)),
     };
 
 export class ItemManager {

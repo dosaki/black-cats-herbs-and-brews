@@ -160,8 +160,8 @@
 
         #clndr {
             position: absolute;
-            bottom: calc(20vh + 150px);
-            right: 612px;
+            bottom: calc(20vh + 160px);
+            right: 630px;
             width: 175px;
             height: 230px;
             background: #fffcf0;
@@ -234,7 +234,7 @@
         .item-holder .item-container {
             width: 94px;
             height: 94px;
-            background: #3f3f3f;
+            background: #131313;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -244,19 +244,40 @@
         .item-holder .item-container .item {
             width: 86px;
             height: 86px;
-            background: #3f3f3f;
-            border: 1px solid #fff;
+            background: #131313;
+            border: 1px solid #e6ff03;
             border-radius: 4px;
+            font-size: .9em;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            color: #fff;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+        .item-holder .item-container:not(.empty) {
+            cursor: pointer;
+        }
+        
+        .item-holder .item-container:hover:not(.empty) {
+            background: #e6ff03;
+        }
+        
+        .item-holder .item-container:hover .item,
+        .item-holder .item-container .item:hover {
+            border: 1px solid #131313;
+            background-color: #202020;
+            background-size: cover;
         }
 
         .item-holder .item-container.empty .item {
             width: 92px;
             height: 92px;
-            background: #3d3d3d;
-            border: 1px solid #3f3f3f;
+            background: #131313;
+            border: 1px solid #131313;
             border-radius: 4px;
             display: flex;
             align-items: center;

@@ -108,7 +108,7 @@ window.main = function () {
             }, 1000);
             window.pause();
         }
-    }, 100);
+    }, 30000);
 };
 
 setup();

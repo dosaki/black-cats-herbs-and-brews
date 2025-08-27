@@ -14,6 +14,7 @@ export class Item {
         const itemElement = document.createElement("div");
         itemElement.classList.add("item");
         itemElement.innerText = this.name;
+        itemElement.style.backgroundImage = `url(${this.icon})`;
         itemContainerElement.appendChild(itemElement);
         return itemContainerElement;
     }

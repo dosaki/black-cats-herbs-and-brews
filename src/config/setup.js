@@ -3,7 +3,7 @@ import { Player } from "../entities/Player.js";
 import { Cauldron } from '../entities/Cauldron.js';
 import { Inventory } from '../entities/Inventory.js';
 
-import { onClick, onHover, onLeave } from '../utils/interaction.js';
+import { onClick, onHover, onLeave, onMouseUp } from '../utils/interaction.js';
 import { ItemManager } from './ItemManager.js';
 import { Cat } from '../entities/Cat.js';
 
@@ -16,8 +16,8 @@ export const setup = () => {
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
         ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Vial"),
+        ItemManager.makeItem("Superior Healing Potion"),
+        ItemManager.makeItem("Healing Potion"),
         ItemManager.makeItem("Lunar Moss"),
         ItemManager.makeItem("Lunar Moss"),
         ItemManager.makeItem("Snailroot"),
@@ -44,5 +44,12 @@ export const setup = () => {
     });
     onClick(shlf, () => {
         shop.selectShelf();
+    });
+
+    onMouseUp(document, (e) => {
+        if (window.shop.currentlyHolding) {
+            window.shop.currentlyHolding = null;
+            window.shop.currentlyHoldingOrigin = null;
+        }
     });
 };
