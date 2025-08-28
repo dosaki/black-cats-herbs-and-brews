@@ -1,4 +1,4 @@
-import { onClick, onMouseDown, onMouseUp } from '../../utils/interaction';
+import { onClick, onHover, onMouseDown, onMouseIn, onMouseOut, onMouseUp } from '../../utils/interaction';
 import { Drawable } from './Drawable';
 
 export class ItemContainer extends Drawable {
@@ -16,12 +16,20 @@ export class ItemContainer extends Drawable {
         });
     }
 
+    get isEmpty() {
+        return this.items.length === 0;
+    }
+
+    get hasSpace() {
+        return this.items.length < this.size;
+    }
+
     addAll(items) {
         items.forEach(item => this.add(item));
     }
 
     add(item) {
-        if (this.items.length < this.size) {
+        if (this.hasSpace) {
             this.items.push(item);
         } else {
             throw new Error("It's full");
@@ -48,18 +56,35 @@ export class ItemContainer extends Drawable {
         this.size = newSize;
     }
 
-    onClickItem(item, itemContainerElement) {
+    onClickItem(item, itemContainerElement, event) {
         console.log("Item clicked:", item);
     }
 
-    onMouseDownItem(item, itemContainerElement) {
+    onMouseDownItem(item, itemContainerElement, event) {
         console.log("Item mouse down:", item);
         window.shop.currentlyHolding = item;
         window.shop.currentlyHoldingOrigin = this;
     }
 
-    onMouseUpItem(item, itemContainerElement) {
+    onMouseUpItem(item, itemContainerElement, event) {
         console.log("Item mouse up:", item);
+    }
+
+    onMouseInItem(item, itemContainerElement, event) {
+        tooltip.innerHTML = "";
+        const iconHolder = document.createElement("div");
+        iconHolder.classList.add("item-icon-holder");
+        const icon = document.createElement("img");
+        icon.classList.add("item-icon");
+        icon.src = item.icon;
+        iconHolder.appendChild(icon);
+        tooltip.appendChild(iconHolder);
+        tooltip.style.display = 'block';
+    }
+
+    onMouseOutItem(item, itemContainerElement, event) {
+        tooltip.innerHTML = "";
+        tooltip.style.display = 'none';
     }
 
     onMouseUp() {
@@ -83,9 +108,11 @@ export class ItemContainer extends Drawable {
         itemHolder.classList.add("item-holder");
         this.items.forEach(i => {
             const drawnItem = i.draw();
-            onClick(drawnItem, () => this.onClickItem(i, drawnItem));
-            onMouseDown(drawnItem, () => this.onMouseDownItem(i, drawnItem));
-            onMouseUp(drawnItem, () => this.onMouseUpItem(i, drawnItem));
+            onClick(drawnItem, (e) => this.onClickItem(i, drawnItem, e));
+            onMouseDown(drawnItem, (e) => this.onMouseDownItem(i, drawnItem, e));
+            onMouseUp(drawnItem, (e) => this.onMouseUpItem(i, drawnItem, e));
+            onMouseIn(drawnItem, (e) => this.onMouseInItem(i, drawnItem, e));
+            onMouseOut(drawnItem, (e) => this.onMouseOutItem(i, drawnItem, e));
             itemHolder.appendChild(drawnItem);
         });
         for (let i = this.items.length; i < this.size; i++) {

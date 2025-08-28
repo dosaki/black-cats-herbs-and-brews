@@ -16,8 +16,7 @@ export const setup = () => {
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
         ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Superior Healing Potion"),
-        ItemManager.makeItem("Healing Potion"),
+        ItemManager.makeItem("Vial"),
         ItemManager.makeItem("Lunar Moss"),
         ItemManager.makeItem("Lunar Moss"),
         ItemManager.makeItem("Snailroot"),
@@ -26,7 +25,7 @@ export const setup = () => {
         ItemManager.makeItem("Sap")
     ]);
     window.cauldron = new Cauldron(cldrn, wrk);
-    window.cauldron.add(ItemManager.makeItem("Snailroot"));
+    window.cauldron.add(ItemManager.makeItem("Preserved Fish"));
     window.customer = null;
 
     shop.resetCalendar();
@@ -51,5 +50,6 @@ export const setup = () => {
             window.shop.currentlyHolding = null;
             window.shop.currentlyHoldingOrigin = null;
         }
+        return false;
     });
 };

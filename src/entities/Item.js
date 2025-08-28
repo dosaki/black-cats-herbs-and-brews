@@ -1,11 +1,12 @@
 export class Item {
-    constructor(name, description, type, value, icon) {
+    constructor(name, description, type, value, icon, mainColour) {
         this.uuid = crypto.randomUUID();
         this.name = name;
         this.description = description;
         this.type = type;
         this.value = value;
         this.icon = icon;
+        this.mainColour = mainColour;
     }
 
     draw() {

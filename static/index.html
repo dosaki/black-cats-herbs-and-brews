@@ -18,6 +18,62 @@
             }
         }
 
+        @keyframes bounce {
+            0% {
+                transform: scale(1, 1);
+            }
+
+            30% {
+                transform: scale(1.1, 0.9);
+            }
+
+            60% {
+                transform: scale(0.9, 1.1);
+            }
+
+            100% {
+                transform: scale(1, 1);
+            }
+        }
+
+        @keyframes cat-leave {
+            0% {
+                bottom: calc(20vh - 10px);
+                right: 512px;
+                transform: scale(1, 1);
+            }
+
+            20% {
+                bottom: calc(20vh - 10px);
+                right: 512px;
+                transform: scale(1.1, 0.9);
+            }
+
+            30% {
+                bottom: calc(20vh + 50px);
+                right: 512px;
+                transform: scale(0.9, 1.1);
+            }
+
+            40% {
+                bottom: -180px;
+                right: 512px;
+                transform: scale(1, 1);
+            }
+
+            50% {
+                bottom: -180px;
+                right: 512px;
+                transform: scale(1, 1);
+            }
+
+            100% {
+                bottom: -180px;
+                right: calc(100% + 460px);
+                transform: scale(1, 1);
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -258,14 +314,15 @@
             color: #fff;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
+
         .item-holder .item-container:not(.empty) {
             cursor: pointer;
         }
-        
+
         .item-holder .item-container:hover:not(.empty) {
             background: #e6ff03;
         }
-        
+
         .item-holder .item-container:hover .item,
         .item-holder .item-container .item:hover {
             border: 1px solid #131313;
@@ -351,6 +408,46 @@
         #msg_txt button:hover {
             background: #655c55;
         }
+
+        .bounce {
+            animation: bounce 0.5s;
+        }
+
+        #c.cat-out {
+            bottom: -180px;
+            right: calc(100% + 460px);
+        }
+
+        #c.cat-out-anim {
+            animation: cat-leave 1s;
+        }
+
+        #c.cat-in-anim {
+            animation: cat-leave 1s;
+            animation-direction: reverse;
+        }
+
+        #tooltip {
+            display: none;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            background: #000;
+            width: 100px;
+            height: 100px;
+        }
+
+        #tooltip .item-icon-holder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tooltip .item-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
     </style>
 </head>
 
@@ -395,6 +492,8 @@
         </div>
         <div id=wrk>
         </div>
+    </div>
+    <div id=tooltip>
     </div>
     <script src=js/game.js></script>
 </body>

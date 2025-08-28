@@ -102,13 +102,16 @@ export class Shop {
         }
     }
 
-    draw() {
+    drawCurrentWindow() {
         if (this.currentWindow === "cauldron") {
             window.cauldron.drawContents();
         } else {
             window.player.inventory.drawContents();
         }
+    }
 
+    draw() {
+        this.drawCurrentWindow();
         this.drawables.forEach(drawable => drawable?.draw());
     }
 }

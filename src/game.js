@@ -75,7 +75,7 @@ window.main = function () {
             return;
         }
 
-        if (window.customer === null && int(0, 20) > 18) {
+        if (window.customer === null && int(0, 20) > 1) {
             const numberOfItems = int(1, 3);
             const wants = [];
             for (let i = 0; i < numberOfItems; i++) {

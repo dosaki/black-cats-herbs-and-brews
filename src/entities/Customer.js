@@ -1,6 +1,6 @@
 import { femaleVillagerSkirt, maleVillagerBeard, maleVillagerClean } from '../drawables/images';
 import { adjust, base10ToHex, newColour } from '../utils/colour';
-import { onClick } from '../utils/interaction';
+import { onClick, onMouseUp } from '../utils/interaction';
 import { int, pick } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
@@ -16,14 +16,14 @@ const populateDialogue = (line) => {
     dlg_c.style.display = 'none';
     dlg_text.innerHTML = "";
     dlg_opt.innerHTML = "";
-    setTimeout(()=>{
+    setTimeout(() => {
         dlg_c.style.display = 'block';
         dlg_text.innerHTML = line.text;
         setTimeout(() => {
             populateOptions(line.options || []);
         }, 650);
     }, 200);
-}
+};
 
 const populateOptions = (options) => {
     const list = document.createElement('ul');
@@ -32,36 +32,36 @@ const populateOptions = (options) => {
         optionElement.innerHTML = option.text;
         onClick(optionElement, () => {
             option.action();
-        })
+        });
         list.appendChild(optionElement);
     });
     dlg_opt.innerHTML = "";
     dlg_opt.appendChild(list);
-}
+};
 
 const leave = () => {
     window.customer.disappear();
-}
+};
 
 const nextDialogue = () => {
     window.customer.doDialogue(window.customer.nextLine);
-}
+};
 
 const wait = () => {
     dlg_c.style.display = 'none';
     dlg_text.innerHTML = "";
     dlg_opt.innerHTML = "";
-    setTimeout(()=>{
+    setTimeout(() => {
         nextDialogue();
     }, int(1000, 5000));
-}
+};
 
 const waitForSale = () => {
     dlg_c.style.display = 'none';
     dlg_text.innerHTML = "";
     dlg_opt.innerHTML = "";
     window.customer.waitForSale();
-}
+};
 
 export class Customer extends Drawable {
     constructor(canvas, wants) {
@@ -86,14 +86,14 @@ export class Customer extends Drawable {
 
         this.wants = wants; // Array of items the customer wants
         this.inventory = [];
-        const goldNeeded = this.wants.reduce((total, item) => total + item.value, 0);
-        this.gold = pick(goldNeeded, int(goldNeeded/2, goldNeeded*2), 10);
+        this.goldNeeded = this.wants.reduce((total, item) => total + item.value, 0);
+        this.gold = pick(this.goldNeeded, int(this.goldNeeded / 2, this.goldNeeded * 2), 10);
 
         this.currentLineIndex = -1;
         const justBrowsing = pick(true, false, false, false);
         const wantLine = `${pick("Do you have", "Can I get", "May I have", "How much for")} ${formatWants(this.wants)}?`;
-        const browsingLine = pick("Just browsing", "I'm just looking", "I can't do this");
-        const greetingLine = pick("Hi!", "Hello!", "Greetings!", "Hi! Cute cat.", "Excuse me...", "Hey! I love your cat.")
+        const browsingLine = pick("Just browsing", "I'm just looking");
+        const greetingLine = pick("Hi!", "Hello!", "Greetings!", "Hi! Cute cat.", "Excuse me...", "Hey! I love your cat.");
         this.lines = [
             {
                 text: greetingLine,
@@ -111,7 +111,7 @@ export class Customer extends Drawable {
             } : {
                 text: wantLine,
                 options: [
-                    { text: pick("Give me a moment.", "I'll prepare that for you.", `That will be ${goldNeeded} gold.`), action: waitForSale },
+                    { text: pick("Give me a moment.", "I'll prepare that for you.", `That will be ${this.goldNeeded} gold.`), action: waitForSale },
                     { text: pick("I'm afraid I can't help you with that.", "Sorry, I don't have what you need."), action: leave }
                 ]
             },
@@ -122,6 +122,12 @@ export class Customer extends Drawable {
                 ]
             }
         ];
+        this._waitingTimeout = null;
+        this.hasWaited = false;
+
+        onMouseUp(this.canvas, () => {
+            this.onMouseUp();
+        });
     }
 
     get nextLine() {
@@ -156,48 +162,120 @@ export class Customer extends Drawable {
         }, 200);
     }
 
+    pay(gold) {
+        this.gold -= gold;
+        populateDialogue({
+            text: pick(`Here's ${gold} gold`),
+            options: [
+                {
+                    text: pick("Thanks!", "I appreciate it."), action: () => {
+                        player.inventory.draw();
+                        window.shop.drawCurrentWindow();
+                        leave();
+                    }
+                }
+            ]
+        });
+    }
+
+    returnItems() {
+        window.player.inventory.addAll(this.inventory);
+        this.inventory = [];
+        leave();
+        player.inventory.draw();
+        window.shop.drawCurrentWindow();
+    }
+
     waitForSale() {
-        const waiting = setTimeout(() => {
+        this._waitingTimeout = setTimeout(() => {
             if (!window.customer) {
-                clearTimeout(waiting);
+                clearTimeout(this._waitingTimeout);
                 return;
             }
-            const hasAllItems = this.wants.every(item => this.inventory.some(i => i.name === item.name));
-            if (hasAllItems) {
-                clearTimeout(waiting);
-                this.doDialogue(this.lines[this.lines.length - 1]);
-            } else if(int(0, 10) > 7) {
-                populateDialogue({
-                    text: pick("Will it take long?", "How much longer?", "Is it ready yet?"),
-                    options: [
-                        {text: pick("It'll be ready soon.", "Just a moment longer.", "I'm almost done."), action: ()=>{
-                            clearTimeout(waiting);
-                            waitForSale();
-                        }},
-                        {text: pick("Sorry, I can't help after all.", `I'm afraid I'm all out of ${formatWants(this.wants)}`), action: () => {
-                            const willWait = pick(true, false, false);
-                            populateDialogue(willWait ? {
-                                text: pick("I can wait.", "Take your time"),
-                                options: [
-                                    {text: "Thanks", action: () => {
-                                        clearTimeout(waiting);
-                                        waitForSale();
-                                    }}
-                                ]
-                            } : {
-                                text: pick("This is taking too long.", "I'm in a rush", "Nevermind"),
-                                options: [
-                                    {text: pick("Sorry.", "Come again!", "Apologies."), action: leave},
-                                    {text: pick("So impatient.", "Fine. Get out.", "Don't bother coming back!"), action: leave}
-                                ]
-                            })
-                        }}
-                    ]
-                })
+
+            if (this.hasAllItems(this.wants.map(i => i.name))) {
+                clearTimeout(this._waitingTimeout);
+                if (this.gold >= this.goldNeeded) {
+                    this.pay(this.goldNeeded);
+                } else {
+                    populateDialogue({
+                        text: pick("I don't have enough gold.", "Oh... I can't afford that"),
+                        options: [
+                            { text: pick("I'm not running a charity here!", "Then get out.", "I'm afraid you need to leave."), action: () => { this.returnItems(); } },
+                            {
+                                text: pick("What can you afford?", "Just give me however much you can spare."), action: () => {
+                                    populateDialogue({
+                                        text: pick(`I can offer you ${this.gold} gold.`, `Is ${this.gold} gold enough?`),
+                                        options: [
+                                            { text: "Yes", action: () => { this.pay(this.gold); } },
+                                            { text: "No", action: () => { this.returnItems(); } }
+                                        ]
+                                    });
+                                }
+                            }
+                        ]
+                    });
+                }
+            } else if (int(0, 10) > 8) {
+                if (this.hasWaited && pick(true, true, false)) {
+                    populateDialogue({
+                        text: pick("Actually, I've changed my mind.", "I'll come back later.", "This is taking too long."),
+                        options: [{ text: pick("Bye", "Okay", "Come back later!"), action: () => { this.returnItems(); } }]
+                    });
+                } else {
+                    populateDialogue({
+                        text: pick("Will it take long?", "How much longer?", "Is it ready yet?"),
+                        options: [
+                            {
+                                text: pick("It'll be ready soon.", "Just a moment longer.", "I'm almost done."), action: () => {
+                                    this.hasWaited = true;
+                                    clearTimeout(this._waitingTimeout);
+                                    waitForSale();
+                                }
+                            },
+                            { text: pick("Sorry, I can't help after all.", `I'm afraid I'm all out of ${formatWants(this.wants)}`), action: () => { this.returnItems(); } }
+                        ]
+                    });
+                }
             } else {
-                clearTimeout(waiting);
+                clearTimeout(this._waitingTimeout);
                 waitForSale();
             }
         }, 1000);
+    }
+
+    addAll(items) {
+        items.forEach(item => this.add(item));
+    }
+
+    add(item) {
+        this.inventory.push(item);
+    }
+
+    hasItemType(itemName) {
+        return this.inventory.some(i => i.name === itemName);
+    }
+
+    hasAllItems(itemNames) {
+        return itemNames.every(name => this.hasItemType(name));
+    }
+
+    remove(item) {
+        if (!item) {
+            throw new Error("Item not found");
+        }
+        this.inventory = this.inventory.filter(i => i.uuid !== item.uuid);
+        return item;
+    }
+
+    onMouseUp() {
+        if (window.shop.currentlyHolding && window.shop.currentlyHoldingOrigin !== this) {
+            window.shop.currentlyHoldingOrigin.remove(window.shop.currentlyHolding);
+            this.add(window.shop.currentlyHolding);
+            window.shop.currentlyHolding = null;
+            window.shop.currentlyHoldingOrigin = null;
+            clearTimeout(this._waitingTimeout);
+            this.waitForSale();
+        }
     }
 }
