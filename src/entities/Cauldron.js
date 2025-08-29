@@ -23,7 +23,9 @@ export class Cauldron extends ItemContainer {
         this.brewingRecipe = ItemManager.findRecipe(this.items);
 
         if (!this.brewingRecipe) {
-            throw new Error("No matching recipe found");
+            this.items = [];
+            this.drawContents();
+            throw new Error("Oops... I've screwed up my recipe");
         }
         this.items = [];
         this.draw();
@@ -45,7 +47,7 @@ export class Cauldron extends ItemContainer {
             try {
                 this.brew();
             } catch (e) {
-                console.error(e);
+                window.popUpMsg(e.message, 2500);
             }
         });
         this.parentElement.appendChild(brewButton);
@@ -79,7 +81,6 @@ export class Cauldron extends ItemContainer {
             canvas.width = cldrn_fx.clientWidth / 10;
             canvas.height = cldrn_fx.clientHeight / 10;
             const [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
-            console.log(r,g,b,a);
             const webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {
             cldrn_fx.innerHTML = "";

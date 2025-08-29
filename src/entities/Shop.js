@@ -19,9 +19,9 @@ export class Shop {
 
     set currentlyHolding(item) {
         this._currentlyHolding = item;
-        if (item) {
-            resizeImage(item.icon, 6, (dataUrl) => {
-                document.body.style.cursor = `url(${dataUrl}) 32 32, pointer`;
+        if (item && item.icon) {
+            resizeImage(item.icon, 4, (dataUrl) => {
+                document.body.style.cursor = `url(${dataUrl}), pointer`;
             });
         } else {
             document.body.style.cursor = "auto";

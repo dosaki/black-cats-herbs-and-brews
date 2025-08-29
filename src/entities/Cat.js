@@ -111,7 +111,7 @@ export class Cat extends Drawable {
     }
 
     findItem() {
-        return pick(...ItemManager.allItems).clone();
+        return pick(...ItemManager.findableItems).clone();
     }
 
     onClick() {

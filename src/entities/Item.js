@@ -11,7 +11,7 @@ export class Item {
 
     draw() {
         const itemContainerElement = document.createElement("div");
-        itemContainerElement.classList.add("item-container");
+        itemContainerElement.classList.add("item-container", `type-${this.type}`);
         const itemElement = document.createElement("div");
         itemElement.classList.add("item");
         itemElement.innerText = this.name;

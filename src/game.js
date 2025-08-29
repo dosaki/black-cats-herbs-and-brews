@@ -67,6 +67,48 @@ window.closePopUp = function (time) {
     }, (time / 4) * 3);
 };
 
+window.tooltipShowWithIcon = function (icon, name, description) {
+    const tooltipContent = document.createElement("div");
+    tooltipContent.classList.add("tooltip-content");
+    
+    const tooltipText = document.createElement("div");
+    tooltipText.classList.add("tooltip-text");
+
+    const tooltipName = document.createElement("div");
+    tooltipName.classList.add("tooltip-name");
+    tooltipName.innerText = name;
+    
+    const iconHolder = document.createElement("div");
+    iconHolder.classList.add("item-icon-holder");
+    const iconElement = document.createElement("img");
+    iconElement.classList.add("item-icon");
+    if(icon){
+        iconElement.src = icon;
+    }
+    iconHolder.appendChild(iconElement);
+
+    const tooltipDescription = document.createElement("div");
+    tooltipDescription.classList.add("tooltip-description");
+    tooltipDescription.innerText = description;
+
+    tooltipText.appendChild(tooltipName);
+    tooltipText.appendChild(tooltipDescription);
+    tooltipContent.appendChild(iconHolder);
+    tooltipContent.appendChild(tooltipText);
+    tooltipShow(tooltipContent);
+}
+
+window.tooltipShow = function (element) {
+    tooltip.innerHTML = "";
+    tooltip.appendChild(element);
+    tooltip.style.display = 'block';
+};
+
+window.tooltipHide = function () {
+    tooltip.innerHTML = "";
+    tooltip.style.display = 'none';
+};
+
 window.main = function () {
     window.shop.draw();
 

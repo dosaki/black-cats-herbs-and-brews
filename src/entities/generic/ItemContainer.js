@@ -57,48 +57,40 @@ export class ItemContainer extends Drawable {
     }
 
     onClickItem(item, itemContainerElement, event) {
-        console.log("Item clicked:", item);
     }
 
     onMouseDownItem(item, itemContainerElement, event) {
-        console.log("Item mouse down:", item);
         window.shop.currentlyHolding = item;
         window.shop.currentlyHoldingOrigin = this;
     }
 
     onMouseUpItem(item, itemContainerElement, event) {
-        console.log("Item mouse up:", item);
     }
 
     onMouseInItem(item, itemContainerElement, event) {
-        tooltip.innerHTML = "";
-        const iconHolder = document.createElement("div");
-        iconHolder.classList.add("item-icon-holder");
-        const icon = document.createElement("img");
-        icon.classList.add("item-icon");
-        icon.src = item.icon;
-        iconHolder.appendChild(icon);
-        tooltip.appendChild(iconHolder);
-        tooltip.style.display = 'block';
+        window.tooltipShowWithIcon(item.icon, item.name, item.description);
+        return false;
     }
 
     onMouseOutItem(item, itemContainerElement, event) {
-        tooltip.innerHTML = "";
-        tooltip.style.display = 'none';
+        window.tooltipHide();
+        return false;
     }
 
     onMouseUp() {
-        console.log("Mouse up");
         if (window.shop.currentlyHolding && window.shop.currentlyHoldingOrigin !== this) {
-            window.shop.currentlyHoldingOrigin.remove(window.shop.currentlyHolding);
-            this.add(window.shop.currentlyHolding);
+            try {
+                this.add(window.shop.currentlyHolding);
+                window.shop.currentlyHoldingOrigin.remove(window.shop.currentlyHolding);
+            } catch (e) {
+                window.popUpMsg(e.message, 1500);
+            }
             window.shop.currentlyHolding = null;
             window.shop.currentlyHoldingOrigin = null;
         }
     }
 
     onMouseDown() {
-        console.log("Mouse down");
     }
 
     drawContents() {
@@ -112,7 +104,7 @@ export class ItemContainer extends Drawable {
             onMouseDown(drawnItem, (e) => this.onMouseDownItem(i, drawnItem, e));
             onMouseUp(drawnItem, (e) => this.onMouseUpItem(i, drawnItem, e));
             onMouseIn(drawnItem, (e) => this.onMouseInItem(i, drawnItem, e));
-            onMouseOut(drawnItem, (e) => this.onMouseOutItem(i, drawnItem, e));
+            // onMouseOut(drawnItem, (e) => this.onMouseOutItem(i, drawnItem, e));
             itemHolder.appendChild(drawnItem);
         });
         for (let i = this.items.length; i < this.size; i++) {

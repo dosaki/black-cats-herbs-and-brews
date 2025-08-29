@@ -16,11 +16,11 @@ export const setup = () => {
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
         ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Lunar Moss"),
-        ItemManager.makeItem("Lunar Moss"),
-        ItemManager.makeItem("Snailroot"),
-        ItemManager.makeItem("Sap"),
+        ItemManager.makeItem("Healing Potion"),
+        ItemManager.makeItem("Superior Healing Potion"),
+        ItemManager.makeItem("Love Potion"),
+        ItemManager.makeItem("Poison Potion"),
+        ItemManager.makeItem("Water"),
         ItemManager.makeItem("Sap"),
         ItemManager.makeItem("Sap")
     ]);

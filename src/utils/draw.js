@@ -55,9 +55,9 @@ export const makeImage = (ctx, matrix, mirrorAll, colours, crop) => {
             imageData.data.set(colour, (y * width + x) * 4);
         });
     });
+    ctx.imageSmoothingEnabled = false;
     ctx.putImageData(imageData, -crop?.x || 0, -crop?.y || 0);
 };
-
 
 export const asCanvas = (matrix, mirrorAll, colours, crop) => {
     const canvas = document.createElement("canvas");
