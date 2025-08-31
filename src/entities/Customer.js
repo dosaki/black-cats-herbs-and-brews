@@ -108,21 +108,21 @@ export class Customer extends Drawable {
             {
                 text: greetingLine,
                 options: [
-                    { text: `${greetingLine.includes("cat") ? pick("thanks!", "she appreciates it.") : pick("hello!", "welcome!", "hi!")} ${pick("how can i help?", "looking for something special?")}`, action: nextDialogue },
+                    { text: `${greetingLine.includes("cat") ? pick("thanks!", "she appreciates it.") : pick("hello!", "hi!")} ${pick("how can i help?", "looking for something special?")}`, action: nextDialogue },
                     { text: "get the hells out of my shop!", action: leave }
                 ]
             },
             this.justBrowsing ? {
                 text: browsingLine,
                 options: [
-                    { text: pick("sure", "go ahead"), action: () => {
+                    { text: "sure", action: () => {
                         if(pick(true, false, false)){
                             this.justBrowsing = false;
                             this.currentLineIndex = 0;
                         }
                         wait();
                     } },
-                    { text: pick("if you're not buying, get out.", "this isn't a museum."), action: leave }
+                    { text: pick("if you're not buying, get the hells out of my shop!", "this isn't a museum."), action: leave }
                 ]
             } : {
                 text: wantLine,
@@ -152,7 +152,7 @@ export class Customer extends Drawable {
 
     appear() {
         this.canvas.style.bottom = `${pick(-4, 0) * 10}px`;
-        this.canvas.style.transform = 'scale(1, 1)';
+        this.canvas.style.transform = 'scale(1,1)';
         this.canvas.style.left = '32px';
         setTimeout(() => {
             this.doDialogue();
@@ -160,7 +160,7 @@ export class Customer extends Drawable {
     }
 
     disappear() {
-        this.canvas.style.transform = 'scale(-1, 1)';
+        this.canvas.style.transform = 'scale(-1,1)';
         dlg_c.style.display = 'none';
         dlg_text.innerHTML = "";
         dlg_opt.innerHTML = "";
@@ -216,7 +216,7 @@ export class Customer extends Drawable {
                     this.pay(this.goldNeeded);
                 } else {
                     populateDialogue({
-                        text: pick("i don't have enough gold.", "oh... i can't afford that"),
+                        text: "i don't have enough gold.",
                         options: [
                             { text: pick("i'm not running a charity here!", "then get out."), action: () => { this.returnItems(); } },
                             {

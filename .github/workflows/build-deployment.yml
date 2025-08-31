@@ -43,7 +43,7 @@ jobs:
       - name: Build website
         run: |
           chmod 755 ./build.sh
-          ./build.sh --dist
+          ./build.sh --dist --minifier=swc
 
       - uses: oprypin/find-latest-tag@v1
         if: "!contains(github.event.head_commit.message, 'VERSION_TAG=')"

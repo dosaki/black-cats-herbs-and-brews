@@ -23,11 +23,12 @@ function usage {
 
 IS_DIST="FALSE"
 SKIP_ROADROLLER="FALSE"
+MINIFIER="uglify-js"
 
 for i in "$@"; do
   case $i in
-  --arg-with-value=*)
-    ARG_WITH_VALUE="${i#*=}"
+  --minifier=*)
+    MINIFIER="${i#*=}"
     shift
     ;;
   --dist)
@@ -52,7 +53,11 @@ rm -r ./app
 
 if [[ "${IS_DIST}" == "TRUE" ]]; then
     ./node_modules/webpack/bin/webpack.js
-    npx -y uglify-js --compress --mangle -- ./app/js/game.js > ./app/js/game.tmp.js
+    if [[ "${MINIFIER}" == "uglify-js" ]]; then
+        npx -y uglify-js --compress --mangle -- ./app/js/game.js > ./app/js/game.tmp.js
+    elif [[ "${MINIFIER}" == "swc" ]]; then
+        node swc-minifier.mjs ./app/js/game.js ./app/js/game.tmp.js
+    fi
     mv ./app/js/game.tmp.js ./app/js/game.js
     if [[ "${SKIP_ROADROLLER}" == "FALSE" ]]; then
         npx roadroller ./app/js/game.js -O2 -o ./app/js/game.tmp.js
