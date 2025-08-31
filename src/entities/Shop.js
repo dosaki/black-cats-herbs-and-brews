@@ -78,15 +78,15 @@ export class Shop {
         const delayedCost = Math.round(this.rentDue * 1.1);
 
         window.popUpWithOptions(
-            "Rent is due",
+            "rent is due",
             {
-                [`Pay (${this.rentDue}g)`]: () => {
+                [`pay (${this.rentDue}g)`]: () => {
                     window.player.gold -= this.rentDue;
                     this.rentDue = 0;
                     window.resume();
                     window.closePopUp();
                 },
-                [`Delay to next month (${delayedCost}g)`]: () => {
+                [`delay to next month (${delayedCost}g)`]: () => {
                     this.rentDue = delayedCost;
                     window.resume();
                     window.closePopUp();

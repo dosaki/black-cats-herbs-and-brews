@@ -134,9 +134,9 @@ window.main = function () {
         if (window.player.gold < 0) {
             setTimeout(() => {
                 const loan = 1800 + Math.abs(window.player.gold);
-                window.popUpWithOptions("You're broke", {
-                    "Restart": window.location.reload,
-                    [`Take a loan (${loan}g)`]: () => {
+                window.popUpWithOptions("you're broke", {
+                    "restart": window.location.reload,
+                    [`take a loan (${loan}g)`]: () => {
                         window.player.gold += loan;
                         window.player.addDebt(loan * 1.25);
                         window.closePopUp();
