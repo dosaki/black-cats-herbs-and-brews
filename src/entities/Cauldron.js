@@ -15,6 +15,7 @@ export class Cauldron extends ItemContainer {
             ["#000000ff", "#453333ff", "#382828ff", "#423030ff"]
         );
         this.size = 3;
+        this.sizeIncrement = 1;
         this.brewingRecipe = null;
         this.resultSlot = null;
     }
@@ -26,6 +27,10 @@ export class Cauldron extends ItemContainer {
             this.items = [];
             this.drawContents();
             throw new Error("Oops... I've screwed up my recipe");
+        } else {
+            if(!window.player.knownRecipes.includes(this.brewingRecipe)){
+                window.player.knownRecipes.push(this.brewingRecipe);
+            }
         }
         this.items = [];
         this.draw();
@@ -41,6 +46,21 @@ export class Cauldron extends ItemContainer {
     drawContents() {
         super.drawContents();
         this.parentElement.classList = ["cauldron"];
+        const recipeButton = document.createElement("button");
+        recipeButton.innerText = "Show Known Recipes";
+        onClick(recipeButton, () => {
+            const recipesContainer = document.createElement("div");
+            recipesContainer.classList.add("recipes-container");
+            window.player.knownRecipes.forEach(recipe => {
+                recipesContainer.appendChild(recipe.asElement());
+            });
+            const closeButton = document.createElement("button");
+            closeButton.innerText = "Close";
+            onClick(closeButton, () => {
+                window.closePopUp();
+            });
+            window.popUp([recipesContainer, closeButton]);
+        });
         const brewButton = document.createElement("button");
         brewButton.innerText = "Brew";
         onClick(brewButton, () => {
@@ -71,6 +91,7 @@ export class Cauldron extends ItemContainer {
         }
 
         this.parentElement.appendChild(itemHolder);
+        this.parentElement.appendChild(recipeButton);
     }
 
     draw() {

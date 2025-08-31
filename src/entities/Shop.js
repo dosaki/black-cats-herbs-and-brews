@@ -77,20 +77,20 @@ export class Shop {
         window.pause();
         const delayedCost = Math.round(this.rentDue * 1.1);
 
-        window.popUpOpt1Opt2(
+        window.popUpWithOptions(
             "Rent is due",
-            `Pay (${this.rentDue}g)`,
-            `Delay to next month (${delayedCost}g)`,
-            () => {
-                window.player.gold -= this.rentDue;
-                this.rentDue = 0;
-                window.resume();
-                window.closePopUp();
-            },
-            () => {
-                this.rentDue = delayedCost;
-                window.resume();
-                window.closePopUp();
+            {
+                [`Pay (${this.rentDue}g)`]: () => {
+                    window.player.gold -= this.rentDue;
+                    this.rentDue = 0;
+                    window.resume();
+                    window.closePopUp();
+                },
+                [`Delay to next month (${delayedCost}g)`]: () => {
+                    this.rentDue = delayedCost;
+                    window.resume();
+                    window.closePopUp();
+                }
             }
         );
     }

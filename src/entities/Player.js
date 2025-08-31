@@ -1,4 +1,5 @@
-import { witch } from '../drawables/images';
+import { ItemManager } from '../config/ItemManager';
+import { cat, witch } from '../drawables/images';
 import { pick } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
@@ -14,6 +15,10 @@ export class Player extends Drawable {
         this.inventory = inventory;
         this.chosenOption = null;
         this.previousLine = null;
+        this.knownRecipes = [
+            ItemManager.recipes[0]
+            // ...ItemManager.recipes
+        ];
     }
 
     get debt() {
@@ -27,13 +32,33 @@ export class Player extends Drawable {
     payDebt() {
         this._debt = this._debt.map(d => {
             const _payment = Math.ceil(d.original / 365);
-            const payment = Math.min(d.current, _payment)
+            const payment = Math.min(d.current, _payment);
             this.gold -= payment;
             return {
                 ...d,
                 current: Math.max(0, Math.ceil(d.current - payment))
             };
         }).filter(d => d.current > 0);
+    }
+
+    buyItem(item) {
+        if (this.gold < item.shopPrice) {
+            window.closePopUp(500);
+            setTimeout(() => {
+                window.popUpMsg("You can't afford this item.", 1500);
+            }, 500);
+            return;
+        }
+        try {
+            this.inventory.add(item);
+        } catch (error) {
+            window.closePopUp(500);
+            setTimeout(() => {
+                window.popUpMsg(error.message, 1500);
+            }, 500);
+            return;
+        }
+        this.gold -= item.shopPrice;
     }
 
     get debtPortion() {

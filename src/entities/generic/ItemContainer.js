@@ -6,6 +6,7 @@ export class ItemContainer extends Drawable {
         super(triggerElement, imageMatrix, mirrorImage, colours);
         this.triggerElement = triggerElement;
         this.parentElement = parentElement;
+        this.upgradeCost = 50;
         this.size = 10;
         this.items = [];
         onMouseDown(this.triggerElement, () => {
@@ -52,8 +53,13 @@ export class ItemContainer extends Drawable {
         return item;
     }
 
-    upgrade(newSize) {
-        this.size = newSize;
+    upgrade() {
+        if(window.player.gold >= this.upgradeCost){
+            this.size = this.size + this.sizeIncrement;
+            window.player.gold -= this.upgradeCost;
+            this.upgradeCost = Math.ceil(this.upgradeCost * 1.5);
+        }
+        this.drawContents();
     }
 
     onClickItem(item, itemContainerElement, event) {
@@ -68,7 +74,7 @@ export class ItemContainer extends Drawable {
     }
 
     onMouseInItem(item, itemContainerElement, event) {
-        window.tooltipShowWithIcon(item.icon, item.name, item.description);
+        window.tooltipShowWithIcon(item.icon, item.name, `${item.description}\n\nSells for: ${item.value}g`);
         return false;
     }
 
@@ -96,6 +102,14 @@ export class ItemContainer extends Drawable {
     drawContents() {
         this.parentElement.innerHTML = "";
         this.parentElement.style.background = this.background;
+        const upgradeButton = document.createElement("button");
+        upgradeButton.innerText = "Upgrade";
+        if(window.player.gold >= this.upgradeCost){
+            upgradeButton.onclick = () => this.upgrade();
+        } else {
+            upgradeButton.disabled = true;
+        }
+        this.parentElement.appendChild(upgradeButton);
         const itemHolder = document.createElement("div");
         itemHolder.classList.add("item-holder");
         this.items.forEach(i => {

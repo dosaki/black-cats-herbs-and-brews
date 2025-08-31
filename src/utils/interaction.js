@@ -10,7 +10,7 @@ export const removeAllListeners = (el, withChildren) => {
 }
 
 export const onClick = (element, callback) => {
-    element.addEventListener("click", (event) => {
+    return element.addEventListener("click", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -18,7 +18,7 @@ export const onClick = (element, callback) => {
 };
 
 export const onHover = (element, callback) => {
-    element.addEventListener("mouseover", (event) => {
+    return element.addEventListener("mouseover", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -26,7 +26,7 @@ export const onHover = (element, callback) => {
 };
 
 export const onMouseIn = (element, callback) => {
-    element.addEventListener("mouseenter", (event) => {
+    return element.addEventListener("mouseenter", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -34,7 +34,7 @@ export const onMouseIn = (element, callback) => {
 };
 
 export const onMouseOut = (element, callback) => {
-    element.addEventListener("mouseout", (event) => {
+    return element.addEventListener("mouseout", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -42,7 +42,7 @@ export const onMouseOut = (element, callback) => {
 };
 
 export const onLeave = (element, callback) => {
-    element.addEventListener("mouseleave", (event) => {
+    return element.addEventListener("mouseleave", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -50,7 +50,7 @@ export const onLeave = (element, callback) => {
 };
 
 export const onMouseDown = (element, callback) => {
-    element.addEventListener("mousedown", (event) => {
+    return element.addEventListener("mousedown", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -58,7 +58,7 @@ export const onMouseDown = (element, callback) => {
 };
 
 export const onMouseUp = (element, callback) => {
-    element.addEventListener("mouseup", (event) => {
+    return element.addEventListener("mouseup", (event) => {
         if(callback(event) !== false){
             window.shop.draw();
         }

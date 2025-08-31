@@ -1,6 +1,6 @@
 import { femaleVillagerSkirt, maleVillagerBeard, maleVillagerClean } from '../drawables/images';
 import { adjust, base10ToHex, newColour } from '../utils/colour';
-import { onClick, onMouseUp } from '../utils/interaction';
+import { onClick, onMouseIn, onMouseUp } from '../utils/interaction';
 import { int, pick } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
@@ -90,28 +90,45 @@ export class Customer extends Drawable {
         this.gold = pick(this.goldNeeded, int(this.goldNeeded / 2, this.goldNeeded * 2), 10);
 
         this.currentLineIndex = -1;
-        const justBrowsing = pick(true, false, false, false);
-        const wantLine = `${pick("Do you have", "Can I get", "May I have", "How much for")} ${formatWants(this.wants)}?`;
+        this.justBrowsing = pick(true, false, false, false);
+        this._waitingTimeout = null;
+        this.hasWaited = false;
+        onMouseUp(this.canvas, () => {
+            this.onMouseUp();
+        });
+        onMouseIn(this.canvas, () => {
+            this.onMouseIn();
+        });
+    }
+
+    get lines() {
+        const wantLine = `${pick("Do you have", "May I have")} ${formatWants(this.wants)}?`;
         const browsingLine = pick("Just browsing", "I'm just looking");
-        const greetingLine = pick("Hi!", "Hello!", "Greetings!", "Hi! Cute cat.", "Excuse me...", "Hey! I love your cat.");
-        this.lines = [
+        const greetingLine = pick("Hi!", "Hello!", "Hi! Cute cat.", "Hey! I love your cat.");
+        return [
             {
                 text: greetingLine,
                 options: [
-                    { text: `${greetingLine.includes("cat") ? pick("She's my familiar.", "Thanks!", "She appreciates it.") : pick("Hello!", "Welcome!", "Hi!")} ${pick("Do you need help?", "How can I help?", "Looking for something special?")}`, action: nextDialogue },
+                    { text: `${greetingLine.includes("cat") ? pick("Thanks!", "She appreciates it.") : pick("Hello!", "Welcome!", "Hi!")} ${pick("How can I help?", "Looking for something special?")}`, action: nextDialogue },
                     { text: "Get the hells out of my shop!", action: leave }
                 ]
             },
-            justBrowsing ? {
+            this.justBrowsing ? {
                 text: browsingLine,
                 options: [
-                    { text: browsingLine === "I can't do this" ? pick("What do you mean...?", "Ooookay...") : pick("Sure", "Please go ahead"), action: wait },
-                    { text: pick("If you're not buying, get out.", "Leave.", "Get out.", "This isn't a museum."), action: leave }
+                    { text: pick("Sure", "Go ahead"), action: () => {
+                        if(pick(true, false, false)){
+                            this.justBrowsing = false;
+                            this.currentLineIndex = 0;
+                        }
+                        wait();
+                    } },
+                    { text: pick("If you're not buying, get out.", "This isn't a museum."), action: leave }
                 ]
             } : {
                 text: wantLine,
                 options: [
-                    { text: pick("Give me a moment.", "I'll prepare that for you.", `That will be ${this.goldNeeded} gold.`), action: waitForSale },
+                    { text: `That will be ${this.goldNeeded} gold.`, action: waitForSale },
                     { text: pick("I'm afraid I can't help you with that.", "Sorry, I don't have what you need."), action: leave }
                 ]
             },
@@ -122,12 +139,6 @@ export class Customer extends Drawable {
                 ]
             }
         ];
-        this._waitingTimeout = null;
-        this.hasWaited = false;
-
-        onMouseUp(this.canvas, () => {
-            this.onMouseUp();
-        });
     }
 
     get nextLine() {
@@ -157,6 +168,7 @@ export class Customer extends Drawable {
         setTimeout(() => {
             this.canvas.style.left = '-340px';
             setTimeout(() => {
+                this.canvas.remove();
                 window.customer = null;
             }, 1000);
         }, 200);
@@ -168,7 +180,8 @@ export class Customer extends Drawable {
             text: pick(`Here's ${gold} gold`),
             options: [
                 {
-                    text: pick("Thanks!", "I appreciate it."), action: () => {
+                    text: "Thanks!", action: () => {
+                        player.gold += gold;
                         player.inventory.draw();
                         window.shop.drawCurrentWindow();
                         leave();
@@ -179,7 +192,12 @@ export class Customer extends Drawable {
     }
 
     returnItems() {
-        window.player.inventory.addAll(this.inventory);
+        try {
+            window.player.inventory.addAll(this.inventory);
+        } catch (error) {
+            window.popUpMsg("Not enough shelf space!", 2000);
+            return;
+        }
         this.inventory = [];
         leave();
         player.inventory.draw();
@@ -201,11 +219,11 @@ export class Customer extends Drawable {
                     populateDialogue({
                         text: pick("I don't have enough gold.", "Oh... I can't afford that"),
                         options: [
-                            { text: pick("I'm not running a charity here!", "Then get out.", "I'm afraid you need to leave."), action: () => { this.returnItems(); } },
+                            { text: pick("I'm not running a charity here!", "Then get out."), action: () => { this.returnItems(); } },
                             {
-                                text: pick("What can you afford?", "Just give me however much you can spare."), action: () => {
+                                text: "What can you afford?", action: () => {
                                     populateDialogue({
-                                        text: pick(`I can offer you ${this.gold} gold.`, `Is ${this.gold} gold enough?`),
+                                        text: `Is ${this.gold} gold enough?`,
                                         options: [
                                             { text: "Yes", action: () => { this.pay(this.gold); } },
                                             { text: "No", action: () => { this.returnItems(); } }
@@ -219,21 +237,21 @@ export class Customer extends Drawable {
             } else if (int(0, 10) > 8) {
                 if (this.hasWaited && pick(true, true, false)) {
                     populateDialogue({
-                        text: pick("Actually, I've changed my mind.", "I'll come back later.", "This is taking too long."),
-                        options: [{ text: pick("Bye", "Okay", "Come back later!"), action: () => { this.returnItems(); } }]
+                        text: pick("I'll come back later.", "This is taking too long."),
+                        options: [{ text: "Okay", action: () => { this.returnItems(); } }]
                     });
                 } else {
                     populateDialogue({
                         text: pick("Will it take long?", "How much longer?", "Is it ready yet?"),
                         options: [
                             {
-                                text: pick("It'll be ready soon.", "Just a moment longer.", "I'm almost done."), action: () => {
+                                text: pick("Just a moment longer.", "I'm almost done."), action: () => {
                                     this.hasWaited = true;
                                     clearTimeout(this._waitingTimeout);
                                     waitForSale();
                                 }
                             },
-                            { text: pick("Sorry, I can't help after all.", `I'm afraid I'm all out of ${formatWants(this.wants)}`), action: () => { this.returnItems(); } }
+                            { text: pick("I'm afraid I can't help you with that.", "Sorry, I don't have what you need."), action: () => { this.returnItems(); } }
                         ]
                     });
                 }
@@ -268,8 +286,26 @@ export class Customer extends Drawable {
         return item;
     }
 
+    wantsItem(itemName) {
+        console.log(this.wants.map(i => i.name), itemName);
+        return this.wants.map(i => i.name).includes(itemName);
+    }
+
     onMouseUp() {
         if (window.shop.currentlyHolding && window.shop.currentlyHoldingOrigin !== this) {
+            if (!this.wantsItem(window.shop.currentlyHolding.name)) {
+                this.doDialogue({
+                    text: "That's not what I'm looking for.",
+                    options: [{
+                        text: "Okay",
+                        action: () => {
+                            this.currentLineIndex = 0;
+                            nextDialogue();
+                        }
+                    }]
+                });
+                return;
+            }
             window.shop.currentlyHoldingOrigin.remove(window.shop.currentlyHolding);
             this.add(window.shop.currentlyHolding);
             window.shop.currentlyHolding = null;
@@ -277,5 +313,11 @@ export class Customer extends Drawable {
             clearTimeout(this._waitingTimeout);
             this.waitForSale();
         }
+    }
+
+    onMouseIn() {
+        const wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'This customer is just browsing.' : `This customer wants ${formatWants(this.wants)}.` : "You don't know what they want.";
+        const has = this.inventory.length > 0 ? `You've given them ${formatWants(this.inventory)}.` : "";
+        window.tooltipShowWithIcon(this.canvas.toDataURL(), "Customer", `${wants}\n${has}`);
     }
 }

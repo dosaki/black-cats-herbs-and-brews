@@ -1,6 +1,6 @@
 import { ItemManager } from '../config/ItemManager';
 import { cat } from '../drawables/images';
-import { onClick, onMouseUp } from '../utils/interaction';
+import { onClick, onMouseIn, onMouseUp } from '../utils/interaction';
 import { int, pick } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
@@ -30,6 +30,11 @@ export class Cat extends Drawable {
             return false;
         });
 
+        onMouseIn(this.canvas, () => {
+            window.tooltipShowWithIcon(canvas.toDataURL(), "Your black cat", `Your mischievous feline familiar ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
+            return false;
+        });
+
         this.doMischief();
     }
 
@@ -45,11 +50,11 @@ export class Cat extends Drawable {
             return;
         }
 
-        if (this.isHungry && pick(true, true, false)) {
+        if (this.isHungry && pick(true, true, this.hunger >= 100)) {
             if (!window.player.inventory.isEmpty) {
                 this.bounce();
                 const item = pick(...window.player.inventory.items);
-                if(item.type === "animal"){
+                if (item.type === "animal") {
                     this.hunger = 0;
                 }
                 window.player.inventory.remove(item);
@@ -111,7 +116,7 @@ export class Cat extends Drawable {
     }
 
     findItem() {
-        return pick(...ItemManager.findableItems).clone();
+        return pick(...ItemManager.ingredients).clone();
     }
 
     onClick() {
@@ -119,12 +124,16 @@ export class Cat extends Drawable {
         setTimeout(() => {
             if (window.player.inventory.hasSpace) {
                 setTimeout(() => {
-                    window.player.inventory.add(this.findItem());
+                    if (pick(true, false, false, false, false)) {
+                        window.player.gold += int(5, 10) === 5 ? int(10, 100) : int(5, 10);
+                    } else {
+                        window.player.inventory.add(this.findItem());
+                    }
                     window.player.inventory.draw();
                     window.shop.drawCurrentWindow();
                 }, 1000);
             }
             this.appear();
-        }, int(2000, 3000));
+        }, int(5000, 10000));
     }
 }

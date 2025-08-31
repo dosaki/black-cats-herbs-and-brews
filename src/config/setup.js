@@ -15,14 +15,14 @@ export const setup = () => {
     window.cat = new Cat(c);
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
+        ItemManager.makeItem("Lunar Moss"),
+        ItemManager.makeItem("Frostberry"),
         ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Healing Potion"),
-        ItemManager.makeItem("Superior Healing Potion"),
-        ItemManager.makeItem("Love Potion"),
-        ItemManager.makeItem("Poison Potion"),
-        ItemManager.makeItem("Water"),
+        ItemManager.makeItem("Vial"),
+        ItemManager.makeItem("Vial"),
         ItemManager.makeItem("Sap"),
-        ItemManager.makeItem("Sap")
+        ItemManager.makeItem("Sap"),
+        ItemManager.makeItem("Water"),
     ]);
     window.cauldron = new Cauldron(cldrn, wrk);
     window.cauldron.add(ItemManager.makeItem("Preserved Fish"));
