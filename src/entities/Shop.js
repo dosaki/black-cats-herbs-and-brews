@@ -1,6 +1,5 @@
 import { daysInMonth, getMonth, incrementDate } from '../utils/dates';
 import { resizeImage } from '../utils/draw';
-import { onClick } from '../utils/interaction';
 
 export class Shop {
     constructor() {
@@ -80,13 +79,13 @@ export class Shop {
         window.popUpWithOptions(
             "rent is due",
             {
-                [`pay (${this.rentDue}g)`]: () => {
+                [`pay (${this.rentDue}🪙)`]: () => {
                     window.player.gold -= this.rentDue;
                     this.rentDue = 0;
                     window.resume();
                     window.closePopUp();
                 },
-                [`delay to next month (${delayedCost}g)`]: () => {
+                [`delay to next month (${delayedCost}🪙)`]: () => {
                     this.rentDue = delayedCost;
                     window.resume();
                     window.closePopUp();
@@ -98,7 +97,7 @@ export class Shop {
     drawMoneys() {
         const goldDisplay = document.querySelector(".gold-display");
         if (goldDisplay) {
-            goldDisplay.innerHTML = `${window.player.gold}g`;
+            goldDisplay.innerHTML = `${window.player.gold}🪙`;
         }
     }
 

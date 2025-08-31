@@ -1,6 +1,5 @@
 import { ItemManager } from '../config/ItemManager';
-import { cat, witch } from '../drawables/images';
-import { pick } from '../utils/random';
+import { witch } from '../drawables/images';
 import { Drawable } from './generic/Drawable';
 
 export class Player extends Drawable {

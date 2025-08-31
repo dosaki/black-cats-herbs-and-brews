@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   entry: './src/game.js',
   mode: 'development',
+  cache: false,
   output: {
     path: path.resolve(__dirname, 'app', 'js'),
     filename: 'game.js'

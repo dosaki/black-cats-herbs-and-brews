@@ -7,7 +7,6 @@ import { onClick, onMouseUp } from '../utils/interaction.js';
 import { ItemManager } from './ItemManager.js';
 import { Cat } from '../entities/Cat.js';
 
-
 export const setup = () => {
     window.shop = new Shop();
 
@@ -16,7 +15,7 @@ export const setup = () => {
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
         ItemManager.makeItem("lunar moss"),
-        ItemManager.makeItem("frostberry"),
+        ItemManager.makeItem("frostmoss"),
         ItemManager.makeItem("vial"),
         ItemManager.makeItem("vial"),
         ItemManager.makeItem("vial"),

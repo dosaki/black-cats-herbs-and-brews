@@ -14,11 +14,11 @@ const formatWants = (wants) => {
 
 const populateDialogue = (line) => {
     dlg_c.style.display = 'none';
-    dlg_text.innerHTML = "";
+    dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
     setTimeout(() => {
         dlg_c.style.display = 'block';
-        dlg_text.innerHTML = line.text;
+        dlg_txt.innerHTML = line.text;
         setTimeout(() => {
             populateOptions(line.options || []);
         }, 650);
@@ -49,7 +49,7 @@ const nextDialogue = () => {
 
 const wait = () => {
     dlg_c.style.display = 'none';
-    dlg_text.innerHTML = "";
+    dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
     setTimeout(() => {
         nextDialogue();
@@ -58,7 +58,7 @@ const wait = () => {
 
 const waitForSale = () => {
     dlg_c.style.display = 'none';
-    dlg_text.innerHTML = "";
+    dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
     window.customer.waitForSale();
 };
@@ -162,7 +162,7 @@ export class Customer extends Drawable {
     disappear() {
         this.canvas.style.transform = 'scale(-1,1)';
         dlg_c.style.display = 'none';
-        dlg_text.innerHTML = "";
+        dlg_txt.innerHTML = "";
         dlg_opt.innerHTML = "";
         setTimeout(() => {
             this.canvas.style.left = '-340px';
@@ -236,7 +236,7 @@ export class Customer extends Drawable {
             } else if (int(0, 10) > 8) {
                 if (this.hasWaited && pick(true, true, false)) {
                     populateDialogue({
-                        text: pick("i'll come back later.", "this is taking too long."),
+                        text: "this is taking too long.",
                         options: [{ text: "okay", action: () => { this.returnItems(); } }]
                     });
                 } else {

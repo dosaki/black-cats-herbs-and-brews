@@ -32,9 +32,9 @@ export const asCanvas = (matrix, colours, crop) => {
     return canvas;
 };
 
-export const asDataUrl = (matrix, colours, crop) => {
-    return asCanvas(matrix, colours, crop).toDataURL();
-};
+// export const asDataUrl = (matrix, colours, crop) => {
+//     return asCanvas(matrix, colours, crop).toDataURL();
+// };
 
 export const resizeImage = (url, factor, callback) => {
     const sourceImage = new Image();

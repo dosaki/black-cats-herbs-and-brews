@@ -1,10 +1,8 @@
-module.exports = {};
-
-module.exports.pick = (...args) => {
+export const pick = (...args) => {
     if (!args.length) {
         return null;
     }
-    return args[module.exports.int(0, args.length - 1)];
+    return args[int(0, args.length - 1)];
 };
 
 /**
@@ -13,6 +11,6 @@ module.exports.pick = (...args) => {
  * @param { integer } max Maximum Integer in the range (inclusive)
  * @returns { integer }
  */
-module.exports.int = (min, max) => {
+export const int = (min, max) => {
     return Math.floor(Math.random() * ((max + 1) - min) + min);
 };
