@@ -44,6 +44,41 @@ jobs:
           chmod 755 ./build.sh
           ./build.sh --dist
 
+      - uses: oprypin/find-latest-tag@v1
+        if: "!contains(github.event.head_commit.message, 'VERSION_TAG=')"
+        id: version
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Up the version (automatically)
+        if: "!contains(github.event.head_commit.message, 'VERSION_TAG=')"
+        run: |
+          VERSION=$(echo "${{ steps.version.outputs.tag }}" | awk -F'.' '{ print $1"."$2"."$3+1 }')
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Fetch version from commit message
+        if: "contains(github.event.head_commit.message, 'VERSION_TAG=')"
+        run: |
+          VERSION=$(echo "${{ github.event.head_commit.message }}" | sed -rn 's/.*VERSION_TAG=([0-9]+\.[0-9]+\.[0-9]+).*/\1/p')
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV 
+
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ env.RELEASE_VERSION }}',
+              sha: context.sha
+            })
+
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.RELEASE_VERSION }}
+          name: Release ${{ env.RELEASE_VERSION }}
+          artifacts: dist/*.zip
+
       - name: Terraform Init
         run: |
           cd ./terraform
