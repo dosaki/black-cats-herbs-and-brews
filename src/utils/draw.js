@@ -1,56 +1,19 @@
 import { hexToRgbA } from './colour.js';
 
-// #c# = # number of pixels with colour # (0 is transparent)
-const expandMatrix = (matrix, mirrorAll, colours) => {
-    return matrix.map(row => {
-        const newRow = [];
-        let shouldMirrorRow = false;
-        row.forEach(data => {
-            if (data === "m") {
-                shouldMirrorRow = true;
-            }
-            const [count, colourIndex] = data.split("c").map(Number);
-            for (let i = 0; i < count; i++) {
-                newRow.push(hexToRgbA(colours[colourIndex]));
-            }
-        });
-        if (shouldMirrorRow || mirrorAll) {
-            row.toReversed().forEach(data => {
-                const [count, colourIndex] = data.split("c").map(Number);
-                for (let i = 0; i < count; i++) {
-                    newRow.push(hexToRgbA(colours[colourIndex]));
-                }
-            });
-        }
-        return newRow;
-    });
-};
-
-export const getDimensions = (matrix, mirrorAll) => {
-    const widths = matrix.map(r => {
-        const w = r.map(d => {
-            if (d === "m") {
-                return 0;
-            }
-            return d.split("c").map(Number)[0];
-        }).reduce((a, b) => a + b, 0);
-        return r.includes("m") || mirrorAll ? w * 2 : w;
-    });
-    if (new Set(widths).size !== 1) {
-        throw new Error("Inconsistent row widths");
-    }
+export const getDimensions = (matrix) => {
     return {
-        width: widths[0],
+        width: matrix[0].length,
         height: matrix.length
     };
 };
 
-export const makeImage = (ctx, matrix, mirrorAll, colours, crop) => {
-    const expandedMatrix = expandMatrix(matrix, mirrorAll, ["#00000000", ...colours]);
-    const width = expandedMatrix[0].length;
-    const height = expandedMatrix.length;
+// 0 = transparent, 1 = colour1, 2 = colour2, etc...
+export const makeImage = (ctx, matrix, colours, crop) => {
+    const colouredMatrix = matrix.map(row => row.map(cell => hexToRgbA(["#00000000", ...colours][cell])));
+    const width = colouredMatrix[0].length;
+    const height = colouredMatrix.length;
     const imageData = new ImageData(width, height);
-    expandedMatrix.forEach((row, y) => {
+    colouredMatrix.forEach((row, y) => {
         row.forEach((colour, x) => {
             imageData.data.set(colour, (y * width + x) * 4);
         });
@@ -59,18 +22,18 @@ export const makeImage = (ctx, matrix, mirrorAll, colours, crop) => {
     ctx.putImageData(imageData, -crop?.x || 0, -crop?.y || 0);
 };
 
-export const asCanvas = (matrix, mirrorAll, colours, crop) => {
+export const asCanvas = (matrix, colours, crop) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    const { width, height } = getDimensions(matrix, mirrorAll);
+    const { width, height } = getDimensions(matrix);
     canvas.width = width;
     canvas.height = height;
-    makeImage(ctx, matrix, mirrorAll, colours, crop);
+    makeImage(ctx, matrix, colours, crop);
     return canvas;
 };
 
-export const asDataUrl = (matrix, mirrorAll, colours, crop) => {
-    return asCanvas(matrix, mirrorAll, colours, crop).toDataURL();
+export const asDataUrl = (matrix, colours, crop) => {
+    return asCanvas(matrix, colours, crop).toDataURL();
 };
 
 export const resizeImage = (url, factor, callback) => {

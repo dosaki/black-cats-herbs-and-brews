@@ -1,4 +1,4 @@
-import { onClick, onMouseDown, onMouseUp } from '../utils/interaction';
+import { onClick, } from '../utils/interaction';
 import { ItemContainer } from './generic/ItemContainer';
 import { WebGLHandler, makeFumesShader } from '../effects/fumes';
 import { ItemManager } from '../config/ItemManager';
@@ -11,7 +11,6 @@ export class Cauldron extends ItemContainer {
             triggerElement,
             parentElement,
             cauldronTop,
-            true,
             ["#000000ff", "#453333ff", "#382828ff", "#423030ff"]
         );
         this.size = 3;
@@ -26,7 +25,7 @@ export class Cauldron extends ItemContainer {
         if (!this.brewingRecipe) {
             this.items = [];
             this.drawContents();
-            throw new Error("Oops... I've screwed up my recipe");
+            throw new Error("oops... i've screwed up my recipe");
         } else {
             if(!window.player.knownRecipes.includes(this.brewingRecipe)){
                 window.player.knownRecipes.push(this.brewingRecipe);
@@ -47,7 +46,7 @@ export class Cauldron extends ItemContainer {
         super.drawContents();
         this.parentElement.classList = ["cauldron"];
         const recipeButton = document.createElement("button");
-        recipeButton.innerText = "Show Known Recipes";
+        recipeButton.innerText = "show known recipes";
         onClick(recipeButton, () => {
             const recipesContainer = document.createElement("div");
             recipesContainer.classList.add("recipes-container");
@@ -55,14 +54,14 @@ export class Cauldron extends ItemContainer {
                 recipesContainer.appendChild(recipe.asElement());
             });
             const closeButton = document.createElement("button");
-            closeButton.innerText = "Close";
+            closeButton.innerText = "close";
             onClick(closeButton, () => {
                 window.closePopUp();
             });
             window.popUp([recipesContainer, closeButton]);
         });
         const brewButton = document.createElement("button");
-        brewButton.innerText = "Brew";
+        brewButton.innerText = "brew";
         onClick(brewButton, () => {
             try {
                 this.brew();

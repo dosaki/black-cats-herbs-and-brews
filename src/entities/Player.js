@@ -7,8 +7,7 @@ export class Player extends Drawable {
     constructor(canvas, gold, inventory) {
         super(canvas,
             witch,
-            true,
-            ["#000000ff", "#929499ff", "#bdc2c0ff", "#d29558ff", "#615343ff", "#ffffffff", "#014a2dff", "#b46a47ff", "#922d2dff", "#19151cff"]
+            ["#000000ff", "#bdc2c0ff", "#bdc2c0ff", "#d29558ff", "#3f3a3aff", "#ffffffff", "#289769ff", "#b46a47ff", "#922d2dff", "#171717ff"]
         );
         this.gold = gold;
         this._debt = [];
@@ -45,7 +44,7 @@ export class Player extends Drawable {
         if (this.gold < item.shopPrice) {
             window.closePopUp(500);
             setTimeout(() => {
-                window.popUpMsg("You can't afford this item.", 1500);
+                window.popUpMsg("you can't afford this item.", 1500);
             }, 500);
             return;
         }

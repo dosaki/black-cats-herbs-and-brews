@@ -33,7 +33,7 @@ export class ItemContainer extends Drawable {
         if (this.hasSpace) {
             this.items.push(item);
         } else {
-            throw new Error("It's full");
+            throw new Error("it's full");
         }
     }
 
@@ -47,7 +47,7 @@ export class ItemContainer extends Drawable {
 
     remove(item) {
         if (!item) {
-            throw new Error("Item not found");
+            throw new Error("item not found");
         }
         this.items = this.items.filter(i => i.uuid !== item.uuid);
         return item;
@@ -74,7 +74,7 @@ export class ItemContainer extends Drawable {
     }
 
     onMouseInItem(item, itemContainerElement, event) {
-        window.tooltipShowWithIcon(item.icon, item.name, `${item.description}\n\nSells for: ${item.value}g`);
+        window.tooltipShowWithIcon(item.icon, item.name, `${item.description}\n\nsells for: ${item.value}g`);
         return false;
     }
 
@@ -103,7 +103,7 @@ export class ItemContainer extends Drawable {
         this.parentElement.innerHTML = "";
         this.parentElement.style.background = this.background;
         const upgradeButton = document.createElement("button");
-        upgradeButton.innerText = "Upgrade";
+        upgradeButton.innerText = "upgrade";
         if(window.player.gold >= this.upgradeCost){
             upgradeButton.onclick = () => this.upgrade();
         } else {

@@ -1,9 +1,9 @@
-import { Shop } from "../entities/Shop.js";
-import { Player } from "../entities/Player.js";
+import { Shop } from '../entities/Shop.js';
+import { Player } from '../entities/Player.js';
 import { Cauldron } from '../entities/Cauldron.js';
 import { Inventory } from '../entities/Inventory.js';
 
-import { onClick, onHover, onLeave, onMouseUp } from '../utils/interaction.js';
+import { onClick, onMouseUp } from '../utils/interaction.js';
 import { ItemManager } from './ItemManager.js';
 import { Cat } from '../entities/Cat.js';
 
@@ -15,17 +15,17 @@ export const setup = () => {
     window.cat = new Cat(c);
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
-        ItemManager.makeItem("Lunar Moss"),
-        ItemManager.makeItem("Frostberry"),
-        ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Vial"),
-        ItemManager.makeItem("Sap"),
-        ItemManager.makeItem("Sap"),
-        ItemManager.makeItem("Water"),
+        ItemManager.makeItem("lunar moss"),
+        ItemManager.makeItem("frostberry"),
+        ItemManager.makeItem("vial"),
+        ItemManager.makeItem("vial"),
+        ItemManager.makeItem("vial"),
+        ItemManager.makeItem("sap"),
+        ItemManager.makeItem("sap"),
+        ItemManager.makeItem("water"),
     ]);
     window.cauldron = new Cauldron(cldrn, wrk);
-    window.cauldron.add(ItemManager.makeItem("Preserved Fish"));
+    window.cauldron.add(ItemManager.makeItem("preserved fish"));
     window.customer = null;
 
     shop.resetCalendar();

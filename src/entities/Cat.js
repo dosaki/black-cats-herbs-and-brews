@@ -8,7 +8,6 @@ export class Cat extends Drawable {
     constructor(canvas) {
         super(canvas,
             cat,
-            false,
             ["#000000ff", "#282828ff", "#171717ff"],
             { x: 5, y: 0, width: 23, height: 22 });
         this.canvas = canvas;
@@ -31,7 +30,7 @@ export class Cat extends Drawable {
         });
 
         onMouseIn(this.canvas, () => {
-            window.tooltipShowWithIcon(canvas.toDataURL(), "Your black cat", `Your mischievous feline familiar ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
+            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `your mischievous feline familiar ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
             return false;
         });
 

@@ -10,26 +10,56 @@ CURRENT_DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
 
 cd "${CURRENT_DIR}"
 
-NAME="black-cats-herbs-and-brews"
+#/bin/bash
+SCRIPT="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
 
-ARG="$1"
-if [[ "${ARG}" == "--dev" ]];then
-  IS_DEV_MODE="TRUE"
-fi
-if [[ "${ARG}" == "--dist" ]] || [[ "${ARG}" == "" ]];then
-  IS_DIST="TRUE"
-fi
+function usage {
+  echo "Usage:"
+  echo "    $SCRIPT [options]"
+  echo "Options:"
+  echo "    --dist"
+  echo "        Produces distribution build (minified and roadrolled)"
+}
+
+IS_DIST="FALSE"
+SKIP_ROADROLLER="FALSE"
+
+for i in "$@"; do
+  case $i in
+  --arg-with-value=*)
+    ARG_WITH_VALUE="${i#*=}"
+    shift
+    ;;
+  --dist)
+    IS_DIST="TRUE"
+    shift
+    ;;
+  --skip-roadroller)
+    SKIP_ROADROLLER="TRUE"
+    shift
+    ;;
+  *)
+    usage
+    echo "Unknown option ${i}"
+    exit 1
+    ;;
+  esac
+done
+
+NAME="black-cats-herbs-and-brews"
 
 rm -r ./app
 
-if [[ "${IS_DEV_MODE}" == "TRUE" ]]; then
-    ./node_modules/webpack/bin/webpack.js --mode development
-else
+if [[ "${IS_DIST}" == "TRUE" ]]; then
     ./node_modules/webpack/bin/webpack.js
     npx -y uglify-js --compress --mangle -- ./app/js/game.js > ./app/js/game.tmp.js
     mv ./app/js/game.tmp.js ./app/js/game.js
-    npx roadroller ./app/js/game.js -O2 -o ./app/js/game.tmp.js
-    mv ./app/js/game.tmp.js ./app/js/game.js
+    if [[ "${SKIP_ROADROLLER}" == "FALSE" ]]; then
+        npx roadroller ./app/js/game.js -O2 -o ./app/js/game.tmp.js
+        mv ./app/js/game.tmp.js ./app/js/game.js
+    fi
+else
+    ./node_modules/webpack/bin/webpack.js --mode development
 fi
 
 cp -r ./static/* ./app/
