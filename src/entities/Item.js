@@ -14,9 +14,9 @@ export class Item {
     }
 
     draw() {
-        const itemContainerElement = document.createElement("div");
+        let itemContainerElement = document.createElement("div");
         itemContainerElement.classList.add("item-container", `type-${this.type}`);
-        const itemElement = document.createElement("div");
+        let itemElement = document.createElement("div");
         itemElement.classList.add("item");
         itemElement.innerText = this.name;
         itemElement.style.backgroundImage = `url(${this.icon})`;

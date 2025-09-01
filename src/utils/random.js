@@ -1,4 +1,4 @@
-export const pick = (...args) => {
+export let pick = (...args) => {
     if (!args.length) {
         return null;
     }
@@ -11,6 +11,6 @@ export const pick = (...args) => {
  * @param { integer } max Maximum Integer in the range (inclusive)
  * @returns { integer }
  */
-export const int = (min, max) => {
+export let int = (min, max) => {
     return Math.floor(Math.random() * ((max + 1) - min) + min);
 };

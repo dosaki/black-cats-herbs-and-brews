@@ -1,10 +1,11 @@
 import { femaleVillagerSkirt, maleVillagerBeard } from '../drawables/images';
+import { Note } from '../utils/audio-utils';
 import { adjust, base10ToHex, newColour } from '../utils/colour';
-import { onClick, onMouseIn, onMouseUp } from '../utils/interaction';
+import { onClick, onMouseDown, onMouseIn, onMouseUp } from '../utils/interaction';
 import { int, pick } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
-const formatWants = (wants) => {
+let formatWants = (wants) => {
     if (wants.length === 1) {
         return wants[0].name;
     } else {
@@ -12,7 +13,7 @@ const formatWants = (wants) => {
     }
 };
 
-const populateDialogue = (line) => {
+let populateDialogue = (line) => {
     dlg_c.style.display = 'none';
     dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
@@ -25,29 +26,31 @@ const populateDialogue = (line) => {
     }, 200);
 };
 
-const populateOptions = (options) => {
-    const list = document.createElement('ul');
+let populateOptions = (options) => {
+    let list = document.createElement('ul');
     options.forEach(option => {
-        const optionElement = document.createElement('li');
+        let optionElement = document.createElement('li');
         optionElement.innerHTML = option.text;
         onClick(optionElement, () => {
             option.action();
         });
+        onMouseDown(optionElement, () => {}, Note.new("c", 5, 0.05));
+        onMouseIn(optionElement, () => {}, Note.new("f#", 4, 0.05));
         list.appendChild(optionElement);
     });
     dlg_opt.innerHTML = "";
     dlg_opt.appendChild(list);
 };
 
-const leave = () => {
+let leave = () => {
     window.customer.disappear();
 };
 
-const nextDialogue = () => {
+let nextDialogue = () => {
     window.customer.doDialogue(window.customer.nextLine);
 };
 
-const wait = () => {
+let wait = () => {
     dlg_c.style.display = 'none';
     dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
@@ -56,7 +59,7 @@ const wait = () => {
     }, int(1000, 5000));
 };
 
-const waitForSale = () => {
+let waitForSale = () => {
     dlg_c.style.display = 'none';
     dlg_txt.innerHTML = "";
     dlg_opt.innerHTML = "";
@@ -65,19 +68,19 @@ const waitForSale = () => {
 
 export class Customer extends Drawable {
     constructor(canvas, wants) {
-        const topColour = newColour(int(0, 360) / 360, 0.5, 0.4) + "ff";
-        const topShading = adjust(topColour, -50) + "ff";
-        const bottomColour = newColour(int(0, 360) / 360, 0.7, 0.3) + "ff";
-        const bottomShading = adjust(bottomColour, -50) + "ff";
-        const eyeColour = newColour(int(0, 360) / 360, 0.8, 0.5) + "ff";
-        const hairRedChannel = `${int(22, 99)}`.padStart(2, '0');
-        const hairGreenChannel = `${int(0, 20)}`.padStart(2, '0');
-        const hairBlueChannel = `${int(0, 20)}`.padStart(2, '0');
-        const hairGrays = base10ToHex(int(0, 200));
-        const hairColour = pick(`#${hairGrays}${hairGrays}${hairGrays}ff`, `#${hairRedChannel}${hairGreenChannel}${hairBlueChannel}ff`);
-        const hairShading = adjust(hairColour, -20) + "ff";
-        const skinColour = pick("#513021ff", "#874c2cff", "#803716ff", "#b66837ff", "#a96238ff", "#f9bf91ff", "#ecc19fff");
-        const isFemale = pick(true, false);
+        let topColour = newColour(int(0, 360) / 360, 0.5, 0.4) + "ff";
+        let topShading = adjust(topColour, -50) + "ff";
+        let bottomColour = newColour(int(0, 360) / 360, 0.7, 0.3) + "ff";
+        let bottomShading = adjust(bottomColour, -50) + "ff";
+        let eyeColour = newColour(int(0, 360) / 360, 0.8, 0.5) + "ff";
+        let hairRedChannel = `${int(22, 99)}`.padStart(2, '0');
+        let hairGreenChannel = `${int(0, 20)}`.padStart(2, '0');
+        let hairBlueChannel = `${int(0, 20)}`.padStart(2, '0');
+        let hairGrays = base10ToHex(int(0, 200));
+        let hairColour = pick(`#${hairGrays}${hairGrays}${hairGrays}ff`, `#${hairRedChannel}${hairGreenChannel}${hairBlueChannel}ff`);
+        let hairShading = adjust(hairColour, -20) + "ff";
+        let skinColour = pick("#513021ff", "#874c2cff", "#803716ff", "#b66837ff", "#a96238ff", "#f9bf91ff", "#ecc19fff");
+        let isFemale = pick(true, false);
         super(canvas,
             isFemale ? femaleVillagerSkirt : maleVillagerBeard,
             isFemale ? ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, topColour, "#cd6644ff", "#ce3b4dff", "#77624cff", "#e7d3bcff", topShading, bottomShading, bottomColour, "#a65111ff"] : ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, "#a2462dff", "#8b2d16ff", topShading, topColour, "#b38558ff", "#e9c897ff", "#b26824ff", bottomShading, bottomColour]
@@ -97,13 +100,13 @@ export class Customer extends Drawable {
         });
         onMouseIn(this.canvas, () => {
             this.onMouseIn();
-        });
+        }, false);
     }
 
     get lines() {
-        const wantLine = `${pick("do you have", "may i have")} ${formatWants(this.wants)}?`;
-        const browsingLine = pick("just browsing", "i'm just looking");
-        const greetingLine = pick("hi!", "hello!", "hi! cute cat.", "hey! i love your cat.");
+        let wantLine = `${pick("do you have", "may i have")} ${formatWants(this.wants)}?`;
+        let browsingLine = pick("just browsing", "i'm just looking");
+        let greetingLine = pick("hi!", "hello!", "hi! cute cat.", "hey! i love your cat.");
         return [
             {
                 text: greetingLine,
@@ -146,7 +149,7 @@ export class Customer extends Drawable {
     }
 
     doDialogue(nextLine) {
-        const line = nextLine || this.nextLine;
+        let line = nextLine || this.nextLine;
         populateDialogue(line);
     }
 
@@ -315,8 +318,8 @@ export class Customer extends Drawable {
     }
 
     onMouseIn() {
-        const wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing.' : `this customer wants ${formatWants(this.wants)}.` : "you don't know what they want.";
-        const has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}.` : "";
+        let wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing.' : `this customer wants ${formatWants(this.wants)}.` : "you don't know what they want.";
+        let has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}.` : "";
         window.tooltipShowWithIcon(this.canvas.toDataURL(), "customer", `${wants}\n${has}`);
     }
 }

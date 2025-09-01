@@ -7,7 +7,7 @@ import { onClick, onMouseUp } from '../utils/interaction.js';
 import { ItemManager } from './ItemManager.js';
 import { Cat } from '../entities/Cat.js';
 
-export const setup = () => {
+export let setup = () => {
     window.shop = new Shop();
 
     window.shelves = new Inventory(shlf, wrk);
@@ -15,7 +15,7 @@ export const setup = () => {
     window.player = new Player(w, 100, shelves);
     window.player.inventory.addAll([
         ItemManager.makeItem("lunar moss"),
-        ItemManager.makeItem("frostmoss"),
+        ItemManager.makeItem("liver"),
         ItemManager.makeItem("vial"),
         ItemManager.makeItem("vial"),
         ItemManager.makeItem("vial"),
@@ -24,7 +24,7 @@ export const setup = () => {
         ItemManager.makeItem("water"),
     ]);
     window.cauldron = new Cauldron(cldrn, wrk);
-    window.cauldron.add(ItemManager.makeItem("preserved fish"));
+    window.cauldron.add(ItemManager.makeItem("roe"));
     window.customer = null;
 
     shop.resetCalendar();
@@ -50,5 +50,5 @@ export const setup = () => {
             window.shop.currentlyHoldingOrigin = null;
         }
         return false;
-    });
+    }, false);
 };

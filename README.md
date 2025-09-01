@@ -1,6 +1,6 @@
 <div align="center"> <img src="./large.png" /> </div>
 
-# Black Cat's Herb's & Brews
+# Black Cat's Herbs & Brews
 
 You and your familiar just arrived to a small village. Your new home, away from the bustling city.
 

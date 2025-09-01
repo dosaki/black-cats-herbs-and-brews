@@ -1,12 +1,15 @@
-export const onClick = (element, callback) => {
+import { Note } from './audio-utils';
+
+export let onClick = (element, callback, note) => {
     return element.addEventListener("click", (event) => {
+        setTimeout(()=>(note || Note.new("f#", 5, 0.05)).play(1), 100);
         if(callback(event) !== false){
             window.shop.draw();
         }
     });
 };
 
-// export const onHover = (element, callback) => {
+// export let onHover = (element, callback, note) => {
 //     return element.addEventListener("mouseover", (event) => {
 //         if(callback(event) !== false){
 //             window.shop.draw();
@@ -14,15 +17,18 @@ export const onClick = (element, callback) => {
 //     });
 // };
 
-export const onMouseIn = (element, callback) => {
+export let onMouseIn = (element, callback, note) => {
     return element.addEventListener("mouseenter", (event) => {
+        if(note !== false) {
+            (note || Note.new("f#", 5, 0.05)).play(1, "sine");
+        }
         if(callback(event) !== false){
             window.shop.draw();
         }
     });
 };
 
-// export const onMouseOut = (element, callback) => {
+// export let onMouseOut = (element, callback, note) => {
 //     return element.addEventListener("mouseout", (event) => {
 //         if(callback(event) !== false){
 //             window.shop.draw();
@@ -30,16 +36,22 @@ export const onMouseIn = (element, callback) => {
 //     });
 // };
 
-export const onMouseDown = (element, callback) => {
+export let onMouseDown = (element, callback, note) => {
     return element.addEventListener("mousedown", (event) => {
+        if(note !== false) {
+            (note || Note.new("c", 5, 0.05)).play(1);
+        }
         if(callback(event) !== false){
             window.shop.draw();
         }
     });
 };
 
-export const onMouseUp = (element, callback) => {
+export let onMouseUp = (element, callback, note) => {
     return element.addEventListener("mouseup", (event) => {
+        if(note !== false) {
+            (note || Note.new("c", 4, 0.05)).play(1);
+        }
         if(callback(event) !== false){
             window.shop.draw();
         }

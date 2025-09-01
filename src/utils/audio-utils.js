@@ -1,17 +1,17 @@
 let context = null;
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const isFirefox = typeof InstallTrigger !== 'undefined'; // This is because firefox has a bug with exponentialRampToValueAtTime
+let AudioContext = window.AudioContext || window.webkitAudioContext;
+let isFirefox = typeof InstallTrigger !== 'undefined'; // This is because firefox has a bug with exponentialRampToValueAtTime
 
-const play = (frequency, duration, trail, initialVolume, type) => {
+let play = (frequency, duration, trail, initialVolume, type) => {
     if (!context) {
         context = new AudioContext();
     }
-    const _trail = trail || 0.1;
-    const _duration = isFirefox ? _trail * 1000 : (duration || _trail * 1000);
-    const _frequency = frequency || 440.0;
+    let _trail = trail || 0.1;
+    let _duration = isFirefox ? _trail * 1000 : (duration || _trail * 1000);
+    let _frequency = frequency || 440.0;
 
-    const volume = context.createGain();
-    const oscillator = context.createOscillator();
+    let volume = context.createGain();
+    let oscillator = context.createOscillator();
     oscillator.connect(volume);
     volume.connect(context.destination);
     volume.gain.value = initialVolume || 0.3;
@@ -21,7 +21,7 @@ const play = (frequency, duration, trail, initialVolume, type) => {
     } else {
         volume.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + _trail);
     }
-    oscillator.type = type || 'sine';
+    oscillator.type = type || 'triangle';
     oscillator.frequency.value = _frequency;
     oscillator.start();
     if (_duration) {
@@ -31,7 +31,7 @@ const play = (frequency, duration, trail, initialVolume, type) => {
     }
 };
 
-const noteFrequencies = {
+let noteFrequencies = {
     'c': 16.35,
     'f#': 23.12,
     'b': 30.87,

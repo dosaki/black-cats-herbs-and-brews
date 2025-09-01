@@ -12,7 +12,7 @@ export class Drawable {
 
     draw() {
         if (this.imageMatrix){
-            const {width, height} = this.crop ? {
+            let {width, height} = this.crop ? {
                 width: this.crop.width,
                 height: this.crop.height
             } : getDimensions(this.imageMatrix);
@@ -21,7 +21,7 @@ export class Drawable {
             this.canvas.style.width = `${width*10}px`;
             this.canvas.style.height = `${height*10}px`;
 
-            const ctx = this.canvas.getContext("2d");
+            let ctx = this.canvas.getContext("2d");
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
             makeImage(ctx, this.imageMatrix, this.colours, this.crop);
         }

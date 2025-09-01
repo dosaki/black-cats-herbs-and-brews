@@ -13,16 +13,16 @@ export class Inventory extends ItemContainer {
         super.drawContents();
         this.parentElement.classList = ["inventory"];
 
-        const goldNumber = document.createElement("div");
+        let goldNumber = document.createElement("div");
         goldNumber.innerText = `${window.player.gold}🪙`;
-        const debtMarker = document.createElement("div");
+        let debtMarker = document.createElement("div");
         debtMarker.classList.add("debt-marker");
         debtMarker.innerText = window.player.debt > 0 ? '(↘)' : '';
 
-        const buyIngredientsButton = document.createElement("button");
+        let buyIngredientsButton = document.createElement("button");
         buyIngredientsButton.innerText = "shop";
         buyIngredientsButton.onclick = () => {
-            const shopOptions = ItemManager.ingredients.map(i => {
+            let shopOptions = ItemManager.ingredients.map(i => {
                 return [`${i.shopPrice}🪙 - ${i.name}`, () => {
                     window.player.buyItem(i);
                 }];
@@ -33,7 +33,7 @@ export class Inventory extends ItemContainer {
             });
         };
 
-        const goldDisplay = document.createElement("div");
+        let goldDisplay = document.createElement("div");
         goldDisplay.classList.add("gold-display");
         goldDisplay.appendChild(goldNumber);
         goldDisplay.appendChild(buyIngredientsButton);

@@ -45,22 +45,22 @@ export class Cauldron extends ItemContainer {
     drawContents() {
         super.drawContents();
         this.parentElement.classList = ["cauldron"];
-        const recipeButton = document.createElement("button");
+        let recipeButton = document.createElement("button");
         recipeButton.innerText = "show known recipes";
         onClick(recipeButton, () => {
-            const recipesContainer = document.createElement("div");
+            let recipesContainer = document.createElement("div");
             recipesContainer.classList.add("recipes-container");
             window.player.knownRecipes.forEach(recipe => {
                 recipesContainer.appendChild(recipe.asElement());
             });
-            const closeButton = document.createElement("button");
+            let closeButton = document.createElement("button");
             closeButton.innerText = "close";
             onClick(closeButton, () => {
                 window.closePopUp();
             });
             window.popUp([recipesContainer, closeButton]);
         });
-        const brewButton = document.createElement("button");
+        let brewButton = document.createElement("button");
         brewButton.innerText = "brew";
         onClick(brewButton, () => {
             try {
@@ -71,19 +71,19 @@ export class Cauldron extends ItemContainer {
         });
         this.parentElement.appendChild(brewButton);
 
-        const itemHolder = document.createElement("div");
+        let itemHolder = document.createElement("div");
         itemHolder.classList.add("item-holder");
         if (this.resultSlot) {
-            const drawnItem = this.resultSlot.draw();
+            let drawnItem = this.resultSlot.draw();
             onClick(drawnItem, () => {
                 window.shelves.add(this.resultSlot);
                 this.resultSlot = null;
             });
             itemHolder.appendChild(drawnItem);
         } else {
-            const itemContainerElement = document.createElement("div");
+            let itemContainerElement = document.createElement("div");
             itemContainerElement.classList.add("item-container", "empty");
-            const itemElement = document.createElement("div");
+            let itemElement = document.createElement("div");
             itemElement.classList.add("item");
             itemContainerElement.appendChild(itemElement);
             itemHolder.appendChild(itemContainerElement);
@@ -96,12 +96,12 @@ export class Cauldron extends ItemContainer {
     draw() {
         super.draw();
         if (this.brewingRecipe) {
-            const canvas = cldrn_fx.appendChild(document.createElement("canvas"));
+            let canvas = cldrn_fx.appendChild(document.createElement("canvas"));
             canvas.style.display = "block";
             canvas.width = cldrn_fx.clientWidth / 10;
             canvas.height = cldrn_fx.clientHeight / 10;
-            const [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
-            const webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
+            let [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
+            let webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {
             cldrn_fx.innerHTML = "";
         }

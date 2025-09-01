@@ -30,14 +30,14 @@ export class Shop {
     resetCalendar() {
         clndr_days.innerHTML = "";
         clndr_month.innerHTML = `${getMonth(this.date)} ${this.date.getFullYear()}`;
-        const dayOfTheWeek = this.date.getDay() || 7;
+        let dayOfTheWeek = this.date.getDay() || 7;
         for (let i = 0; i < dayOfTheWeek - 1; i++) {
-            const empty = document.createElement("div");
+            let empty = document.createElement("div");
             empty.classList.add("day-empty");
             clndr_days.appendChild(empty);
         }
         for (let i = 0; i < daysInMonth(this.date); i++) {
-            const day = document.createElement("div");
+            let day = document.createElement("div");
             day.classList.add("day", `day-${i + 1}`, `day-w${(dayOfTheWeek + i) % 7}`);
             clndr_days.appendChild(day);
         }
@@ -74,7 +74,7 @@ export class Shop {
     dueRent() {
         this.rentDue += 550;
         window.pause();
-        const delayedCost = Math.round(this.rentDue * 1.1);
+        let delayedCost = Math.round(this.rentDue * 1.1);
 
         window.popUpWithOptions(
             "rent is due",
@@ -95,7 +95,7 @@ export class Shop {
     }
 
     drawMoneys() {
-        const goldDisplay = document.querySelector(".gold-display");
+        let goldDisplay = document.querySelector(".gold-display");
         if (goldDisplay) {
             goldDisplay.innerHTML = `${window.player.gold}🪙`;
         }

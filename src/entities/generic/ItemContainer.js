@@ -14,10 +14,6 @@ export class ItemContainer extends Drawable {
         });
     }
 
-    get isEmpty() {
-        return this.items.length === 0;
-    }
-
     get hasSpace() {
         return this.items.length < this.size;
     }
@@ -88,7 +84,7 @@ export class ItemContainer extends Drawable {
     drawContents() {
         this.parentElement.innerHTML = "";
         this.parentElement.style.background = this.background;
-        const upgradeButton = document.createElement("button");
+        let upgradeButton = document.createElement("button");
         upgradeButton.innerText = `upgrade (${this.upgradeCost}🪙)`;
         if(window.player.gold >= this.upgradeCost){
             upgradeButton.onclick = () => this.upgrade();
@@ -96,19 +92,19 @@ export class ItemContainer extends Drawable {
             upgradeButton.disabled = true;
         }
         this.parentElement.appendChild(upgradeButton);
-        const itemHolder = document.createElement("div");
+        let itemHolder = document.createElement("div");
         itemHolder.classList.add("item-holder");
         this.items.forEach(i => {
-            const drawnItem = i.draw();
+            let drawnItem = i.draw();
             // onClick(drawnItem, (e) => this.onClickItem(i, drawnItem, e));
             onMouseDown(drawnItem, (e) => this.onMouseDownItem(i, drawnItem, e));
             onMouseIn(drawnItem, (e) => this.onMouseInItem(i, drawnItem, e));
             itemHolder.appendChild(drawnItem);
         });
         for (let i = this.items.length; i < this.size; i++) {
-            const itemContainerElement = document.createElement("div");
+            let itemContainerElement = document.createElement("div");
             itemContainerElement.classList.add("item-container", "empty");
-            const itemElement = document.createElement("div");
+            let itemElement = document.createElement("div");
             itemElement.classList.add("item");
             itemContainerElement.appendChild(itemElement);
             itemHolder.appendChild(itemContainerElement);

@@ -1,11 +1,11 @@
 import { minify } from '@swc/core';
 import fs from 'fs';
 
-const inputFile = process.argv[2];
-const outputFile = process.argv[3];
+let inputFile = process.argv[2];
+let outputFile = process.argv[3];
 
-const code = fs.readFileSync(inputFile, 'utf-8');
-const minified = await minify(code, {
+let code = fs.readFileSync(inputFile, 'utf-8');
+let minified = await minify(code, {
     compress: true,
     mangle: true,
     sourceMap: false,

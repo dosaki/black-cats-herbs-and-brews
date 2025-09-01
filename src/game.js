@@ -14,17 +14,17 @@ window.resume = function () {
 };
 
 window.popUpMsg = function (message, time) {
-    const element = document.createElement("p");
+    let element = document.createElement("p");
     element.innerText = message;
     window.popUp([element], time);
 };
 
 window.popUpWithOptions = function (message, options) {
-    const messageElement = document.createElement("h1");
+    let messageElement = document.createElement("h1");
     messageElement.innerText = message;
-    const elements = [messageElement];
+    let elements = [messageElement];
     Object.entries(options).forEach(([text, action]) => {
-        const buttonElement = document.createElement("button");
+        let buttonElement = document.createElement("button");
         buttonElement.innerText = text;
         onClick(buttonElement, () => {
             action();
@@ -61,26 +61,26 @@ window.closePopUp = function (time) {
 };
 
 window.tooltipShowWithIcon = function (icon, name, description) {
-    const tooltipContent = document.createElement("div");
+    let tooltipContent = document.createElement("div");
     tooltipContent.classList.add("tooltip-content");
 
-    const tooltipText = document.createElement("div");
+    let tooltipText = document.createElement("div");
     tooltipText.classList.add("tooltip-text");
 
-    const tooltipName = document.createElement("div");
+    let tooltipName = document.createElement("div");
     tooltipName.classList.add("tooltip-name");
     tooltipName.innerText = name;
 
-    const iconHolder = document.createElement("div");
+    let iconHolder = document.createElement("div");
     iconHolder.classList.add("item-icon-holder");
-    const iconElement = document.createElement("img");
+    let iconElement = document.createElement("img");
     iconElement.classList.add("item-icon");
     if (icon) {
         iconElement.src = icon;
     }
     iconHolder.appendChild(iconElement);
 
-    const tooltipDescription = document.createElement("div");
+    let tooltipDescription = document.createElement("div");
     tooltipDescription.classList.add("tooltip-description");
     tooltipDescription.innerText = description;
 
@@ -111,12 +111,12 @@ window.main = function () {
         }
 
         if (window.customer === null && int(0, 20) > 1) {
-            const numberOfItems = int(1, 3);
-            const wants = [];
+            let numberOfItems = int(1, 3);
+            let wants = [];
             for (let i = 0; i < numberOfItems; i++) {
                 wants.push(pick(...Object.values(ItemManager.items)));
             }
-            const cstmrCanvas = document.createElement("canvas");
+            let cstmrCanvas = document.createElement("canvas");
             cstmrCanvas.id = "cstmr";
             c.after(cstmrCanvas);
             window.customer = new Customer(cstmrCanvas, [...new Set(wants)]);
@@ -133,7 +133,7 @@ window.main = function () {
         window.shop.increaseTime();
         if (window.player.gold < 0) {
             setTimeout(() => {
-                const loan = 1800 + Math.abs(window.player.gold);
+                let loan = 1800 + Math.abs(window.player.gold);
                 window.popUpWithOptions("you're broke", {
                     "restart": window.location.reload,
                     [`take a loan (${loan}🪙)`]: () => {

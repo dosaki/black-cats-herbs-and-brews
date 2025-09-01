@@ -6,7 +6,7 @@ export class Player extends Drawable {
     constructor(canvas, gold, inventory) {
         super(canvas,
             witch,
-            ["#000000ff", "#bdc2c0ff", "#bdc2c0ff", "#d29558ff", "#3f3a3aff", "#ffffffff", "#289769ff", "#b46a47ff", "#922d2dff", "#171717ff"]
+            ["#000000ff", "#bdc2c0ff", "#bdc2c0ff", "#d29558ff", "#3f3a3aff", "#ffffffff", "#289769ff", "#b46a47ff", "#922d2dff"]
         );
         this.gold = gold;
         this._debt = [];
@@ -29,8 +29,8 @@ export class Player extends Drawable {
 
     payDebt() {
         this._debt = this._debt.map(d => {
-            const _payment = Math.ceil(d.original / 365);
-            const payment = Math.min(d.current, _payment);
+            let _payment = Math.ceil(d.original / 365);
+            let payment = Math.min(d.current, _payment);
             this.gold -= payment;
             return {
                 ...d,

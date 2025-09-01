@@ -32,7 +32,7 @@ export class Cat extends Drawable {
         onMouseIn(this.canvas, () => {
             window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `your mischievous feline familiar ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
             return false;
-        });
+        }, false);
 
         this.doMischief();
     }
@@ -50,9 +50,9 @@ export class Cat extends Drawable {
         }
 
         if (this.isHungry && pick(true, true, this.hunger >= 100)) {
-            if (!window.player.inventory.isEmpty) {
+            if (window.player.inventory.items.length > 0) {
                 this.bounce();
-                const item = pick(...window.player.inventory.items);
+                let item = pick(...window.player.inventory.items);
                 if (item.type === "animal") {
                     this.hunger = 0;
                 }
