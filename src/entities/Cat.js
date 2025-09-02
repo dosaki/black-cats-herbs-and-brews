@@ -30,7 +30,7 @@ export class Cat extends Drawable {
         });
 
         onMouseIn(this.canvas, () => {
-            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `she ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
+            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `she ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}`);
             return false;
         }, false);
 

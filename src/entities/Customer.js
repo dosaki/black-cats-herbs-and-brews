@@ -106,12 +106,12 @@ export class Customer extends Drawable {
     get lines() {
         let wantLine = `${pick("do you have", "may i have")} ${formatWants(this.wants)}?`;
         let browsingLine = pick("just browsing", "i'm just looking");
-        let greetingLine = pick("hi!", "hello!", "hi! cute cat.", "hey! i love your cat.");
+        let greetingLine = pick("hi!", "hello!", "hi! cute cat");
         return [
             {
                 text: greetingLine,
                 options: [
-                    { text: `${greetingLine.includes("cat") ? pick("thanks!", "she appreciates it.") : pick("hello!", "hi!")} ${pick("how can i help?", "looking for something special?")}`, action: nextDialogue },
+                    { text: `${greetingLine.includes("cat") ? "thanks!" : pick("hello!", "hi!")} ${pick("how can i help?", "looking for something special?")}`, action: nextDialogue },
                     { text: "get the hells out of my shop!", action: leave }
                 ]
             },
@@ -125,17 +125,17 @@ export class Customer extends Drawable {
                         }
                         wait();
                     } },
-                    { text: pick("if you're not buying, get the hells out of my shop!", "this isn't a museum."), action: leave }
+                    { text: pick("if you're not buying, get the hells out of my shop!", "this isn't a museum"), action: leave }
                 ]
             } : {
                 text: wantLine,
                 options: [
-                    { text: `that will be ${this.goldNeeded} gold.`, action: waitForSale },
-                    { text: pick("i'm afraid i can't help you with that.", "sorry, i don't have what you need."), action: leave }
+                    { text: `that will be ${this.goldNeeded} gold`, action: waitForSale },
+                    { text: pick("i'm afraid i can't help you with that", "sorry, i don't have what you need"), action: leave }
                 ]
             },
             {
-                text: pick("bye!", "goodbye!", "have a good day."),
+                text: pick("bye!", "goodbye!", "have a good day"),
                 options: [
                     { text: pick("come again!", "take care!", "goodbye!", "tell your friends!"), action: leave }
                 ]
@@ -219,9 +219,9 @@ export class Customer extends Drawable {
                     this.pay(this.goldNeeded);
                 } else {
                     populateDialogue({
-                        text: "i don't have enough gold.",
+                        text: "i don't have enough gold",
                         options: [
-                            { text: pick("i'm not running a charity here!", "then get out."), action: () => { this.returnItems(); } },
+                            { text: pick("i'm not running a charity here!", "then get out"), action: () => { this.returnItems(); } },
                             {
                                 text: "what can you afford?", action: () => {
                                     populateDialogue({
@@ -239,7 +239,7 @@ export class Customer extends Drawable {
             } else if (int(0, 10) > 8) {
                 if (this.hasWaited && pick(true, true, false)) {
                     populateDialogue({
-                        text: "this is taking too long.",
+                        text: "this is taking too long",
                         options: [{ text: "okay", action: () => { this.returnItems(); } }]
                     });
                 } else {
@@ -247,13 +247,13 @@ export class Customer extends Drawable {
                         text: pick("will it take long?", "how much longer?", "is it ready yet?"),
                         options: [
                             {
-                                text: pick("just a moment longer.", "i'm almost done."), action: () => {
+                                text: pick("just a moment longer", "i'm almost done"), action: () => {
                                     this.hasWaited = true;
                                     clearTimeout(this._waitingTimeout);
                                     waitForSale();
                                 }
                             },
-                            { text: pick("i'm afraid i can't help you with that.", "sorry, i don't have what you need."), action: () => { this.returnItems(); } }
+                            { text: pick("i'm afraid i can't help you with that", "sorry, i don't have what you need"), action: () => { this.returnItems(); } }
                         ]
                     });
                 }
@@ -297,7 +297,7 @@ export class Customer extends Drawable {
         if (window.shop.currentlyHolding && window.shop.currentlyHoldingOrigin !== this) {
             if (!this.wantsItem(window.shop.currentlyHolding.name)) {
                 this.doDialogue({
-                    text: "that's not what i'm looking for.",
+                    text: "that's not what i'm looking for",
                     options: [{
                         text: "okay",
                         action: () => {
@@ -318,8 +318,8 @@ export class Customer extends Drawable {
     }
 
     onMouseIn() {
-        let wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing.' : `this customer wants ${formatWants(this.wants)}.` : "you don't know what they want.";
-        let has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}.` : "";
+        let wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing' : `this customer wants ${formatWants(this.wants)}` : "you don't know what they want";
+        let has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}` : "";
         window.tooltipShowWithIcon(this.canvas.toDataURL(), "customer", `${wants}\n${has}`);
     }
 }
