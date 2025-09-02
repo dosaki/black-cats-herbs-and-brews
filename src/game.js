@@ -73,12 +73,12 @@ window.tooltipShowWithIcon = function (icon, name, description) {
 
     let iconHolder = document.createElement("div");
     iconHolder.classList.add("item-icon-holder");
-    let iconElement = document.createElement("img");
-    iconElement.classList.add("item-icon");
     if (icon) {
+        let iconElement = document.createElement("img");
+        iconElement.classList.add("item-icon");
         iconElement.src = icon;
+        iconHolder.appendChild(iconElement);
     }
-    iconHolder.appendChild(iconElement);
 
     let tooltipDescription = document.createElement("div");
     tooltipDescription.classList.add("tooltip-description");
@@ -110,11 +110,11 @@ window.main = function () {
             return;
         }
 
-        if (window.customer === null && int(0, 20) > 1) {
+        if (window.customer === null && int(0, 5) > 3) {
             let numberOfItems = int(1, 3);
             let wants = [];
             for (let i = 0; i < numberOfItems; i++) {
-                wants.push(pick(...Object.values(ItemManager.items)));
+                wants.push(pick(...ItemManager.basicPotions, ...ItemManager.allItems));
             }
             let cstmrCanvas = document.createElement("canvas");
             cstmrCanvas.id = "cstmr";
@@ -133,17 +133,36 @@ window.main = function () {
         window.shop.increaseTime();
         if (window.player.gold < 0) {
             setTimeout(() => {
-                let loan = 1800 + Math.abs(window.player.gold);
-                window.popUpWithOptions("you're broke", {
-                    "restart": window.location.reload,
-                    [`take a loan (${loan}🪙)`]: () => {
-                        window.player.gold += loan;
-                        window.player.addDebt(loan * 1.25);
+                let loan1 = 1000 + Math.abs(window.player.gold);
+                let loan2 = 1500 + Math.abs(window.player.gold);
+                let loan3 = 2000 + Math.abs(window.player.gold);
+                let options = {
+                    "restart": ()=>window.location.reload()
+                }
+                if(window.player._debt.length <= 2){
+                    options[`take a loan (${loan1}🪙)`] = () => {
+                        window.player.gold += loan1;
+                        window.player.addDebt(loan1 * 1.25);
                         window.closePopUp();
-                        window.shop.drawMoneys();
+                        window.shop.drawCurrentWindow();
                         window.resume();
                     }
-                });
+                    options[`take a loan (${loan2}🪙)`] = () => {
+                        window.player.gold += loan2;
+                        window.player.addDebt(loan2 * 1.25);
+                        window.closePopUp();
+                        window.shop.drawCurrentWindow();
+                        window.resume();
+                    }
+                    options[`take a loan (${loan3}🪙)`] = () => {
+                        window.player.gold += loan3;
+                        window.player.addDebt(loan3 * 1.25);
+                        window.closePopUp();
+                        window.shop.drawCurrentWindow();
+                        window.resume();
+                    }
+                }
+                window.popUpWithOptions(`you're broke${window.player._debt.length > 2 ? ' and you have over 2 loans' : ''}`, options);
             }, 1000);
             window.pause();
         }

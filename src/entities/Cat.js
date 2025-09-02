@@ -30,7 +30,7 @@ export class Cat extends Drawable {
         });
 
         onMouseIn(this.canvas, () => {
-            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `your mischievous feline familiar ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
+            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `she ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}.`);
             return false;
         }, false);
 
@@ -115,7 +115,7 @@ export class Cat extends Drawable {
     }
 
     findItem() {
-        return pick(...ItemManager.ingredients).clone();
+        return pick(...ItemManager.ingredients, ...ItemManager.allItems).clone();
     }
 
     onClick() {

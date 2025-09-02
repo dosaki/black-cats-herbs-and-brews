@@ -23,13 +23,20 @@ export class Player extends Drawable {
         return this._debt.reduce((acc, d) => acc + d.current, 0);
     }
 
+    get dailyDebt() {
+        return this._debt.map(d => {
+            let _payment = Math.ceil(d.original / 30);
+            return Math.min(d.current, _payment);
+        }).reduce((acc, curr) => acc + curr, 0);
+    }
+
     addDebt(value) {
         this._debt.push({ current: value, original: value });
     }
 
     payDebt() {
         this._debt = this._debt.map(d => {
-            let _payment = Math.ceil(d.original / 365);
+            let _payment = Math.ceil(d.original / 30);
             let payment = Math.min(d.current, _payment);
             this.gold -= payment;
             return {
@@ -39,11 +46,23 @@ export class Player extends Drawable {
         }).filter(d => d.current > 0);
     }
 
+    buyRecipe(recipe, gold) {
+        if(this.gold < gold) {
+            window.closePopUp(100);
+            setTimeout(() => {
+                window.popUpMsg("you can't afford this", 1500);
+            }, 500);
+            return;
+        }
+        this.gold -= gold;
+        this.knownRecipes.push(recipe);
+    }
+
     buyItem(item) {
         if (this.gold < item.shopPrice) {
-            window.closePopUp(500);
+            window.closePopUp(100);
             setTimeout(() => {
-                window.popUpMsg("you can't afford this item.", 1500);
+                window.popUpMsg("you can't afford this", 1500);
             }, 500);
             return;
         }

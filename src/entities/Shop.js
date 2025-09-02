@@ -9,7 +9,6 @@ export class Shop {
         this.drawables = [];
         this.date = new Date(2025, 0, 1);
         this.previousDate = null;
-        this.rentDue = 0;
     }
 
     get currentlyHolding() {
@@ -68,37 +67,21 @@ export class Shop {
         }
 
         window.player.payDebt();
-        this.drawMoneys();
+        this.drawCurrentWindow();
     }
 
     dueRent() {
-        this.rentDue += 550;
         window.pause();
-        let delayedCost = Math.round(this.rentDue * 1.1);
-
         window.popUpWithOptions(
             "rent is due",
             {
-                [`pay (${this.rentDue}🪙)`]: () => {
-                    window.player.gold -= this.rentDue;
-                    this.rentDue = 0;
-                    window.resume();
-                    window.closePopUp();
-                },
-                [`delay to next month (${delayedCost}🪙)`]: () => {
-                    this.rentDue = delayedCost;
+                "pay (500🪙)": () => {
+                    window.player.gold -= 500;
                     window.resume();
                     window.closePopUp();
                 }
             }
         );
-    }
-
-    drawMoneys() {
-        let goldDisplay = document.querySelector(".gold-display");
-        if (goldDisplay) {
-            goldDisplay.innerHTML = `${window.player.gold}🪙`;
-        }
     }
 
     drawCurrentWindow() {
