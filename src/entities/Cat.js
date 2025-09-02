@@ -83,34 +83,34 @@ export class Cat extends Drawable {
     appear() {
         this.isGone = false;
         setTimeout(() => {
-            this.canvas.classList.add("cat-out");
-            this.canvas.classList.remove("cat-in");
-            this.canvas.classList.remove("cat-out-anim");
-            this.canvas.classList.remove("cat-in-anim");
+            this.canvas.classList.add("out");
+            this.canvas.classList.remove("in");
+            this.canvas.classList.remove("out-anim");
+            this.canvas.classList.remove("in-anim");
             setTimeout(() => {
-                this.canvas.classList.remove("cat-out");
-                this.canvas.classList.add("cat-in-anim");
+                this.canvas.classList.remove("out");
+                this.canvas.classList.add("in-anim");
             }, 1);
         }, 1);
         setTimeout(() => {
-            this.canvas.classList.remove("cat-in-anim");
+            this.canvas.classList.remove("in-anim");
         }, 1000);
     }
 
     disappear() {
         this.isGone = true;
         setTimeout(() => {
-            this.canvas.classList.remove("cat-out");
-            this.canvas.classList.remove("cat-in");
-            this.canvas.classList.remove("cat-out-anim");
-            this.canvas.classList.remove("cat-in-anim");
+            this.canvas.classList.remove("out");
+            this.canvas.classList.remove("in");
+            this.canvas.classList.remove("out-anim");
+            this.canvas.classList.remove("in-anim");
             setTimeout(() => {
-                this.canvas.classList.add("cat-out-anim");
+                this.canvas.classList.add("out-anim");
             }, 1);
         }, 1);
         setTimeout(() => {
-            this.canvas.classList.add("cat-out");
-            this.canvas.classList.remove("cat-out-anim");
+            this.canvas.classList.add("out");
+            this.canvas.classList.remove("out-anim");
         }, 1000);
     }
 

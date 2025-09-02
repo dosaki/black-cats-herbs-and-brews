@@ -36,7 +36,7 @@
             }
         }
 
-        @keyframes cat-leave {
+        @keyframes leave {
             0% {
                 bottom: calc(20vh - 10px);
                 right: 512px;
@@ -451,17 +451,17 @@
             animation: bounce 0.5s;
         }
 
-        #c.cat-out {
+        #c.out {
             bottom: -180px;
             right: calc(100% + 460px);
         }
 
-        #c.cat-out-anim {
-            animation: cat-leave 1s;
+        #c.out-anim {
+            animation: leave 1s;
         }
 
-        #c.cat-in-anim {
-            animation: cat-leave 1s;
+        #c.in-anim {
+            animation: leave 1s;
             animation-direction: reverse;
         }
 

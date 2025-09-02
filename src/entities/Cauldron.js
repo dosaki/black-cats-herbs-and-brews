@@ -100,6 +100,7 @@ export class Cauldron extends ItemContainer {
             canvas.style.display = "block";
             canvas.width = cldrn_fx.clientWidth / 10;
             canvas.height = cldrn_fx.clientHeight / 10;
+            console.log(this.brewingRecipe.result.mainColour)
             let [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
             let webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {

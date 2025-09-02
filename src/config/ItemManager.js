@@ -38,8 +38,8 @@ export class ItemManager {
 
     static recipes = [
         new Recipe(allItems["healing potion"], [
-            allItems["sap"],
             allItems["lunar moss"],
+            allItems["sap"],
             allItems["vial"]
         ], 20),
         new Recipe(allItems["coolant"], [
@@ -69,23 +69,23 @@ export class ItemManager {
             allItems["vial"]
         ], 45),
         new Recipe(allItems["vampiric tonic"], [
-            allItems["blood"],
-            allItems["liver"],
             allItems["weird bone"],
+            allItems["liver"],
+            allItems["blood"],
             allItems["vial"]
         ], 25),
         new Recipe(allItems["love potion"], [
+            allItems["weird bone"],
             allItems["dreamcap"],
             allItems["emberleaf"],
             allItems["water"],
-            allItems["weird bone"],
             allItems["vial"]
         ], 65),
         new Recipe(allItems["poison potion"], [
+            allItems["weird bone"],
             allItems["ironwood root"],
             allItems["emberleaf"],
             allItems["ooze"],
-            allItems["weird bone"],
             allItems["vial"]
         ], 85)
     ];

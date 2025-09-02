@@ -37,7 +37,7 @@ export class Inventory extends ItemContainer {
                 .filter(r => !window.player.knownRecipes.includes(r))
                 .map(r => {
                     return [`${r.result.shopPrice * 2}🪙 - Recipe: ${r.result.name}`, () => {
-
+                        window.player.buyRecipe(r, r.result.shopPrice * 2);
                     }];
                 });
             window.popUpWithOptions("shop", {
