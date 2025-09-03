@@ -17,15 +17,20 @@ export class Cauldron extends ItemContainer {
         this.sizeIncrement = 1;
         this.brewingRecipe = null;
         this.resultSlot = null;
+        this.brewProgressInterval = null;
     }
 
     brew() {
+        if(this.brewingRecipe){
+            return;
+        }
+
         this.brewingRecipe = ItemManager.findRecipe(this.items);
 
         if (!this.brewingRecipe) {
             this.items = [];
             this.drawContents();
-            throw new Error("oops... i've screwed up my recipe");
+            throw new Error("oops... i've ruined my ingredients");
         } else {
             if(!window.player.knownRecipes.includes(this.brewingRecipe)){
                 window.player.knownRecipes.push(this.brewingRecipe);
@@ -38,8 +43,22 @@ export class Cauldron extends ItemContainer {
             this.brewingRecipe = null;
             this.draw();
             window.shop.drawCurrentWindow();
+            this.drawProgress(start);
         }, this.brewingRecipe.brewingTimeInSeconds * 1000);
+        let start = this.brewingRecipe.brewingTimeInSeconds;
+        this.brewProgressInterval = setInterval(() => {
+            this.drawProgress(--start);
+        }, 1000);
         return this.brewingRecipe;
+    }
+
+    drawProgress(remainingTime) {
+        if(this.brewingRecipe && brewProgress) {
+            let percentage = `${(remainingTime/this.brewingRecipe.brewingTimeInSeconds)*100}%`;
+            brewProgress.style.background = `linear-gradient(90deg,${this.brewingRecipe.result.mainColour} 0%, ${this.brewingRecipe.result.mainColour} ${percentage}, #00000000 ${percentage})`;
+        } else {
+            clearInterval(this.brewProgressInterval);
+        }
     }
 
     drawContents() {
@@ -62,6 +81,9 @@ export class Cauldron extends ItemContainer {
         });
         let brewButton = document.createElement("button");
         brewButton.innerText = "brew";
+        if(this.brewingRecipe){
+            brewButton.disabled = true;
+        }
         onClick(brewButton, () => {
             try {
                 this.brew();
@@ -69,7 +91,14 @@ export class Cauldron extends ItemContainer {
                 window.popUpMsg(e.message, 2500);
             }
         });
+
+        
+        let brewProgress = document.createElement("div");
+        brewProgress.id = "brewProgress";
+        brewProgress.style.height = "5px";
+        brewProgress.style.width = "100px";
         this.parentElement.appendChild(brewButton);
+        this.parentElement.appendChild(brewProgress);
 
         let itemHolder = document.createElement("div");
         itemHolder.classList.add("item-holder");
@@ -100,7 +129,6 @@ export class Cauldron extends ItemContainer {
             canvas.style.display = "block";
             canvas.width = cldrn_fx.clientWidth / 10;
             canvas.height = cldrn_fx.clientHeight / 10;
-            console.log(this.brewingRecipe.result.mainColour)
             let [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
             let webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {

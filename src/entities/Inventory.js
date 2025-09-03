@@ -13,7 +13,6 @@ export class Inventory extends ItemContainer {
 
     drawContents() {
         super.drawContents();
-        console.log("Drawing inventory")
         this.parentElement.classList = ["inventory"];
 
         let goldNumber = document.createElement("div");

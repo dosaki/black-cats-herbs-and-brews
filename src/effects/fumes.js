@@ -26,7 +26,7 @@ precision mediump float;const vec2 e[6]=vec2[6](vec2(-1),vec2(1,-1),vec2(-1,1),v
   }
 
   compileShader(source, type) {
-    const shader = this.gl.createShader(type);
+    let shader = this.gl.createShader(type);
     this.gl.shaderSource(shader, source);
     this.gl.compileShader(shader);
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {

@@ -102,6 +102,15 @@ window.tooltipHide = function () {
     tooltip.style.display = 'none';
 };
 
+let wantProgression = [
+    [ItemManager.basicPotions[0], ItemManager.basicPotions[1], ItemManager.ingredients],
+    [...ItemManager.basicPotions, ...ItemManager.allItems],
+    ItemManager.allItems,
+    [...ItemManager.advancedPotions, ...ItemManager.allItems],
+    [...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems],
+    [...ItemManager.advancedPotions, ...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems],
+];
+
 window.main = function () {
     window.shop.draw();
 
@@ -113,8 +122,17 @@ window.main = function () {
         if (window.customer === null && int(0, 5) > 3) {
             let numberOfItems = int(1, 3);
             let wants = [];
+            let candidates = [];
+            if (window.shop.date.getDay() === 1) {
+                numberOfItems = 1;
+                candidates = [ItemManager.basicPotions[0], ItemManager.basicPotions[1]];
+            } else if (window.shop.date.getMonth() >= wantProgression.length || window.shop.date.getFullYear() > 2025) {
+                candidates = wantProgression[wantProgression.length-1];
+            } else {
+                candidates = wantProgression[window.shop.date.getMonth()];
+            }
             for (let i = 0; i < numberOfItems; i++) {
-                wants.push(pick(...ItemManager.basicPotions, ...ItemManager.allItems));
+                wants.push(pick(...candidates));
             }
             let cstmrCanvas = document.createElement("canvas");
             cstmrCanvas.id = "cstmr";
@@ -137,30 +155,30 @@ window.main = function () {
                 let loan2 = 1500 + Math.abs(window.player.gold);
                 let loan3 = 2000 + Math.abs(window.player.gold);
                 let options = {
-                    "restart": ()=>window.location.reload()
-                }
-                if(window.player._debt.length <= 2){
+                    "restart": () => window.location.reload()
+                };
+                if (window.player._debt.length <= 2) {
                     options[`take a loan (${loan1}🪙)`] = () => {
                         window.player.gold += loan1;
                         window.player.addDebt(loan1 * 1.25);
                         window.closePopUp();
                         window.shop.drawCurrentWindow();
                         window.resume();
-                    }
+                    };
                     options[`take a loan (${loan2}🪙)`] = () => {
                         window.player.gold += loan2;
                         window.player.addDebt(loan2 * 1.25);
                         window.closePopUp();
                         window.shop.drawCurrentWindow();
                         window.resume();
-                    }
+                    };
                     options[`take a loan (${loan3}🪙)`] = () => {
                         window.player.gold += loan3;
                         window.player.addDebt(loan3 * 1.25);
                         window.closePopUp();
                         window.shop.drawCurrentWindow();
                         window.resume();
-                    }
+                    };
                 }
                 window.popUpWithOptions(`you're broke${window.player._debt.length > 2 ? ' and you have over 2 loans' : ''}`, options);
             }, 1000);
