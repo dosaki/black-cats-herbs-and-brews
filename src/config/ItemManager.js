@@ -16,7 +16,7 @@ let allItems = {
     "ooze": new Item("ooze", "slimey and thick", "liquid", 5, asCanvas(drop, ["#000000ff", "#225639ff", "#1f7a54ff", "#289769ff", "#2ccea6ff"]).toDataURL()),
 
     "liver": new Item("liver", "rich and flavorful", "animal", 10, asCanvas(moss, ["#000000ff", "#552828ff", "#a53e35ff", "#7c2929ff"]).toDataURL()),
-    "weird bone": new Item("weird bone", "definitely not from around here", "animal", 10, asCanvas(root, ["#000000ff", "#646453ff", "#818173ff", "#969681ff", "#b2b6b7ff"]).toDataURL()),
+    "weird bone": new Item("weird bone", "definitely not from around here", "animal", 10, asCanvas(root, ["#000000ff", "#646453ff", "#818173ff", "#969681ff", "#bdc2c0ff"]).toDataURL()),
     "roe": new Item("roe", "fish eggs", "animal", 10, asCanvas(moss, ["#000000ff", "#2f383dff", "#7a888cff", "#6d828aff"]).toDataURL()),
 
     "vial": new Item("vial", "a small glass vial", "container", 5, asCanvas(vial, ["#000000ff", "#794129ff", "#a16a48ff", "#546a77ff", "#6d858fff", "#a8aba6ff", "#546a77ff", "#6d858fff", "#546a77ff", "#a8aba6ff"]).toDataURL()),

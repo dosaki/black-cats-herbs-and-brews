@@ -85,6 +85,7 @@ export class Customer extends Drawable {
             isFemale ? femaleVillagerSkirt : maleVillagerBeard,
             isFemale ? ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, topColour, "#cd6644ff", "#ce3b4dff", "#77624cff", "#e7d3bcff", topShading, bottomShading, bottomColour, "#a65111ff"] : ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, "#a2462dff", "#8b2d16ff", topShading, topColour, "#b38558ff", "#e9c897ff", "#b26824ff", bottomShading, bottomColour]
         );
+        this.isFemale = isFemale;
 
         this.wants = wants; // Array of items the customer wants
         this.inventory = [];
@@ -321,5 +322,60 @@ export class Customer extends Drawable {
         let wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing' : `this customer wants ${formatWants(this.wants)}` : "you don't know what they want";
         let has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}` : "";
         window.tooltipShowWithIcon(this.canvas.toDataURL(), "customer", `${wants}\n${has}`);
+    }
+
+    
+
+    animate() {
+        if(this.isFemale){
+            if (this.imageMatrix[13][6] !== 4 && int(0, 30) < 1) {
+                this.imageMatrix[13][16] = 4;
+                this.imageMatrix[13][17] = 4;
+                this.imageMatrix[14][16] = 4;
+                this.imageMatrix[14][17] = 4;
+                this.imageMatrix[15][16] = 4;
+                this.imageMatrix[15][17] = 4;
+                this.imageMatrix[13][22] = 4;
+                this.imageMatrix[13][23] = 4;
+                this.imageMatrix[14][22] = 4;
+                this.imageMatrix[14][23] = 4;
+                this.imageMatrix[15][22] = 4;
+                this.imageMatrix[15][23] = 4;
+            } else {
+                this.imageMatrix[13][16] = 5;
+                this.imageMatrix[13][17] = 6;
+                this.imageMatrix[14][16] = 5;
+                this.imageMatrix[14][17] = 6;
+                this.imageMatrix[15][16] = 5;
+                this.imageMatrix[15][17] = 6;
+                this.imageMatrix[13][22] = 5;
+                this.imageMatrix[13][23] = 6;
+                this.imageMatrix[14][22] = 5;
+                this.imageMatrix[14][23] = 6;
+                this.imageMatrix[15][22] = 5;
+                this.imageMatrix[15][23] = 6;
+            }
+        } else {
+            if (this.imageMatrix[9][16] !== 4 && int(0, 35) < 1) {
+                this.imageMatrix[9][16] = 4;
+                this.imageMatrix[9][17] = 4;
+                this.imageMatrix[10][16] = 4;
+                this.imageMatrix[10][17] = 4;
+                this.imageMatrix[9][21] = 4;
+                this.imageMatrix[9][22] = 4;
+                this.imageMatrix[10][21] = 4;
+                this.imageMatrix[10][22] = 4;
+            } else {
+                this.imageMatrix[9][16] = 5;
+                this.imageMatrix[9][17] = 6;
+                this.imageMatrix[10][16] = 5;
+                this.imageMatrix[10][17] = 6;
+                this.imageMatrix[9][21] = 5;
+                this.imageMatrix[9][22] = 6;
+                this.imageMatrix[10][21] = 5;
+                this.imageMatrix[10][22] = 6;
+            }
+        }
+        return true;
     }
 }

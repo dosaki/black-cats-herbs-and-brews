@@ -135,4 +135,19 @@ export class Cat extends Drawable {
             this.appear();
         }, int(5000, 10000));
     }
+
+    animate() {
+        if (this.imageMatrix[10][6] !== 2 && int(0, 40) < 1) {
+            this.imageMatrix[6][10] = 2;
+            this.imageMatrix[7][10] = 2;
+            this.imageMatrix[6][16] = 2;
+            this.imageMatrix[7][16] = 2;
+        } else {
+            this.imageMatrix[6][10] = 1;
+            this.imageMatrix[7][10] = 1;
+            this.imageMatrix[6][16] = 1;
+            this.imageMatrix[7][16] = 1;
+        }
+        return true;
+    }
 }

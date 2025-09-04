@@ -119,7 +119,7 @@ window.main = function () {
             return;
         }
 
-        if (window.customer === null && int(0, 5) > 3) {
+        if (window.customer === null && int(0, 7) < 3) {
             let numberOfItems = int(1, 3);
             let wants = [];
             let candidates = [];
@@ -141,7 +141,7 @@ window.main = function () {
             window.customer.draw();
             window.customer.appear();
         }
-    }, 1000);
+    }, 2000);
 
     setInterval(() => {
         if (window.paused) {
@@ -152,12 +152,11 @@ window.main = function () {
         if (window.player.gold < 0) {
             setTimeout(() => {
                 let loan1 = 1000 + Math.abs(window.player.gold);
-                let loan2 = 1500 + Math.abs(window.player.gold);
-                let loan3 = 2000 + Math.abs(window.player.gold);
+                let loan2 = 1800 + Math.abs(window.player.gold);
                 let options = {
                     "restart": () => window.location.reload()
                 };
-                if (window.player._debt.length <= 2) {
+                if (window.player.debt < 2250) {
                     options[`take a loan (${loan1}🪙)`] = () => {
                         window.player.gold += loan1;
                         window.player.addDebt(loan1 * 1.25);
@@ -172,15 +171,8 @@ window.main = function () {
                         window.shop.drawCurrentWindow();
                         window.resume();
                     };
-                    options[`take a loan (${loan3}🪙)`] = () => {
-                        window.player.gold += loan3;
-                        window.player.addDebt(loan3 * 1.25);
-                        window.closePopUp();
-                        window.shop.drawCurrentWindow();
-                        window.resume();
-                    };
                 }
-                window.popUpWithOptions(`you're broke${window.player._debt.length > 2 ? ' and you have over 2 loans' : ''}`, options);
+                window.popUpWithOptions(`you're broke${window.player._debt.length > 2 ? ' and have too much debt' : ''}`, options);
             }, 1000);
             window.pause();
         }
