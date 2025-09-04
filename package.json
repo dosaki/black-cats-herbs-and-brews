@@ -15,7 +15,7 @@
     "@swc/cli": "^0.7.8",
     "@swc/core": "^1.13.5",
     "chai": "^6.0.1",
-    "mocha": "^11.7.1",
+    "mocha": "^11.7.2",
     "roadroller": "^2.1.0",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
