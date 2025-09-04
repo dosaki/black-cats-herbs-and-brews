@@ -7,28 +7,28 @@ export let adjust = (colour, amount) => {
     return '#' + colour.replace(/^#/, '').replace(/../g, colour => ('0' + Math.min(255, Math.max(0, parseInt(colour, 16) + amount)).toString(16)).substr(-2));
 };
 
-export let hexToHsv = (hex) => {
-    let [r, g, b, a] = hexToRgbA(hex);
-    let max = Math.max(r, g, b);
-    let min = Math.min(r, g, b);
-    let delta = max - min;
+// export let hexToHsv = (hex) => {
+//     let [r, g, b, a] = hexToRgbA(hex);
+//     let max = Math.max(r, g, b);
+//     let min = Math.min(r, g, b);
+//     let delta = max - min;
 
-    let h, s, v = max / 255;
+//     let h, s, v = max / 255;
 
-    if (delta === 0) {
-        h = 0;
-    } else if (max === r) {
-        h = ((g - b) / delta + (g < b ? 6 : 0)) * 60;
-    } else if (max === g) {
-        h = ((b - r) / delta + 2) * 60;
-    } else {
-        h = ((r - g) / delta + 4) * 60;
-    }
+//     if (delta === 0) {
+//         h = 0;
+//     } else if (max === r) {
+//         h = ((g - b) / delta + (g < b ? 6 : 0)) * 60;
+//     } else if (max === g) {
+//         h = ((b - r) / delta + 2) * 60;
+//     } else {
+//         h = ((r - g) / delta + 4) * 60;
+//     }
 
-    s = max === 0 ? 0 : delta / max;
+//     s = max === 0 ? 0 : delta / max;
 
-    return [h, s, v];
-};
+//     return [h, s, v];
+// };
 
 export let hsvToRgb = (h, s, v) => {
     let r, g, b;

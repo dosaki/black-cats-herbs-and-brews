@@ -1,4 +1,4 @@
-import { getDimensions, makeImage } from '../../utils/draw';
+import { makeImage } from '../../utils/draw';
 
 export class Drawable {
     constructor(canvas, imageMatrix, colours, crop) {
@@ -12,14 +12,14 @@ export class Drawable {
 
     draw() {
         if (this.imageMatrix){
-            let {width, height} = this.crop ? {
-                width: this.crop.width,
-                height: this.crop.height
-            } : getDimensions(this.imageMatrix);
-            this.canvas.width = width;
-            this.canvas.height = height;
-            this.canvas.style.width = `${width*10}px`;
-            this.canvas.style.height = `${height*10}px`;
+            // let {width, height} = this.crop ? {
+            //     width: this.crop.width,
+            //     height: this.crop.height
+            // } : getDimensions(this.imageMatrix);
+            this.canvas.width = this.crop ? this.crop.width : this.imageMatrix[0].length;
+            this.canvas.height = this.crop ? this.crop.height : this.imageMatrix.length;
+            this.canvas.style.width = `${this.canvas.width*10}px`;
+            this.canvas.style.height = `${this.canvas.height*10}px`;
 
             let ctx = this.canvas.getContext("2d");
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=en>
+<html>
 
 <head>
     <meta charset=UTF-8>
@@ -91,9 +91,8 @@
             overflow: hidden;
         }
 
-        #container {
+        #ctn {
             display: flex;
-            flex-direction: row;
             background: #2d181d;
         }
 
@@ -108,13 +107,12 @@
         #wrk {
             width: 500px;
             height: 100vh;
-            border: 1px solid #000;
+            border-left: 4px solid #000;
         }
 
         #dlg_c {
             position: absolute;
             top: 82vh;
-            /*100% - (500px + 16px*2)*/
             width: calc(100% - 532px);
             left: 16px;
             background: #b0a28c;
@@ -142,13 +140,13 @@
             justify-content: space-between;
         }
 
-        #dlg_opt li {
+        #dlgo li {
             padding: 4px 8px;
             border-bottom: 1px solid #655c55;
             cursor: pointer;
         }
 
-        #dlg_opt li:hover {
+        #dlgo li:hover {
             background: #655c55;
         }
 
@@ -178,7 +176,8 @@
             width: calc(100% - 500px);
             height: 20vh;
             background: #3d1904;
-            border: 2px solid #000;
+            border-top: 6px solid #000;
+            border-right: 2px solid #000;
         }
 
         #w {
@@ -199,7 +198,7 @@
             right: 562px;
         }
 
-        #cldrn_fx {
+        #cldrnfx {
             position: absolute;
             bottom: calc(19vh - 50px);
             right: 572px;
@@ -207,7 +206,7 @@
             height: 320px;
         }
 
-        #cldrn_fx canvas {
+        #cldrnfx canvas {
             width: 300px;
             height: 320px;
         }
@@ -229,60 +228,60 @@
             border: 4px solid #000;
         }
 
-        #clndr_month {
+        #clndrm {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.6em;
         }
 
-        #clndr_day {
+        #clndrd {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 4em;
         }
 
-        #clndr_days {
+        #clndrds {
             flex-wrap: wrap;
             display: flex;
             gap: 1px;
         }
 
-        #clndr_days .day,
-        #clndr_days .day-empty {
+        #clndrds .day,
+        #clndrds .day-empty {
             width: 24px;
             height: 24px;
         }
 
-        #clndr_days .day {
+        #clndrds .day {
             border: 1px solid #000;
         }
 
-        #clndr_days .day.day-w0,
-        #clndr_days .day.day-w6 {
+        #clndrds .day.day-w0,
+        #clndrds .day.day-w6 {
             background: #ccc;
         }
 
-        #clndr_days .day.ticked,
-        #clndr_days .day-1 {
-            background: linear-gradient(-45deg, #0000 0%, #0000 47%, #9c0000 48%, #9c0000 21%, #0000 53%, #0000 100%);
+        #clndrds .day.ticked,
+        #clndrds .day-1 {
+            background: linear-gradient(-45deg, #0000 0%, #0000 47%, #900 48%, #900 21%, #0000 53%, #0000 100%);
         }
 
-        #clndr_days .day.day-w0.ticked,
-        #clndr_days .day.day-w6.ticked,
-        #clndr_days .day-1.day-w6,
-        #clndr_days .day-1.day-w0 {
-            background: linear-gradient(-45deg, #ccc 0%, #ccc 47%, #9c0000 48%, #9c0000 21%, #ccc 53%, #ccc 100%);
+        #clndrds .day.day-w0.ticked,
+        #clndrds .day.day-w6.ticked,
+        #clndrds .day-1.day-w6,
+        #clndrds .day-1.day-w0 {
+            background: linear-gradient(-45deg, #ccc 0%, #ccc 47%, #900 48%, #900 21%, #ccc 53%, #ccc 100%);
         }
 
-        #clndr_days .day:last-child::before {
+        #clndrds .day:last-child::before {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 10px;
             padding-top: 5px;
-            content: 'Rent';
+            content: 'rent';
             transform: rotate(-45deg);
         }
 
@@ -309,7 +308,7 @@
         .recipe .item-container {
             width: 94px;
             height: 94px;
-            background: #131313;
+            background: #111;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -321,7 +320,7 @@
             width: 86px;
             height: 86px;
             padding: 8px;
-            background: #131313;
+            background: #111;
             border: 1px solid #fff;
             border-radius: 4px;
             font-size: .9em;
@@ -346,15 +345,15 @@
 
         .item-holder .item-container:hover .item,
         .item-holder .item-container .item:hover {
-            border: 1px solid #131313;
-            background-color: #202020;
+            border: 1px solid #111;
+            background-color: #222;
         }
 
         .item-holder .item-container.empty .item {
             width: 92px;
             height: 92px;
-            background: #131313;
-            border: 1px solid #131313;
+            background: #111;
+            border: 1px solid #111;
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -363,7 +362,7 @@
 
         .inventory .item-holder {
             gap: 4px;
-            padding: 6px;
+            padding: 4px;
         }
 
         .inventory {
@@ -408,14 +407,14 @@
             cursor: not-allowed;
         }
 
-        #overlay {
+        #o {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: #00000080;
+            background: #0008;
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -437,14 +436,14 @@
             transition: all 0.3s ease;
         }
 
-        #msg_txt {
+        #msgt {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        #msg_txt button {
+        #msgt button {
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -468,7 +467,7 @@
             animation-direction: reverse;
         }
 
-        #tooltip {
+        #ttip {
             display: none;
             position: absolute;
             right: 10px;
@@ -477,13 +476,13 @@
             width: 350px;
         }
 
-        #tooltip .item-icon-holder {
+        #ttip .item-icon-holder {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        #tooltip .item-icon {
+        #ttip .item-icon {
             width: 100px;
             height: 100px;
             object-fit: contain;
@@ -537,26 +536,26 @@
         }
 
         .debt-marker {
-            color: #ff0000;
+            color: #f00;
         }
     </style>
 
 <body>
-    <div id=overlay>
+    <div id=o>
         <div id=msg>
-            <div id=msg_txt></div>
+            <div id=msgt></div>
         </div>
     </div>
-    <div id=container>
+    <div id=ctn>
         <div id=sa>
             <canvas id=shlf>
             </canvas>
             <div id=clndr>
-                <div id=clndr_month></div>
-                <div id=clndr_days></div>
-                <div id=clndr_day>1</div>
+                <div id=clndrm></div>
+                <div id=clndrds></div>
+                <div id=clndrd>1</div>
             </div>
-            <div id=cldrn_fx>
+            <div id=cldrnfx>
             </div>
             <canvas id=cldrn>
             </canvas>
@@ -568,15 +567,15 @@
             </canvas>
             <div id=dlg_c>
                 <div id=dlg>
-                    <p id=dlg_txt></p>
+                    <p id=dlgt>
                 </div>
-                <div id=dlg_opt>
+                <div id=dlgo>
                 </div>
             </div>
         </div>
         <div id=wrk>
         </div>
     </div>
-    <div id=tooltip>
+    <div id=ttip>
     </div>
     <script src=js/game.js></script>

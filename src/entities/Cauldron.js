@@ -125,14 +125,14 @@ export class Cauldron extends ItemContainer {
     draw() {
         super.draw();
         if (this.brewingRecipe) {
-            let canvas = cldrn_fx.appendChild(document.createElement("canvas"));
+            let canvas = cldrnfx.appendChild(document.createElement("canvas"));
             canvas.style.display = "block";
-            canvas.width = cldrn_fx.clientWidth / 10;
-            canvas.height = cldrn_fx.clientHeight / 10;
+            canvas.width = cldrnfx.clientWidth / 10;
+            canvas.height = cldrnfx.clientHeight / 10;
             let [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
             let webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {
-            cldrn_fx.innerHTML = "";
+            cldrnfx.innerHTML = "";
         }
     }
 }

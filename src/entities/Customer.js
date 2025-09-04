@@ -15,11 +15,11 @@ let formatWants = (wants) => {
 
 let populateDialogue = (line) => {
     dlg_c.style.display = 'none';
-    dlg_txt.innerHTML = "";
-    dlg_opt.innerHTML = "";
+    dlgt.innerHTML = "";
+    dlgo.innerHTML = "";
     setTimeout(() => {
         dlg_c.style.display = 'block';
-        dlg_txt.innerHTML = line.text;
+        dlgt.innerHTML = line.text;
         setTimeout(() => {
             populateOptions(line.options || []);
         }, 650);
@@ -38,8 +38,8 @@ let populateOptions = (options) => {
         onMouseIn(optionElement, () => {}, Note.new("f#", 4, 0.05));
         list.appendChild(optionElement);
     });
-    dlg_opt.innerHTML = "";
-    dlg_opt.appendChild(list);
+    dlgo.innerHTML = "";
+    dlgo.appendChild(list);
 };
 
 let leave = () => {
@@ -52,8 +52,8 @@ let nextDialogue = () => {
 
 let wait = () => {
     dlg_c.style.display = 'none';
-    dlg_txt.innerHTML = "";
-    dlg_opt.innerHTML = "";
+    dlgt.innerHTML = "";
+    dlgo.innerHTML = "";
     setTimeout(() => {
         nextDialogue();
     }, int(1000, 5000));
@@ -61,8 +61,8 @@ let wait = () => {
 
 let waitForSale = () => {
     dlg_c.style.display = 'none';
-    dlg_txt.innerHTML = "";
-    dlg_opt.innerHTML = "";
+    dlgt.innerHTML = "";
+    dlgo.innerHTML = "";
     window.customer.waitForSale();
 };
 
@@ -165,8 +165,8 @@ export class Customer extends Drawable {
     disappear() {
         this.canvas.style.transform = 'scale(-1,1)';
         dlg_c.style.display = 'none';
-        dlg_txt.innerHTML = "";
-        dlg_opt.innerHTML = "";
+        dlgt.innerHTML = "";
+        dlgo.innerHTML = "";
         setTimeout(() => {
             this.canvas.style.left = '-340px';
             setTimeout(() => {

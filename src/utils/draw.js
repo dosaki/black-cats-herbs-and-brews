@@ -1,11 +1,11 @@
 import { hexToRgbA } from './colour.js';
 
-export let getDimensions = (matrix) => {
-    return {
-        width: matrix[0].length,
-        height: matrix.length
-    };
-};
+// export let getDimensions = (matrix) => {
+//     return {
+//         width: matrix[0].length,
+//         height: matrix.length
+//     };
+// };
 
 // 0 = transparent, 1 = colour1, 2 = colour2, etc...
 export let makeImage = (ctx, matrix, colours, crop) => {
@@ -25,9 +25,8 @@ export let makeImage = (ctx, matrix, colours, crop) => {
 export let asCanvas = (matrix, colours, crop) => {
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
-    let { width, height } = getDimensions(matrix);
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width =  matrix[0].length;
+    canvas.height = matrix.length;
     makeImage(ctx, matrix, colours, crop);
     return canvas;
 };

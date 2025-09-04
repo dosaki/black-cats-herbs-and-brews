@@ -27,18 +27,18 @@ export class Shop {
     }
 
     resetCalendar() {
-        clndr_days.innerHTML = "";
-        clndr_month.innerHTML = `${getMonth(this.date)} ${this.date.getFullYear()}`;
+        clndrds.innerHTML = "";
+        clndrm.innerHTML = `${getMonth(this.date)} ${this.date.getFullYear()}`;
         let dayOfTheWeek = this.date.getDay() || 7;
         for (let i = 0; i < dayOfTheWeek - 1; i++) {
             let empty = document.createElement("div");
             empty.classList.add("day-empty");
-            clndr_days.appendChild(empty);
+            clndrds.appendChild(empty);
         }
         for (let i = 0; i < daysInMonth(this.date); i++) {
             let day = document.createElement("div");
             day.classList.add("day", `day-${i + 1}`, `day-w${(dayOfTheWeek + i) % 7}`);
-            clndr_days.appendChild(day);
+            clndrds.appendChild(day);
         }
     }
 
@@ -52,7 +52,7 @@ export class Shop {
 
     increaseTime() {
         incrementDate(this.date);
-        clndr_day.innerHTML = this.date.getDate();
+        clndrd.innerHTML = this.date.getDate();
         document.querySelector(`.day-${this.date.getDate()}`).classList.add("ticked");
         if (this.date.getDate() === 1) {
             this.dueRent();

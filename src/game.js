@@ -37,9 +37,9 @@ window.popUpWithOptions = function (message, options) {
 
 window.popUp = function (elements, time) {
     msg.style.display = 'block';
-    overlay.style.display = 'flex';
+    o.style.display = 'flex';
     elements.forEach(el => {
-        msg_txt.appendChild(el);
+        msgt.appendChild(el);
     });
 
     if (time) {
@@ -53,9 +53,9 @@ window.closePopUp = function (time) {
         msg.style.top = '-50%';
         setTimeout(() => {
             msg.style.top = '50%';
-            overlay.style.display = 'none';
+            o.style.display = 'none';
             msg.style.display = 'none';
-            msg_txt.innerHTML = '';
+            msgt.innerHTML = '';
         }, time / 4);
     }, (time / 4) * 3);
 };
@@ -92,14 +92,14 @@ window.tooltipShowWithIcon = function (icon, name, description) {
 };
 
 window.tooltipShow = function (element) {
-    tooltip.innerHTML = "";
-    tooltip.appendChild(element);
-    tooltip.style.display = 'block';
+    ttip.innerHTML = "";
+    ttip.appendChild(element);
+    ttip.style.display = 'block';
 };
 
 window.tooltipHide = function () {
-    tooltip.innerHTML = "";
-    tooltip.style.display = 'none';
+    ttip.innerHTML = "";
+    ttip.style.display = 'none';
 };
 
 let wantProgression = [

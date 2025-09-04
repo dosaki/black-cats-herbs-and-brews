@@ -6,7 +6,7 @@ export class Player extends Drawable {
     constructor(canvas, gold, inventory) {
         super(canvas,
             witch,
-            ["#000000ff", "#bdc2c0ff", "#bdc2c0ff", "#d29558ff", "#3f3a3aff", "#ffffffff", "#289769ff", "#b46a47ff", "#922d2dff"]
+            ["#000000ff", "#a8aba6ff", "#bdc2c0ff", "#d29558ff", "#3f3a3aff", "#ffffffff", "#289769ff", "#b46a47ff", "#922d2dff"]
         );
         this.gold = gold;
         this._debt = [];
