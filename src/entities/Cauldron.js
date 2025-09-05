@@ -53,6 +53,7 @@ export class Cauldron extends ItemContainer {
     }
 
     drawProgress(remainingTime) {
+        let brewProgress = document.getElementById("brewProgress");
         if(this.brewingRecipe && brewProgress) {
             let percentage = `${(remainingTime/this.brewingRecipe.brewingTimeInSeconds)*100}%`;
             brewProgress.style.background = `linear-gradient(90deg,${this.brewingRecipe.result.mainColour} 0%, ${this.brewingRecipe.result.mainColour} ${percentage}, #00000000 ${percentage})`;
@@ -93,12 +94,12 @@ export class Cauldron extends ItemContainer {
         });
 
         
-        let brewProgress = document.createElement("div");
-        brewProgress.id = "brewProgress";
-        brewProgress.style.height = "5px";
-        brewProgress.style.width = "100px";
+        let brewProgressElement = document.createElement("div");
+        brewProgressElement.id = "brewProgress";
+        brewProgressElement.style.height = "5px";
+        brewProgressElement.style.width = "100px";
         this.parentElement.appendChild(brewButton);
-        this.parentElement.appendChild(brewProgress);
+        this.parentElement.appendChild(brewProgressElement);
 
         let itemHolder = document.createElement("div");
         itemHolder.classList.add("item-holder");

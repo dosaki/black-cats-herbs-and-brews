@@ -102,15 +102,6 @@ window.tooltipHide = function () {
     ttip.style.display = 'none';
 };
 
-let wantProgression = [
-    [ItemManager.basicPotions[0], ItemManager.basicPotions[1], ItemManager.ingredients],
-    [...ItemManager.basicPotions, ...ItemManager.allItems],
-    ItemManager.allItems,
-    [...ItemManager.advancedPotions, ...ItemManager.allItems],
-    [...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems],
-    [...ItemManager.advancedPotions, ...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems],
-];
-
 window.main = function () {
     window.shop.draw();
 
@@ -122,14 +113,16 @@ window.main = function () {
         if (window.customer === null && int(0, 7) < 3) {
             let numberOfItems = int(1, 3);
             let wants = [];
-            let candidates = [];
-            if (window.shop.date.getDay() === 1) {
+            let candidates = [...ItemManager.advancedPotions, ...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems];
+            if (window.shop.date.getDate() === 1 && window.shop.date.getFullYear() === 2025 && window.shop.date.getMonth() === 0) {
                 numberOfItems = 1;
-                candidates = [ItemManager.basicPotions[0], ItemManager.basicPotions[1]];
-            } else if (window.shop.date.getMonth() >= wantProgression.length || window.shop.date.getFullYear() > 2025) {
-                candidates = wantProgression[wantProgression.length-1];
-            } else {
-                candidates = wantProgression[window.shop.date.getMonth()];
+                candidates = [ItemManager.basicPotions[0]];
+            }
+            else if (window.shop.date.getFullYear() === 2025 && window.shop.date.getMonth() === 0) {
+                numberOfItems = int(1, 2);
+                candidates = [...ItemManager.basicPotions, ...ItemManager.basicPotions, ...ItemManager.basicPotions, ...ItemManager.ingredients];
+            } else if (window.shop.date.getMonth() >= 3 || window.shop.date.getFullYear() === 2025) {
+                candidates = [...ItemManager.basicPotions, ...ItemManager.basicPotions, ...ItemManager.advancedPotions, ...ItemManager.ingredients];
             }
             for (let i = 0; i < numberOfItems; i++) {
                 wants.push(pick(...candidates));

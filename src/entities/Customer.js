@@ -90,7 +90,7 @@ export class Customer extends Drawable {
         this.wants = wants; // Array of items the customer wants
         this.inventory = [];
         this.goldNeeded = this.wants.reduce((total, item) => total + item.value, 0);
-        this.gold = pick(this.goldNeeded, int(this.goldNeeded / 2, this.goldNeeded * 2), 10);
+        this.gold = pick(this.goldNeeded, this.goldNeeded, int(this.goldNeeded / 2, this.goldNeeded * 2), 30);
 
         this.currentLineIndex = -1;
         this.justBrowsing = pick(true, false, false, false);
