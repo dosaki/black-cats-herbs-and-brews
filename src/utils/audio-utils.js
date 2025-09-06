@@ -67,14 +67,12 @@ export class Note {
 }
 
 export class Track {
-    constructor(notes, type, tempo, volume, waitBeforeLoop) {
+    constructor(notes, type, tempo, volume) {
         this.type = type;
         this.tempo = tempo || 1;
         this.volume = volume;
         this.noteIndex = 0;
-        this.loop = waitBeforeLoop !== null && waitBeforeLoop !== undefined;
-        this.waitBeforeLoop = waitBeforeLoop || 0;
-        this.notes = [...notes, ...new Array(this.waitBeforeLoop).fill(null)];
+        this.notes = notes;
         this.lastTime = 0;
     }
 
@@ -84,7 +82,7 @@ export class Track {
                 this.notes[this.noteIndex].play(this.volume, this.type);
             }
             this.noteIndex++;
-            if (this.loop && this.noteIndex >= this.notes.length) {
+            if (this.noteIndex >= this.notes.length) {
                 this.noteIndex = 0;
             }
             this.lastTime = time;
@@ -92,19 +90,31 @@ export class Track {
     }
 }
 
+// export class Music {
+//     constructor(tracks, bpm) {
+//         this.bpm = bpm;
+//         this.tracks = tracks;
+//     }
+
+//     get msPerBeat() {
+//         return 60000 / this.bpm;
+//     }
+
+//     play(time) {
+//         this.tracks.forEach(t => {
+//             t.playNextNote(time, this.msPerBeat);
+//         });
+//     }
+// }
+
 export class Music {
-    constructor(tracks, bpm) {
-        this.bpm = bpm;
+    constructor(tracks) {
         this.tracks = tracks;
     }
-
-    get msPerBeat() {
-        return 60000 / this.bpm;
-    }
-
+    
     play(time) {
         this.tracks.forEach(t => {
-            t.playNextNote(time, this.msPerBeat);
+            t.playNextNote(time, 60000 / 256);
         });
     }
 }

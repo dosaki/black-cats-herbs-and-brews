@@ -30,7 +30,7 @@ export class Cauldron extends ItemContainer {
         if (!this.brewingRecipe) {
             this.items = [];
             this.drawContents();
-            throw new Error("oops... i've ruined my ingredients");
+            throw new Error("oops... ingredients ruined");
         } else {
             if(!window.player.knownRecipes.includes(this.brewingRecipe)){
                 window.player.knownRecipes.push(this.brewingRecipe);
@@ -66,7 +66,7 @@ export class Cauldron extends ItemContainer {
         super.drawContents();
         this.parentElement.classList = ["cauldron"];
         let recipeButton = document.createElement("button");
-        recipeButton.innerText = "show known recipes";
+        recipeButton.innerText = "recipes";
         onClick(recipeButton, () => {
             let recipesContainer = document.createElement("div");
             recipesContainer.classList.add("recipes-container");

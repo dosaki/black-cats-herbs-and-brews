@@ -79,7 +79,7 @@ export class Customer extends Drawable {
         let hairGrays = base10ToHex(int(0, 200));
         let hairColour = pick(`#${hairGrays}${hairGrays}${hairGrays}ff`, `#${hairRedChannel}${hairGreenChannel}${hairBlueChannel}ff`);
         let hairShading = adjust(hairColour, -20) + "ff";
-        let skinColour = pick("#513021ff", "#874c2cff", "#803716ff", "#b66837ff", "#a96238ff", "#f9bf91ff", "#ecc19fff");
+        let skinColour = pick("#513021ff", "#803716ff", "#a96238ff", "#f9bf91ff", "#dfc9b8ff");
         let isFemale = pick(true, false);
         super(canvas,
             isFemale ? femaleVillagerSkirt : maleVillagerBeard,
@@ -126,19 +126,19 @@ export class Customer extends Drawable {
                         }
                         wait();
                     } },
-                    { text: pick("if you're not buying, get the hells out of my shop!", "this isn't a museum"), action: leave }
+                    { text: pick("get the hells out of my shop!", "this isn't a museum"), action: leave }
                 ]
             } : {
                 text: wantLine,
                 options: [
                     { text: `that will be ${this.goldNeeded} gold`, action: waitForSale },
-                    { text: pick("i'm afraid i can't help you with that", "sorry, i don't have what you need"), action: leave }
+                    { text: pick("i can't help you with that", "i don't have what you need"), action: leave }
                 ]
             },
             {
                 text: pick("bye!", "goodbye!", "have a good day"),
                 options: [
-                    { text: pick("come again!", "take care!", "goodbye!", "tell your friends!"), action: leave }
+                    { text: pick("come again!", "take care!"), action: leave }
                 ]
             }
         ];
@@ -222,7 +222,7 @@ export class Customer extends Drawable {
                     populateDialogue({
                         text: "i don't have enough gold",
                         options: [
-                            { text: pick("i'm not running a charity here!", "then get out"), action: () => { this.returnItems(); } },
+                            { text: "i'm not running a charity here!", action: () => { this.returnItems(); } },
                             {
                                 text: "what can you afford?", action: () => {
                                     populateDialogue({
@@ -245,7 +245,7 @@ export class Customer extends Drawable {
                     });
                 } else {
                     populateDialogue({
-                        text: pick("will it take long?", "how much longer?", "is it ready yet?"),
+                        text: pick("will it take long?", "is it ready yet?"),
                         options: [
                             {
                                 text: pick("just a moment longer", "i'm almost done"), action: () => {
@@ -254,7 +254,7 @@ export class Customer extends Drawable {
                                     waitForSale();
                                 }
                             },
-                            { text: pick("i'm afraid i can't help you with that", "sorry, i don't have what you need"), action: () => { this.returnItems(); } }
+                            { text: pick("i can't help you with that", "i don't have what you need"), action: () => { this.returnItems(); } }
                         ]
                     });
                 }
