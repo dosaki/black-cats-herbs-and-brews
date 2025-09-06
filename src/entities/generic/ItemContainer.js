@@ -64,7 +64,7 @@ export class ItemContainer extends Drawable {
     }
 
     onMouseInItem(item, itemContainerElement, event) {
-        window.tooltipShowWithIcon(item.icon, item.name, `${item.description}\n\nsells for: ${item.value}🪙`);
+        window.tooltipShowWithIcon(item.icon, item.name, `${item.type}\n\nsells for: ${item.value}🪙`);
         return false;
     }
 

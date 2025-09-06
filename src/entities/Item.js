@@ -1,8 +1,7 @@
 export class Item {
-    constructor(name, description, type, value, icon, mainColour) {
+    constructor(name, type, value, icon, mainColour) {
         this.uuid = crypto.randomUUID();
         this.name = name;
-        this.description = description;
         this.type = type;
         this.value = value;
         this.icon = icon;
@@ -25,6 +24,6 @@ export class Item {
     }
 
     clone() {
-        return new Item(this.name, this.description, this.type, this.value, this.icon);
+        return new Item(this.name, this.type, this.value, this.icon);
     }
 }

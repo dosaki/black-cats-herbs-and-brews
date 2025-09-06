@@ -1,3 +1,4 @@
+import { music } from './audio/music.js';
 import { ItemManager } from './config/ItemManager.js';
 import { setup } from "./config/setup.js";
 import { Customer } from './entities/Customer.js';
@@ -172,5 +173,11 @@ window.main = function () {
     }, 30000);
 };
 
+let doMusic = (t) => {
+    music.play(t);
+    window.requestAnimationFrame(doMusic);
+}
+
 setup();
 main();
+doMusic();
