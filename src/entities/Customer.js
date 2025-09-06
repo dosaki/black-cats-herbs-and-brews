@@ -290,7 +290,6 @@ export class Customer extends Drawable {
     }
 
     wantsItem(itemName) {
-        console.log(this.wants.map(i => i.name), itemName);
         return this.wants.map(i => i.name).includes(itemName);
     }
 

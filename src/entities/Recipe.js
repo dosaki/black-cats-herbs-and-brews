@@ -10,13 +10,13 @@ export class Recipe {
         element.classList.add("recipe");
         
         let equals = document.createElement("div");
-        equals.classList.add("operator");
+        equals.classList.add("op");
         equals.innerText = " = ";
         element.appendChild(this.result.draw());
         element.appendChild(equals);
         this.ingredients.forEach(ingredient => {
             let plus = document.createElement("div");
-            plus.classList.add("operator");
+            plus.classList.add("op");
             plus.innerText = " + ";
             element.appendChild(ingredient.draw());
             element.appendChild(plus);
