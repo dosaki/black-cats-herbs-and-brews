@@ -1,6 +1,5 @@
 import { ItemManager } from '../config/ItemManager';
 import { witch } from '../drawables/images';
-import { int } from '../utils/random';
 import { Drawable } from './generic/Drawable';
 
 export class Player extends Drawable {
@@ -54,7 +53,7 @@ export class Player extends Drawable {
         if (this.gold < gold) {
             window.closePopUp(100);
             setTimeout(() => {
-                window.popUpMsg("you can't afford this", 1500);
+                window.popUpMsg("you don't have enough gold", 1500);
             }, 500);
             return;
         }
@@ -66,7 +65,7 @@ export class Player extends Drawable {
         if (this.gold < item.shopPrice) {
             window.closePopUp(100);
             setTimeout(() => {
-                window.popUpMsg("you can't afford this", 1500);
+                window.popUpMsg("you don't have enough gold", 1500);
             }, 500);
             return;
         }
@@ -83,32 +82,7 @@ export class Player extends Drawable {
     }
 
     animate() {
-        if (this.imageMatrix[10][16] !== 4 && int(0, 30) < 1) {
-            this.imageMatrix[10][16] = 4;
-            this.imageMatrix[10][17] = 4;
-            this.imageMatrix[11][16] = 4;
-            this.imageMatrix[11][17] = 4;
-            this.imageMatrix[10][22] = 4;
-            this.imageMatrix[10][23] = 4;
-            this.imageMatrix[11][22] = 4;
-            this.imageMatrix[11][23] = 4;
-        } else {
-            if (window.customer) {
-                this.imageMatrix[10][16] = 7;
-                this.imageMatrix[10][17] = 6;
-                this.imageMatrix[11][16] = 7;
-                this.imageMatrix[11][17] = 6;
-            } else {
-                this.imageMatrix[10][16] = 6;
-                this.imageMatrix[10][17] = 7;
-                this.imageMatrix[11][16] = 6;
-                this.imageMatrix[11][17] = 7;
-            }
-            this.imageMatrix[10][22] = 7;
-            this.imageMatrix[10][23] = 6;
-            this.imageMatrix[11][22] = 7;
-            this.imageMatrix[11][23] = 6;
-        }
+        this.blink([10,11], [16,17, 22, 23], 4, 7, 6, !window.customer);
         return true;
     }
 }

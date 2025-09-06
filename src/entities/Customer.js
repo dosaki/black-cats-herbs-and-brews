@@ -14,11 +14,11 @@ let formatWants = (wants) => {
 };
 
 let populateDialogue = (line) => {
-    dlg_c.style.display = 'none';
+    dlg_c.style.display = "none";
     dlgt.innerHTML = "";
     dlgo.innerHTML = "";
     setTimeout(() => {
-        dlg_c.style.display = 'block';
+        dlg_c.style.display = "block";
         dlgt.innerHTML = line.text;
         setTimeout(() => {
             populateOptions(line.options || []);
@@ -107,12 +107,12 @@ export class Customer extends Drawable {
     get lines() {
         let wantLine = `${pick("do you have", "may i have")} ${formatWants(this.wants)}?`;
         let browsingLine = pick("just browsing", "i'm just looking");
-        let greetingLine = pick("hi!", "hello!", "hi! cute cat");
+        let greetingLine = pick("hi!", "hello!");
         return [
             {
                 text: greetingLine,
                 options: [
-                    { text: `${greetingLine.includes("cat") ? "thanks!" : pick("hello!", "hi!")} ${pick("how can i help?", "looking for something special?")}`, action: nextDialogue },
+                    { text: `${pick("hello!", "hi!")} ${pick("how can i help?", "need something?")}`, action: nextDialogue },
                     { text: "get the hells out of my shop!", action: leave }
                 ]
             },
@@ -132,7 +132,7 @@ export class Customer extends Drawable {
                 text: wantLine,
                 options: [
                     { text: `that will be ${this.goldNeeded} gold`, action: waitForSale },
-                    { text: pick("i can't help you with that", "i don't have what you need"), action: leave }
+                    { text: pick("i can't help you with that", "i don't have that"), action: leave }
                 ]
             },
             {
@@ -220,20 +220,10 @@ export class Customer extends Drawable {
                     this.pay(this.goldNeeded);
                 } else {
                     populateDialogue({
-                        text: "i don't have enough gold",
+                        text: `i only have ${this.gold} gold`,
                         options: [
-                            { text: "i'm not running a charity here!", action: () => { this.returnItems(); } },
-                            {
-                                text: "what can you afford?", action: () => {
-                                    populateDialogue({
-                                        text: `is ${this.gold} gold enough?`,
-                                        options: [
-                                            { text: "yes", action: () => { this.pay(this.gold); } },
-                                            { text: "no", action: () => { this.returnItems(); } }
-                                        ]
-                                    });
-                                }
-                            }
+                            { text: "this isn't a charity shop!", action: () => { this.returnItems(); } },
+                            { text: "okay", action: () => { this.pay(this.gold); } }
                         ]
                     });
                 }
@@ -254,7 +244,7 @@ export class Customer extends Drawable {
                                     waitForSale();
                                 }
                             },
-                            { text: pick("i can't help you with that", "i don't have what you need"), action: () => { this.returnItems(); } }
+                            { text: pick("i can't help you with that", "i don't have that"), action: () => { this.returnItems(); } }
                         ]
                     });
                 }
@@ -297,7 +287,7 @@ export class Customer extends Drawable {
         if (window.shop.currentlyHolding && window.shop.currentlyHoldingOrigin !== this) {
             if (!this.wantsItem(window.shop.currentlyHolding.name)) {
                 this.doDialogue({
-                    text: "that's not what i'm looking for",
+                    text: "i don't want that",
                     options: [{
                         text: "okay",
                         action: () => {
@@ -318,63 +308,20 @@ export class Customer extends Drawable {
     }
 
     onMouseIn() {
-        let wants = this.currentLineIndex > 0 ? this.justBrowsing ? 'this customer is just browsing' : `this customer wants ${formatWants(this.wants)}` : "you don't know what they want";
-        let has = this.inventory.length > 0 ? `you've given them ${formatWants(this.inventory)}` : "";
+        let wants = this.currentLineIndex > 0 ? this.justBrowsing ? "they're just browsing" : `they want ${formatWants(this.wants)}` : "you don't know what they want";
+        let has = this.inventory.length > 0 ? `holding ${formatWants(this.inventory)}` : "";
         window.tooltipShowWithIcon(this.canvas.toDataURL(), "customer", `${wants}\n${has}`);
     }
 
-    
-
     animate() {
+        let rows = [9, 10];
+        let cells = [16, 17, 21, 22];
         if(this.isFemale){
-            if (this.imageMatrix[13][6] !== 4 && int(0, 30) < 1) {
-                this.imageMatrix[13][16] = 4;
-                this.imageMatrix[13][17] = 4;
-                this.imageMatrix[14][16] = 4;
-                this.imageMatrix[14][17] = 4;
-                this.imageMatrix[15][16] = 4;
-                this.imageMatrix[15][17] = 4;
-                this.imageMatrix[13][22] = 4;
-                this.imageMatrix[13][23] = 4;
-                this.imageMatrix[14][22] = 4;
-                this.imageMatrix[14][23] = 4;
-                this.imageMatrix[15][22] = 4;
-                this.imageMatrix[15][23] = 4;
-            } else {
-                this.imageMatrix[13][16] = 5;
-                this.imageMatrix[13][17] = 6;
-                this.imageMatrix[14][16] = 5;
-                this.imageMatrix[14][17] = 6;
-                this.imageMatrix[15][16] = 5;
-                this.imageMatrix[15][17] = 6;
-                this.imageMatrix[13][22] = 5;
-                this.imageMatrix[13][23] = 6;
-                this.imageMatrix[14][22] = 5;
-                this.imageMatrix[14][23] = 6;
-                this.imageMatrix[15][22] = 5;
-                this.imageMatrix[15][23] = 6;
-            }
-        } else {
-            if (this.imageMatrix[9][16] !== 4 && int(0, 35) < 1) {
-                this.imageMatrix[9][16] = 4;
-                this.imageMatrix[9][17] = 4;
-                this.imageMatrix[10][16] = 4;
-                this.imageMatrix[10][17] = 4;
-                this.imageMatrix[9][21] = 4;
-                this.imageMatrix[9][22] = 4;
-                this.imageMatrix[10][21] = 4;
-                this.imageMatrix[10][22] = 4;
-            } else {
-                this.imageMatrix[9][16] = 5;
-                this.imageMatrix[9][17] = 6;
-                this.imageMatrix[10][16] = 5;
-                this.imageMatrix[10][17] = 6;
-                this.imageMatrix[9][21] = 5;
-                this.imageMatrix[9][22] = 6;
-                this.imageMatrix[10][21] = 5;
-                this.imageMatrix[10][22] = 6;
-            }
+            rows = [13, 14, 15];
+            cells = [16, 17 , 22, 23];
         }
+
+        this.blink(rows, cells, 4, 5, 6);
         return true;
     }
 }

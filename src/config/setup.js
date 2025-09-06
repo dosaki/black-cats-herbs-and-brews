@@ -51,4 +51,26 @@ export let setup = () => {
         }
         return false;
     }, false);
+
+    let musicToggle = () => {
+        window.playMusic = !window.playMusic;
+        if(window.playMusic) {
+            tglm.innerHTML = "🎵"
+        } else {
+            tglm.innerHTML = "🚫"
+        }
+    }
+
+    let soundToggle = () => {
+        window.playSounds = !window.playSounds;
+        if(window.playSounds) {
+            tgls.innerHTML = "🔈"
+        } else {
+            tgls.innerHTML = "🚫"
+        }
+    }
+    onClick(tglm, musicToggle);
+    onClick(tgls, soundToggle);
+    musicToggle();
+    soundToggle();
 };

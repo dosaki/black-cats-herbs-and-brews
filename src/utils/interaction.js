@@ -2,7 +2,9 @@ import { Note } from './audio-utils';
 
 export let onClick = (element, callback, note) => {
     return element.addEventListener("click", (event) => {
-        setTimeout(()=>(note || Note.new("f#", 5, 0.05)).play(1), 100);
+        if(note !== false && window.playSounds) {
+            setTimeout(()=>(note || Note.new("f#", 5, 0.05)).play(1), 100);
+        }
         if(callback(event) !== false){
             window.shop.draw();
         }
@@ -19,7 +21,7 @@ export let onClick = (element, callback, note) => {
 
 export let onMouseIn = (element, callback, note) => {
     return element.addEventListener("mouseenter", (event) => {
-        if(note !== false) {
+        if(note !== false && window.playSounds) {
             (note || Note.new("f#", 5, 0.05)).play(1, "sine");
         }
         if(callback(event) !== false){
@@ -38,7 +40,7 @@ export let onMouseIn = (element, callback, note) => {
 
 export let onMouseDown = (element, callback, note) => {
     return element.addEventListener("mousedown", (event) => {
-        if(note !== false) {
+        if(note !== false && window.playSounds) {
             (note || Note.new("c", 5, 0.05)).play(1);
         }
         if(callback(event) !== false){
@@ -49,7 +51,7 @@ export let onMouseDown = (element, callback, note) => {
 
 export let onMouseUp = (element, callback, note) => {
     return element.addEventListener("mouseup", (event) => {
-        if(note !== false) {
+        if(note !== false && window.playSounds) {
             (note || Note.new("c", 4, 0.05)).play(1);
         }
         if(callback(event) !== false){

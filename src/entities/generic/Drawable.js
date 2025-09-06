@@ -1,4 +1,5 @@
 import { makeImage } from '../../utils/draw';
+import { int } from '../../utils/random';
 
 export class Drawable {
     constructor(canvas, imageMatrix, colours, crop) {
@@ -39,5 +40,24 @@ export class Drawable {
 
     animate() {
         return false;
+    }
+
+    blink(rows, cells, skinColourIndex, leftColour, rightColour, swapLeftEye) {
+        if(this.imageMatrix[rows[0]][cells[0]] !== skinColourIndex && int(0, 35) < 1){
+            rows.forEach(r => {
+                cells.forEach((c, i) => {
+                    this.imageMatrix[r][c] = skinColourIndex;
+                });
+            });
+        } else {
+            rows.forEach(r => {
+                cells.forEach((c, i) => {
+                    this.imageMatrix[r][c] = i%2 ? rightColour : leftColour;
+                    if (swapLeftEye && i < 2) {
+                        this.imageMatrix[r][c] = i%2 ? leftColour : rightColour;
+                    }
+                });
+            });
+        }
     }
 }

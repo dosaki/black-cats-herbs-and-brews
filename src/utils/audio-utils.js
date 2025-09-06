@@ -55,7 +55,7 @@ export class Note {
     }
 
     play(volume, type) {
-        if(muted){
+        if (muted) {
             return;
         }
         play(this.f, this.d, this.t, volume, type);
@@ -111,8 +111,11 @@ export class Music {
     constructor(tracks) {
         this.tracks = tracks;
     }
-    
+
     play(time) {
+        if (!window.playMusic) {
+            return;
+        }
         this.tracks.forEach(t => {
             t.playNextNote(time, 60000 / 256);
         });
