@@ -16,19 +16,19 @@ This is a game developed for [js13kgames 2025 competition](https://2025.js13kgam
 
 # Controls
 ## Click the cupboard to see your inventory
-<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/inventory.png" />
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/inventory.gif" />
 
 ## Click the cauldron to brew
-<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/brewing.png" />
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/brewing.gif" />
 
 ## Drag items from the cupboard to your cauldron to select ingredients
-<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/move-items-to-cauldron.png" />
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/move-items-to-cauldron.gif" />
 
 ## Drag animal products to your familiar to feed her
-<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/cat-feeding.png" />
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/cat-feeding.gif" />
 
 ## Drag items to the villagers to sell them (if they want them)
-<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/selling.png" />
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/selling.gif" />
 
 
 # Tips
