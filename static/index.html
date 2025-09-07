@@ -9,30 +9,30 @@
         @keyframes pop {
             0% {
                 opacity: 0;
-                transform: scale(0.5,0.5);
+                transform: scale(0.5, 0.5);
             }
 
             100% {
                 opacity: 1;
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
         }
 
         @keyframes bounce {
             0% {
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
 
             30% {
-                transform: scale(1.1,0.9);
+                transform: scale(1.1, 0.9);
             }
 
             60% {
-                transform: scale(0.9,1.1);
+                transform: scale(0.9, 1.1);
             }
 
             100% {
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
         }
 
@@ -40,37 +40,37 @@
             0% {
                 bottom: calc(20vh - 10px);
                 right: 512px;
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
 
             20% {
                 bottom: calc(20vh - 10px);
                 right: 512px;
-                transform: scale(1.1,0.9);
+                transform: scale(1.1, 0.9);
             }
 
             30% {
                 bottom: calc(20vh + 50px);
                 right: 512px;
-                transform: scale(0.9,1.1);
+                transform: scale(0.9, 1.1);
             }
 
             40% {
                 bottom: -180px;
                 right: 512px;
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
 
             50% {
                 bottom: -180px;
                 right: 512px;
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
 
             100% {
                 bottom: -180px;
                 right: calc(100% + 460px);
-                transform: scale(1,1);
+                transform: scale(1, 1);
             }
         }
 
@@ -82,6 +82,8 @@
             user-select: none;
             text-transform: uppercase;
             font-family: monospace;
+            color: #fff;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         html,
@@ -93,7 +95,7 @@
 
         #ctn {
             display: flex;
-            background: #2d181d;
+            background: #322;
         }
 
         #sa {
@@ -101,13 +103,12 @@
             flex-direction: column;
             flex-grow: 1;
             height: 100vh;
-            border: 1px solid #000;
         }
 
         #wrk {
             width: 500px;
             height: 100vh;
-            border-left: 4px solid #000;
+            border-left: 6px solid #000;
         }
 
         #dlg_c {
@@ -115,8 +116,7 @@
             top: 82vh;
             width: calc(100% - 532px);
             left: 16px;
-            background: #b0a28c;
-            color: #fff;
+            background: #ba9;
             padding: 4px;
             font-size: 2em;
             overflow: hidden;
@@ -133,7 +133,7 @@
         }
 
         #dlg {
-            border: 2px solid #655c55;
+            border: 2px solid #665;
             border-radius: 4px;
             padding: 8px;
             display: flex;
@@ -142,12 +142,12 @@
 
         #dlgo li {
             padding: 4px 8px;
-            border-bottom: 1px solid #655c55;
+            border-bottom: 1px solid #665;
             cursor: pointer;
         }
 
         #dlgo li:hover {
-            background: #655c55;
+            background: #665;
         }
 
         #cstmr {
@@ -175,9 +175,8 @@
             top: 80vh;
             width: calc(100% - 500px);
             height: 20vh;
-            background: #3d1904;
+            background: #420;
             border-top: 6px solid #000;
-            border-right: 2px solid #000;
         }
 
         #w {
@@ -217,7 +216,7 @@
             right: 630px;
             width: 190px;
             height: 245px;
-            background: #fffcf0;
+            background: #ffe;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -243,8 +242,8 @@
         }
 
         #clndrds {
-            flex-wrap: wrap;
             display: flex;
+            flex-wrap: wrap;
             gap: 1px;
         }
 
@@ -281,6 +280,8 @@
             justify-content: center;
             font-size: 10px;
             padding-top: 5px;
+            color: #000;
+            text-shadow: none;
             content: 'rent';
             transform: rotate(-45deg);
         }
@@ -293,9 +294,9 @@
             align-items: center;
             margin-bottom: 8px;
         }
+
         .op {
             font-size: 32px;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .item-holder {
@@ -331,8 +332,6 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
-            color: #fff;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .item-holder .item-container:not(.empty) {
@@ -340,7 +339,7 @@
         }
 
         .item-holder .item-container:hover:not(.empty) {
-            background: #e6ff03;
+            background: #ef0;
         }
 
         .item-holder .item-container:hover .item,
@@ -355,9 +354,6 @@
             background: #111;
             border: 1px solid #111;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .inventory .item-holder {
@@ -388,17 +384,15 @@
         button {
             padding: 8px;
             margin: 4px;
-            background: #b0a28c;
-            border: 2px solid #655c55;
-            color: #fffcf0;
+            background: #ba9;
+            border: 2px solid #665;
             cursor: pointer;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             font-size: 16px;
             font-weight: bold;
         }
 
         button:hover {
-            background: #655c55;
+            background: #665;
         }
 
         button:disabled {
@@ -410,10 +404,8 @@
         #o {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: #0008;
             align-items: center;
             justify-content: center;
@@ -422,10 +414,9 @@
 
         #msg {
             display: none;
-            background: #b0a28c;
+            background: #ba9;
             padding: 16px;
             border-radius: 4px;
-            color: #fffcf0;
             max-height: 90vh;
             overflow-y: auto;
 
@@ -494,10 +485,10 @@
             justify-content: flex-start;
             padding: 16px;
             gap: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #fff;
             border-radius: 4px;
         }
-        
+
         .tooltip-text {
             display: flex;
             flex-direction: column;
@@ -507,13 +498,6 @@
 
         .tooltip-name {
             font-weight: bold;
-            color: #fff;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .tooltip-description {
-            color: #fff;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .gold-display {
@@ -523,11 +507,6 @@
             gap: 8px;
             font-size: 2em;
             margin-left: 8px;
-            color: #fff;
-        }
-
-        .gold-display div {
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .gold-display img {

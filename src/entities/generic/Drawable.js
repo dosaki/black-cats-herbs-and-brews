@@ -4,7 +4,7 @@ import { int } from '../../utils/random';
 export class Drawable {
     constructor(canvas, imageMatrix, colours, crop) {
         this.canvas = canvas;
-        this.background = colours[1] || "#000";
+        this.background = colours[1];
         this.imageMatrix = imageMatrix;
         this.colours = colours;
         this.crop = crop;
