@@ -145,12 +145,12 @@ window.main = function () {
         window.shop.increaseTime();
         if (window.player.gold < 0) {
             setTimeout(() => {
-                let loan1 = 1000 + Math.abs(window.player.gold);
-                let loan2 = 1800 + Math.abs(window.player.gold);
+                let loan1 = 250 + Math.abs(window.player.gold);
+                let loan2 = 500 + Math.abs(window.player.gold);
                 let options = {
                     "restart": () => window.location.reload()
                 };
-                if (window.player.debt < 2250) {
+                if (window.player.debt < 750) {
                     options[`take a loan (${loan1}🪙)`] = () => {
                         window.player.gold += loan1;
                         window.player.addDebt(loan1 * 1.25);

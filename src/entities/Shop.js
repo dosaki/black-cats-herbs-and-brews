@@ -1,5 +1,6 @@
 import { daysInMonth, getMonth, incrementDate } from '../utils/dates';
 import { resizeImage } from '../utils/draw';
+import { int } from '../utils/random';
 
 export class Shop {
     constructor() {
@@ -9,6 +10,7 @@ export class Shop {
         this.drawables = [];
         this.date = new Date(2025, 0, 1);
         this.previousDate = null;
+        this.priceModifier = 1.2;
     }
 
     get currentlyHolding() {
@@ -58,6 +60,7 @@ export class Shop {
             this.dueRent();
             this.resetCalendar();
         }
+        this.priceModifier = int(2, 30) / 10;
         this.dueDebt();
     }
 

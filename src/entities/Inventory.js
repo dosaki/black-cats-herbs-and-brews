@@ -29,7 +29,7 @@ export class Inventory extends ItemContainer {
         buyIngredientsButton.onclick = () => {
             let shopOptions = ItemManager.ingredients.map(i => {
                 return [`${i.shopPrice}🪙 - ${i.name}`, () => {
-                    window.player.buyItem(i);
+                    window.player.buyItem(i.clone());
                 }];
             });
             let recipes = ItemManager.recipes
@@ -47,13 +47,13 @@ export class Inventory extends ItemContainer {
         };
 
         let loanButton = document.createElement("button");
-        loanButton.innerText = "take a loan (500🪙)";
+        loanButton.innerText = "take a loan (250🪙)";
         loanButton.onclick = () => {
-            if(window.player._debt.length > 2) {
+            if (window.player.debt >= 750) {
                 return;
             }
-            window.player.addDebt(500 * 1.25);
-            window.player.gold += 500;
+            window.player.addDebt(250 * 1.25);
+            window.player.gold += 250;
             this.drawContents();
         };
 

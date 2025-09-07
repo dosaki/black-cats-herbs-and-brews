@@ -9,7 +9,7 @@ export class Item {
     }
 
     get shopPrice() {
-        return Math.ceil(this.value * 1.2);
+        return Math.ceil(this.value * window.shop.priceModifier);
     }
 
     draw() {

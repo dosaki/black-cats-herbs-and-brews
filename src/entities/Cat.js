@@ -37,10 +37,6 @@ export class Cat extends Drawable {
         this.doMischief();
     }
 
-    get isHungry() {
-        return this.hunger > 70;
-    }
-
     doMischief() {
         if (window.paused || this.isGone) {
             setTimeout(() => {
@@ -49,7 +45,7 @@ export class Cat extends Drawable {
             return;
         }
 
-        if (this.isHungry && pick(true, true, this.hunger >= 100)) {
+        if (this.hunger > 70 && pick(true, true, this.hunger >= 100)) {
             if (window.player.inventory.items.length > 0) {
                 this.bounce();
                 let item = pick(...window.player.inventory.items);
@@ -69,8 +65,8 @@ export class Cat extends Drawable {
         }
         setTimeout(() => {
             this.doMischief();
-            this.hunger = Math.min(this.hunger - int(0, 10), 100);
-        }, int(10000, 20000));
+            this.hunger = Math.min(this.hunger + int(0, 10), 100);
+        }, int(3000, 10000));
     }
 
     bounce() {
@@ -119,6 +115,9 @@ export class Cat extends Drawable {
     }
 
     onClick() {
+        if (this.hunger >= 100) {
+            return;
+        }
         this.disappear();
         setTimeout(() => {
             if (window.player.inventory.hasSpace) {
@@ -137,7 +136,7 @@ export class Cat extends Drawable {
     }
 
     animate() {
-        this.blink([6,7], [10, 16], 2, 1, 1)
+        this.blink([6, 7], [10, 16], 2, 1, 1);
         return true;
     }
 }

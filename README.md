@@ -15,12 +15,23 @@ This is a game developed for [js13kgames 2025 competition](https://2025.js13kgam
 
 
 # Controls
-* Click the cupboard to see your inventory
-* Click the cauldron to brew
-* Drag items from the cupboard to your cauldron to select ingredients
-* Drag animal products to your familiar to feed her
-* Drag items to the villagers to sell them (if they want them)
+## Click the cupboard to see your inventory
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/inventory.png" />
+
+## Click the cauldron to brew
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/brewing.png" />
+
+## Drag items from the cupboard to your cauldron to select ingredients
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/move-items-to-cauldron.png" />
+
+## Drag animal products to your familiar to feed her
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/cat-feeding.png" />
+
+## Drag items to the villagers to sell them (if they want them)
+<img src="https://raw.githubusercontent.com/dosaki/black-cats-herbs-and-brews/refs/heads/main/gif-instructions/selling.png" />
+
 
 # Tips
+* Shop prices change every day. If something's too expensive, maybe wait until tomorrow... or maybe it'll be even worse!
 * You can try to guess the potion recipes, if you don't want to buy it.
 * Don't accrue too much debt
