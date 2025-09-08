@@ -74,13 +74,13 @@ export class Shop {
     }
 
     dueRent() {
-        window.pause();
+        window.paused = true;
         window.popUpWithOptions(
             "rent is due",
             {
                 "pay (500🪙)": () => {
                     window.player.gold -= 500;
-                    window.resume();
+                    window.paused = false;
                     window.closePopUp();
                 }
             }

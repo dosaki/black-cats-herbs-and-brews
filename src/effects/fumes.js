@@ -22,13 +22,7 @@ precision mediump float;const vec2 e[6]=vec2[6](vec2(-1),vec2(1,-1),vec2(-1,1),v
     this.timeLocation = this.gl.getUniformLocation(this.program, "v");
     this.resolutionLocation = this.gl.getUniformLocation(this.program, "f");
 
-    this.gl.uniform1f(this.timeLocation, (Date.now() - this.startTime) / 1000);
-    this.gl.uniform2fv(this.resolutionLocation, [
-      this.cn.width,
-      this.cn.height
-    ]);
-    this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
-    window.requestAnimationFrame(this.render);
+    this.render();
   }
 
   compileShader(source, type) {
@@ -41,5 +35,15 @@ precision mediump float;const vec2 e[6]=vec2[6](vec2(-1),vec2(1,-1),vec2(-1,1),v
     }
     return this.gl.attachShader(this.program, shader);
   }
+
+  render = () => {
+    this.gl.uniform1f(this.timeLocation, (Date.now() - this.startTime) / 1000);
+    this.gl.uniform2fv(this.resolutionLocation, [
+      this.cn.width,
+      this.cn.height
+    ]);
+    this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+    window.requestAnimationFrame(this.render);
+  };
 }
 

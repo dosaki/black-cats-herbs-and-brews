@@ -7,13 +7,6 @@ import { int, pick } from './utils/random.js';
 
 window.paused = false;
 
-window.pause = function () {
-    window.paused = true;
-};
-window.resume = function () {
-    window.paused = false;
-};
-
 window.popUpMsg = function (message, time) {
     let element = document.createElement("p");
     element.innerText = message;
@@ -82,7 +75,6 @@ window.tooltipShowWithIcon = function (icon, name, description) {
     }
 
     let tooltipDescription = document.createElement("div");
-    tooltipDescription.classList.add("tooltip-description");
     tooltipDescription.innerText = description;
 
     tooltipText.appendChild(tooltipName);
@@ -156,19 +148,19 @@ window.main = function () {
                         window.player.addDebt(loan1 * 1.25);
                         window.closePopUp();
                         window.shop.drawCurrentWindow();
-                        window.resume();
+                        window.paused = false;
                     };
                     options[`take a loan (${loan2}🪙)`] = () => {
                         window.player.gold += loan2;
                         window.player.addDebt(loan2 * 1.25);
                         window.closePopUp();
                         window.shop.drawCurrentWindow();
-                        window.resume();
+                        window.paused = false;
                     };
                 }
                 window.popUpWithOptions(`you're broke${window.player._debt.length > 2 ? ' and have too much debt' : ''}`, options);
             }, 1000);
-            window.pause();
+            window.paused = true;
         }
     }, 30000);
 };
