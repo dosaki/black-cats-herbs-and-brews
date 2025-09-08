@@ -7,7 +7,7 @@ export class Recipe {
 
     asElement() {
         let element = document.createElement("div");
-        element.classList.add("recipe");
+        element.classList.add("rcp");
         
         let equals = document.createElement("div");
         equals.classList.add("op");
@@ -26,7 +26,7 @@ export class Recipe {
         return element;
     }
 
-    produceResult() {
-        return this.result.clone();
-    }
+    // produceResult() {
+    //     return this.result.clone();
+    // }
 }

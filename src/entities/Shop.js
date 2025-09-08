@@ -5,11 +5,11 @@ import { int } from '../utils/random';
 export class Shop {
     constructor() {
         this.currentWindow = "inventory";
-        this._currentlyHolding = null;
-        this.currentlyHoldingOrigin = null;
+        this._currentlyHolding;
+        this.currentlyHoldingOrigin;
         this.drawables = [];
         this.date = new Date(2025, 0, 1);
-        this.previousDate = null;
+        this.previousDate;
         this.priceModifier = 1.2;
     }
 

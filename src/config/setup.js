@@ -18,13 +18,12 @@ export let setup = () => {
         ItemManager.makeItem("liver"),
         ItemManager.makeItem("vial"),
         ItemManager.makeItem("vial"),
-        ItemManager.makeItem("vial"),
+        ItemManager.makeItem("roe"),
         ItemManager.makeItem("sap"),
         ItemManager.makeItem("sap"),
         ItemManager.makeItem("water"),
     ]);
     window.cauldron = new Cauldron(cldrn, wrk);
-    window.cauldron.add(ItemManager.makeItem("roe"));
     window.customer = null;
 
     shop.resetCalendar();

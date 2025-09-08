@@ -30,7 +30,7 @@ export class Cat extends Drawable {
         });
 
         onMouseIn(this.canvas, () => {
-            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `she ${this.isHungry ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}`);
+            window.tooltipShowWithIcon(canvas.toDataURL(), "your black cat", `she ${this.hunger > 70 ? "looks hungry" : this.hunger < 50 ? "is purring happily" : "looks restless"}`);
             return false;
         }, false);
 
@@ -53,7 +53,6 @@ export class Cat extends Drawable {
                     this.hunger = 0;
                 }
                 window.player.inventory.remove(item);
-                window.player.inventory.draw();
                 window.shop.drawCurrentWindow();
             } else if (!this.isGone) {
                 this.disappear();
@@ -127,7 +126,6 @@ export class Cat extends Drawable {
                     } else {
                         window.player.inventory.add(this.findItem());
                     }
-                    window.player.inventory.draw();
                     window.shop.drawCurrentWindow();
                 }, 1000);
             }

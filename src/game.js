@@ -63,13 +63,13 @@ window.closePopUp = function (time) {
 
 window.tooltipShowWithIcon = function (icon, name, description) {
     let tooltipContent = document.createElement("div");
-    tooltipContent.classList.add("tooltip-content");
+    tooltipContent.classList.add("tooltipc");
 
     let tooltipText = document.createElement("div");
-    tooltipText.classList.add("tooltip-text");
+    tooltipText.classList.add("tooltipt");
 
     let tooltipName = document.createElement("div");
-    tooltipName.classList.add("tooltip-name");
+    tooltipName.classList.add("tooltipn");
     tooltipName.innerText = name;
 
     let iconHolder = document.createElement("div");
@@ -111,7 +111,7 @@ window.main = function () {
             return;
         }
 
-        if (window.customer === null && int(0, 7) < 3) {
+        if (!window.customer && int(0, 7) < 3) {
             let numberOfItems = int(1, 3);
             let wants = [];
             let candidates = [...ItemManager.advancedPotions, ...ItemManager.advancedPotions, ...ItemManager.basicPotions, ...ItemManager.allItems];

@@ -11,8 +11,8 @@ export class Player extends Drawable {
         this.gold = gold;
         this._debt = [];
         this.inventory = inventory;
-        this.chosenOption = null;
-        this.previousLine = null;
+        this.chosenOption;
+        this.previousLine;
         this.knownRecipes = [
             ItemManager.recipes[0]
         ];
@@ -53,7 +53,7 @@ export class Player extends Drawable {
         if (this.gold < gold) {
             window.closePopUp(100);
             setTimeout(() => {
-                window.popUpMsg("you don't have enough gold", 1500);
+                window.popUpMsg("you don't have enough 🪙", 1500);
             }, 500);
             return;
         }
@@ -65,7 +65,7 @@ export class Player extends Drawable {
         if (this.gold < item.shopPrice) {
             window.closePopUp(100);
             setTimeout(() => {
-                window.popUpMsg("you don't have enough gold", 1500);
+                window.popUpMsg("you don't have enough 🪙", 1500);
             }, 500);
             return;
         }

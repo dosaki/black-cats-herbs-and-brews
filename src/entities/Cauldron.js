@@ -15,9 +15,9 @@ export class Cauldron extends ItemContainer {
         );
         this.size = 3;
         this.sizeIncrement = 1;
-        this.brewingRecipe = null;
-        this.resultSlot = null;
-        this.brewProgressInterval = null;
+        this.brewingRecipe;
+        this.resultSlot;
+        this.brewProgressInterval;
     }
 
     brew() {
@@ -39,7 +39,7 @@ export class Cauldron extends ItemContainer {
         this.items = [];
         this.draw();
         setTimeout(() => {
-            this.resultSlot = this.brewingRecipe.produceResult();
+            this.resultSlot = this.brewingRecipe.result.clone();
             this.brewingRecipe = null;
             this.draw();
             window.shop.drawCurrentWindow();
@@ -131,7 +131,7 @@ export class Cauldron extends ItemContainer {
             canvas.width = cldrnfx.clientWidth / 10;
             canvas.height = cldrnfx.clientHeight / 10;
             let [r, g, b, a] = hexToRgbA(this.brewingRecipe.result.mainColour);
-            let webGL = new WebGLHandler(canvas, makeFumesShader(r, g, b));
+            new WebGLHandler(canvas, makeFumesShader(r, g, b));
         } else {
             cldrnfx.innerHTML = "";
         }

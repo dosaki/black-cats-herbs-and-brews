@@ -8,7 +8,7 @@ export class Drawable {
         this.imageMatrix = imageMatrix;
         this.colours = colours;
         this.crop = crop;
-        this.animateInterval = null;
+        this.animateInterval;
     }
 
 

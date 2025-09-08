@@ -18,7 +18,7 @@ export class Inventory extends ItemContainer {
         let goldNumber = document.createElement("div");
         goldNumber.innerText = `${window.player.gold}🪙`;
         let debtMarker = document.createElement("div");
-        debtMarker.classList.add("debt-marker");
+        debtMarker.classList.add("debt");
         debtMarker.innerText = window.player.debt > 0 ? '(↘)' : '';
         onMouseIn(debtMarker, () => {
             window.tooltipShowWithIcon(null, "debt", `you owe ${window.player.debt}🪙 (${window.player.dailyDebt}🪙/day)`);
@@ -35,7 +35,7 @@ export class Inventory extends ItemContainer {
             let recipes = ItemManager.recipes
                 .filter(r => !window.player.knownRecipes.includes(r))
                 .map(r => {
-                    return [`${r.result.shopPrice * 2}🪙 - Recipe: ${r.result.name}`, () => {
+                    return [`${r.result.shopPrice * 2}🪙 - recipe: ${r.result.name}`, () => {
                         window.player.buyRecipe(r, r.result.shopPrice * 2);
                     }];
                 });
@@ -58,15 +58,11 @@ export class Inventory extends ItemContainer {
         };
 
         let goldDisplay = document.createElement("div");
-        goldDisplay.classList.add("gold-display");
+        goldDisplay.classList.add("gdisp");
         goldDisplay.appendChild(goldNumber);
         goldDisplay.appendChild(debtMarker);
         goldDisplay.appendChild(buyIngredientsButton);
         goldDisplay.appendChild(loanButton);
         this.parentElement.appendChild(goldDisplay);
-    }
-
-    draw() {
-        super.draw();
     }
 }

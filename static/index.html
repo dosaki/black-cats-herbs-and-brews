@@ -110,8 +110,9 @@
             height: 100vh;
             border-left: 6px solid #000;
         }
-
+        
         #dlg_c {
+            display: none;
             position: absolute;
             top: 82vh;
             width: calc(100% - 532px);
@@ -122,21 +123,17 @@
             overflow: hidden;
             letter-spacing: .15em;
             border-radius: 8px;
-
             animation-name: pop;
             animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
             animation-duration: 0.3s;
-
-            display: none;
-
             transition: all 0.3s ease;
         }
 
         #dlg {
+            display: flex;
             border: 2px solid #665;
             border-radius: 4px;
             padding: 8px;
-            display: flex;
             justify-content: space-between;
         }
 
@@ -211,13 +208,13 @@
         }
 
         #clndr {
+            display: flex;
             position: absolute;
             top: calc(10vh + 122px);
             right: 630px;
             width: 190px;
             height: 245px;
             background: #ffe;
-            display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
@@ -286,7 +283,7 @@
             transform: rotate(-45deg);
         }
 
-        .recipe {
+        .rcp {
             display: flex;
             flex-wrap: wrap;
             gap: 2px;
@@ -308,18 +305,19 @@
 
 
         .item-holder .item-container,
-        .recipe .item-container {
+        .rcp .item-container {
+            display: flex;
             width: 94px;
             height: 94px;
             background: #111;
             border-radius: 8px;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .item-holder .item-container .item,
-        .recipe .item-container .item {
+        .rcp .item-container .item {
+            display: flex;
             width: 86px;
             height: 86px;
             padding: 8px;
@@ -327,7 +325,6 @@
             border: 1px solid #fff;
             border-radius: 4px;
             font-size: .9em;
-            display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -437,8 +434,8 @@
         }
 
         #msgt button {
-            width: 100%;
             display: flex;
+            width: 100%;
             justify-content: space-between;
         }
 
@@ -481,7 +478,7 @@
             object-fit: contain;
         }
 
-        .tooltip-content {
+        .tooltipc {
             display: flex;
             align-items: flex-start;
             justify-content: flex-start;
@@ -491,18 +488,18 @@
             border-radius: 4px;
         }
 
-        .tooltip-text {
+        .tooltipt {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
         }
 
-        .tooltip-name {
+        .tooltipn {
             font-weight: bold;
         }
 
-        .gold-display {
+        .gdisp {
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -511,12 +508,12 @@
             margin-left: 8px;
         }
 
-        .gold-display img {
+        .gdisp img {
             width: 1em;
             height: 1em;
         }
 
-        .debt-marker {
+        .debt {
             color: #f00;
         }
 

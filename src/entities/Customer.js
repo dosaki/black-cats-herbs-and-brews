@@ -71,7 +71,6 @@ export class Customer extends Drawable {
         let topColour = newColour(int(0, 360) / 360, 0.5, 0.4) + "ff";
         let topShading = adjust(topColour, -50) + "ff";
         let bottomColour = newColour(int(0, 360) / 360, 0.7, 0.3) + "ff";
-        let bottomShading = adjust(bottomColour, -50) + "ff";
         let eyeColour = newColour(int(0, 360) / 360, 0.8, 0.5) + "ff";
         let hairRedChannel = `${int(22, 99)}`.padStart(2, '0');
         let hairGreenChannel = `${int(0, 20)}`.padStart(2, '0');
@@ -83,7 +82,7 @@ export class Customer extends Drawable {
         let isFemale = pick(true, false);
         super(canvas,
             isFemale ? femaleVillagerSkirt : maleVillagerBeard,
-            isFemale ? ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, topColour, "#cd6644ff", "#ce3b4dff", "#77624cff", "#e7d3bcff", topShading, bottomShading, bottomColour, "#a65111ff"] : ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, "#a2462dff", "#8b2d16ff", topShading, topColour, "#b38558ff", "#e9c897ff", "#b26824ff", bottomShading, bottomColour]
+            isFemale ? ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, topColour, "#cd6644ff", "#ce3b4dff", "#77624cff", "#e7d3bcff", topShading, adjust(eyeColour, -50) + "ff"] : ["#000000ff", hairShading, hairColour, skinColour, "#ffffffff", eyeColour, "#a2462dff", "#8b2d16ff", topShading, topColour, "#b38558ff", "#e9c897ff", "#b26824ff", adjust(bottomColour, -50) + "ff", bottomColour]
         );
         this.isFemale = isFemale;
 
@@ -131,7 +130,7 @@ export class Customer extends Drawable {
             } : {
                 text: wantLine,
                 options: [
-                    { text: `that will be ${this.goldNeeded} gold`, action: waitForSale },
+                    { text: `that will be ${this.goldNeeded}🪙`, action: waitForSale },
                     { text: pick("i can't help you with that", "i don't have that"), action: leave }
                 ]
             },
@@ -180,12 +179,11 @@ export class Customer extends Drawable {
     pay(gold) {
         this.gold -= gold;
         populateDialogue({
-            text: pick(`here's ${gold} gold`),
+            text: pick(`here's ${gold}🪙`),
             options: [
                 {
                     text: "thanks!", action: () => {
                         player.gold += gold;
-                        player.inventory.draw();
                         window.shop.drawCurrentWindow();
                         leave();
                     }
@@ -203,7 +201,6 @@ export class Customer extends Drawable {
         }
         this.inventory = [];
         leave();
-        player.inventory.draw();
         window.shop.drawCurrentWindow();
     }
 
@@ -220,9 +217,9 @@ export class Customer extends Drawable {
                     this.pay(this.goldNeeded);
                 } else {
                     populateDialogue({
-                        text: `i only have ${this.gold} gold`,
+                        text: `i only have ${this.gold}🪙`,
                         options: [
-                            { text: "this isn't a charity shop!", action: () => { this.returnItems(); } },
+                            { text: "get the hells out of my shop!", action: () => { this.returnItems(); } },
                             { text: "okay", action: () => { this.pay(this.gold); } }
                         ]
                     });
