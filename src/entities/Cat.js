@@ -65,7 +65,7 @@ export class Cat extends Drawable {
         setTimeout(() => {
             this.doMischief();
             this.hunger = Math.min(this.hunger + int(0, 10), 100);
-        }, int(3000, 10000));
+        }, int(6000, 10000));
     }
 
     bounce() {
