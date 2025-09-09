@@ -34,8 +34,8 @@ let populateOptions = (options) => {
         onClick(optionElement, () => {
             option.action();
         });
-        onMouseDown(optionElement, () => {}, Note.new("c", 5, 0.05));
-        onMouseIn(optionElement, () => {}, Note.new("f#", 4, 0.05));
+        onMouseDown(optionElement, () => { }, Note.new("c", 5, 0.05));
+        onMouseIn(optionElement, () => { }, Note.new("f#", 4, 0.05));
         list.appendChild(optionElement);
     });
     dlgo.innerHTML = "";
@@ -118,24 +118,27 @@ export class Customer extends Drawable {
             this.justBrowsing ? {
                 text: browsingLine,
                 options: [
-                    { text: "sure", action: () => {
-                        if(pick(true, false, false)){
-                            this.justBrowsing = false;
-                            this.currentLineIndex = 0;
+                    {
+                        text: "sure", action: () => {
+                            if (pick(true, false, false)) {
+                                this.justBrowsing = false;
+                                this.currentLineIndex = 0;
+                            }
+                            wait();
                         }
-                        wait();
-                    } },
+                    },
                     { text: pick("get the hells out of my shop!", "this isn't a museum"), action: leave }
                 ]
             } : {
                 text: wantLine,
                 options: [
                     { text: `that will be ${this.goldNeeded}🪙`, action: waitForSale },
-                    { text: pick("i can't help you with that", "i don't have that"), action: leave }
+                    { text: `that will be ${Math.floor(this.goldNeeded * 1.5)}🪙`, action: () => { this.goldNeeded = Math.floor(this.goldNeeded * 1.5); waitForSale(); } },
+                    { text: "i can't help you with that", action: leave }
                 ]
             },
             {
-                text: pick("bye!", "goodbye!", "have a good day"),
+                text: pick("bye!", "have a good day"),
                 options: [
                     { text: pick("come again!", "take care!"), action: leave }
                 ]
@@ -196,7 +199,7 @@ export class Customer extends Drawable {
         try {
             window.player.inventory.addAll(this.inventory);
         } catch (error) {
-            window.popUpMsg("not enough shelf space!", 2000);
+            window.popUpMsg("not enough shelf space", 2000);
             return;
         }
         this.inventory = [];
@@ -216,7 +219,12 @@ export class Customer extends Drawable {
                 if (this.gold >= this.goldNeeded) {
                     this.pay(this.goldNeeded);
                 } else {
-                    populateDialogue({
+                    pick(true, false) ? populateDialogue({
+                        text: `i can't afford ${this.gold}🪙 bye`,
+                        options: [
+                            { text: "okay", action: () => { this.returnItems(); } },
+                        ]
+                    }) : populateDialogue({
                         text: `i only have ${this.gold}🪙`,
                         options: [
                             { text: "get the hells out of my shop!", action: () => { this.returnItems(); } },
@@ -313,9 +321,9 @@ export class Customer extends Drawable {
     animate() {
         let rows = [9, 10];
         let cells = [16, 17, 21, 22];
-        if(this.isFemale){
+        if (this.isFemale) {
             rows = [13, 14, 15];
-            cells = [16, 17 , 22, 23];
+            cells = [16, 17, 22, 23];
         }
 
         this.blink(rows, cells, 4, 5, 6);
