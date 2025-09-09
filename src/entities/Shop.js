@@ -78,8 +78,8 @@ export class Shop {
         window.popUpWithOptions(
             "rent is due",
             {
-                "pay (500🪙)": () => {
-                    window.player.gold -= 500;
+                "pay (1000🪙)": () => {
+                    window.player.gold -= 1000;
                     window.paused = false;
                     window.closePopUp();
                 }
