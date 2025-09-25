@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@swc/cli": "^0.7.8",
-    "@swc/core": "^1.13.5",
+    "@swc/core": "^1.13.19",
     "chai": "^6.0.1",
     "mocha": "^11.7.1",
     "roadroller": "^2.1.0",
